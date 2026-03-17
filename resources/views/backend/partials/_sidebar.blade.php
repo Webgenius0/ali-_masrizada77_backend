@@ -367,12 +367,12 @@
                         </ul>
                         <ul class="slide-menu">
 
-                            {{-- <li>
+                            <li>
                                 <a href="{{ route('admin.cms.home.npoverview.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.npoverview.index') ? 'active' : '' }}">
                                     nvplatformoverview
                                 </a>
-                            </li> --}}
+                            </li>
                         </ul>
 
                         <ul class="slide-menu">
