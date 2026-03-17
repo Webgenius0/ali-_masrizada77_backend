@@ -45,6 +45,12 @@
                         orderable: true,
                         searchable: true
                     },
+{
+    data: 'image',
+    name: 'image',
+    orderable: false,  // ইমেজ দিয়ে সাধারণত সিরিয়াল করার প্রয়োজন হয় না
+    searchable: false  // ইমেজের নাম দিয়ে ইউজার সার্চ করবে না
+},
                     {
                         data: 'status',
                         name: 'status',

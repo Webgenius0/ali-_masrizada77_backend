@@ -31,6 +31,8 @@ use App\Http\Controllers\Api\Email_text_ai_ResponceController;
 use App\Http\Controllers\Api\DriveThruApiController;
 use App\Http\Controllers\Api\AboutUsApiController;
 
+use App\Http\Controllers\Api\BlogController;
+
 
 // get  trem and privact data
 // Alada alada route
@@ -71,10 +73,18 @@ Route::get('/email-textai-responce', [Email_text_ai_ResponceController::class, '
 Route::get('/drive-thru', [DriveThruApiController::class, 'getCMSContent']);
 
 //about us page
-
-
-
 Route::get('/about-us-content', [AboutUsApiController::class, 'getCMSContent']);
+
+
+
+
+
+// টাইপ অনুযায়ী ব্লগ লিস্ট পাওয়ার API
+// উদাহরণ: your-domain.com/api/blogs/english
+Route::get('/blogs', [BlogController::class, 'index']);
+
+// সিঙ্গেল ব্লগ দেখার API
+Route::get('/blog/details/{id}', [BlogController::class, 'show']);
 
 // hrayhan    ------------------------------------- end --------------------------
 

@@ -11,10 +11,10 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
 
 class BlogController extends Controller
 {
-
     public $part;
     public $route;
     public $view;
@@ -37,7 +37,24 @@ class BlogController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('title', function ($data) {
-                    return Str::limit($data->title, 20);
+                    return '<strong>' . Str::limit($data->title, 20) . '</strong>';
+                })
+                ->addColumn('type', function ($data) {
+                    // ল্যাঙ্গুয়েজ টাইপ অনুযায়ী কালারফুল ব্যাজ
+                    $badge = [
+                        'english' => 'bg-info',
+                        'de'      => 'bg-warning',
+                        'other'   => 'bg-secondary'
+                    ];
+                    $class = $badge[$data->type] ?? 'bg-primary';
+                    return '<span class="badge ' . $class . ' text-dark">' . ucfirst($data->type) . '</span>';
+                })
+                ->addColumn('image', function ($data) {
+                    $url = ($data->image && file_exists(public_path($data->image)))
+                        ? asset($data->image)
+                        : asset('backend/images/default.png');
+
+                    return '<img src="' . $url . '" alt="Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">';
                 })
                 ->addColumn('status', function ($data) {
                     $backgroundColor = $data->status == "active" ? '#4CAF50' : '#ccc';
@@ -45,33 +62,21 @@ class BlogController extends Controller
 
                     $status = '<div class="d-flex justify-content-center align-items-center">';
                     $status .= '<div class="form-check form-switch" style="position: relative; width: 50px; height: 24px; background-color: ' . $backgroundColor . '; border-radius: 12px; transition: background-color 0.3s ease; cursor: pointer;">';
-                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status" style="position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 2; cursor: pointer;">';
+                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" name="status" style="position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 2; cursor: pointer;">';
                     $status .= '<span style="position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.3s ease; transform: translateX(' . $sliderTranslateX . ');"></span>';
-                    $status .= '<label for="customSwitch' . $data->id . '" class="form-check-label" style="margin-left: 10px;"></label>';
-                    $status .= '</div>';
-                    $status .= '</div>';
+                    $status .= '</div></div>';
 
                     return $status;
                 })
                 ->addColumn('action', function ($data) {
-
-                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-
-                                <a href="#" type="button" onclick="goToEdit(' . $data->id . ')" class="btn btn-primary fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-edit"></i>
-                                </a>
-
-                                <a href="#" type="button" onclick="goToOpen(' . $data->id . ')" class="btn btn-success fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-eye"></i>
-                                </a>
-
-                                <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-trash"></i>
-                                </a>
+                    return '<div class="btn-group btn-group-sm" role="group">
+                                <a href="' . route($this->route . '.edit', $data->id) . '" class="btn btn-primary fs-14 text-white" title="Edit"><i class="fe fe-edit"></i></a>
+                                <a href="#" onclick="goToOpen(' . $data->id . ')" class="btn btn-success fs-14 text-white" title="View"><i class="fe fe-eye"></i></a>
+                                <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white" title="Delete"><i class="fe fe-trash"></i></a>
                             </div>';
                 })
-                ->rawColumns(['title', 'status', 'action'])
-                ->make();
+                ->rawColumns(['title', 'type', 'image', 'status', 'action'])
+                ->make(true);
         }
 
         return view($this->view . ".index", [
@@ -97,8 +102,11 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title'             => 'required|max:250',
-            'description'       => 'required|string|max:1000',
+            'title'       => 'required|max:250',
+            'subtitle'    => 'nullable|max:250',
+            'type'        => 'required|in:english,de,other', // টাইপ ভ্যালিডেশন
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'description' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -106,46 +114,36 @@ class BlogController extends Controller
         }
 
         try {
-            $data = $validator->validated();
-
             $blog = new Blog();
+            $blog->title       = $request->title;
+            $blog->subtitle    = $request->subtitle;
+            $blog->type        = $request->type;
+            $blog->description = $request->description;
 
-            $blog->title = $data['title'];
-            $blog->description = $data['description'];
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/blogs'), $imageName);
+                $blog->image = 'uploads/blogs/' . $imageName;
+            }
+
             $blog->save();
-
-            session()->put('t-success', 'Created Successfully');
+            return redirect()->route($this->route . '.index')->with('t-success', 'Blog Created Successfully');
         } catch (Exception $e) {
-
-            session()->put('t-error', $e->getMessage());
+            return redirect()->back()->with('t-error', $e->getMessage());
         }
-
-        return redirect()->route($this->route . '.index')->with('t-success', 'Created Successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Blog $blog, $id)
-    {
-        $blog = Blog::where('id', $id)->first();
-        return view($this->view . ".show", [
-            'part' => $this->part,
-            'route' => $this->route,
-            'blog' => $blog
-        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Blog $blog, $id)
+    public function edit($id)
     {
         $blog = Blog::findOrFail($id);
         return view($this->view . ".edit", [
-            'part' => $this->part,
+            'part'  => $this->part,
             'route' => $this->route,
-            'blog' => $blog
+            'blog'  => $blog
         ]);
     }
 
@@ -155,8 +153,11 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'title'             => 'required|max:250',
-            'description'       => 'required|string|max:1000',
+            'title'       => 'required|max:250',
+            'subtitle'    => 'nullable|max:250',
+            'type'        => 'required|in:english,de,other',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'description' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -164,59 +165,82 @@ class BlogController extends Controller
         }
 
         try {
-            $data = $validator->validated();
-
             $blog = Blog::findOrFail($id);
+            $blog->title       = $request->title;
+            $blog->subtitle    = $request->subtitle;
+            $blog->type        = $request->type;
+            $blog->description = $request->description;
 
-            $blog->title = $data['title'];
-            $blog->description = $data['description'];
+            if ($request->hasFile('image')) {
+                // পুরাতন ফাইল ডিলিট করা
+                if ($blog->image && File::exists(public_path($blog->image))) {
+                    File::delete(public_path($blog->image));
+                }
+
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/blogs'), $imageName);
+                $blog->image = 'uploads/blogs/' . $imageName;
+            }
+
             $blog->save();
-
-            session()->put('t-success', 'Updated Successfully');
+            return redirect()->route($this->route . '.index')->with('t-success', 'Blog Updated Successfully');
         } catch (Exception $e) {
-
-            session()->put('t-error', $e->getMessage());
+            return redirect()->back()->with('t-error', $e->getMessage());
         }
-
-        return redirect()->route($this->route . '.edit', $blog->id)->with('t-success', 'Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         try {
-
-            $data = Blog::findOrFail($id);
-
-            $data->delete();
+            $blog = Blog::findOrFail($id);
+            if ($blog->image && File::exists(public_path($blog->image))) {
+                File::delete(public_path($blog->image));
+            }
+            $blog->delete();
             return response()->json([
-                'status' => 't-success',
-                'message' => 'Your action was successful!'
+                'status'  => 't-success',
+                'message' => 'Deleted successfully!'
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'status' => 't-error',
-                'message' => 'Your action was successful!'
+                'status'  => 't-error',
+                'message' => 'Something went wrong!'
             ]);
         }
     }
 
+    /**
+     * Toggle status.
+     */
     public function status(int $id): JsonResponse
     {
         $data = Blog::findOrFail($id);
-        if (!$data) {
-            return response()->json([
-                'status' => 't-error',
-                'message' => 'Item not found.',
-            ]);
-        }
         $data->status = $data->status === 'active' ? 'inactive' : 'active';
         $data->save();
         return response()->json([
-            'status' => 't-success',
-            'message' => 'Your action was successful!',
+            'status'  => 't-success',
+            'message' => 'Status updated successfully!',
         ]);
     }
+
+    /**
+ * Display the specified resource.
+ */
+public function show($id)
+{
+    try {
+        $blog = Blog::findOrFail($id);
+        return view($this->view . ".show", [
+            'part' => $this->part,
+            'route' => $this->route,
+            'blog' => $blog
+        ]);
+    } catch (Exception $e) {
+        return redirect()->back()->with('t-error', 'Blog not found!');
+    }
+}
 }

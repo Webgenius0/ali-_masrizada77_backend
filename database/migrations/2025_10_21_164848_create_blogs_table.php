@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->string('subtitle')->nullable();
+            $table->string('image')->nullable();
+            $table->longText('description');
             $table->enum('status', ['active', 'inactive'])->default('active');
+             $table->enum('type', ['english', 'de','other'])->default('english');
             $table->timestamps();
         });
     }

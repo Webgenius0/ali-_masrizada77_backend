@@ -2,11 +2,9 @@
 
 @section('content')
 
-<!--app-content open-->
 <div class="app-content main-content mt-0">
     <div class="side-app">
 
-        <!-- CONTAINER -->
         <div class="main-container container-fluid">
 
             <div class="page-header">
@@ -26,39 +24,80 @@
                 <div class="col-md-12">
                     <div class="card post-sales-main">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title mb-0">Show</h3>
+                            <h3 class="card-title mb-0">Blog Details</h3>
                             <div class="card-options">
                                 <a href="javascript:window.history.back()" class="btn btn-sm btn-primary">Back</a>
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered table-striped">
-                                <tr>
-                                    <th>Title</th>
-                                    <td>{{ $blog->title ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Description</th>
-                                    <td>{!! $blog->description ?? 'N/A' !!}</td>
-                                </tr>
-                                <tr>
-                                    <th>Action</th>
-                                    <td>
-                                        <button class="btn btn-sm btn-danger" onclick="showDeleteConfirm(`{{ $blog->id }}`)">Delete</button>
-                                        <button class="btn btn-sm btn-primary" onclick="goToEdit(`{{ $blog->id }}`)">Edit</button>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <th style="width: 200px;">Feature Image</th>
+                                        <td>
+                                            @if($blog->image && file_exists(public_path($blog->image)))
+                                                <img src="{{ asset($blog->image) }}" alt="Image" style="width: 200px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                                            @else
+                                                <img src="{{ asset('backend/images/default.png') }}" alt="Default" style="width: 200px; height: 120px; object-fit: cover; border-radius: 8px;">
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Blog Type / Language</th>
+                                        <td>
+                                            @php
+                                                $badge = ['english' => 'bg-info', 'de' => 'bg-warning', 'other' => 'bg-secondary'];
+                                                $class = $badge[$blog->type] ?? 'bg-primary';
+                                            @endphp
+                                            <span class="badge {{ $class }} text-dark">{{ ucfirst($blog->type) }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Title</th>
+                                        <td><strong>{{ $blog->title ?? 'N/A' }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Subtitle</th>
+                                        <td>{{ $blog->subtitle ?? 'N/A' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>
+                                            <span class="badge {{ $blog->status == 'active' ? 'bg-success' : 'bg-danger' }}">
+                                                {{ ucfirst($blog->status) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Description</th>
+                                        <td>
+                                            <div class="p-3 border rounded bg-light " style="height: 800px">
+                                                {!! $blog->description ?? 'N/A' !!}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Action</th>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="goToEdit(`{{ $blog->id }}`)">
+                                                <i class="fe fe-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" onclick="showDeleteConfirm(`{{ $blog->id }}`)">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div><!-- COL END -->
-            </div>
+                </div></div>
 
         </div>
     </div>
 </div>
-<!-- CONTAINER CLOSED -->
 @endsection
+
 @push('scripts')
 <script>
     // delete Confirm
@@ -90,7 +129,7 @@
                     },
                     error: function(error) {
                         NProgress.done();
-                        toastr.error(error.message);
+                        toastr.error("Something went wrong!");
                     }
                 });
             }
