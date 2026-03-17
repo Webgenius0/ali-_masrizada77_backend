@@ -4,7 +4,7 @@
 <div class="app-content main-content mt-0">
     <div class="side-app">
         <div class="page-header d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-            <h1 class="page-title text-primary fw-bold">Email & Text AI Response Overview
+            <h1 class="page-title text-primary fw-bold">Drive ThruAI
                 <span class="text-muted small">({{ ucfirst($selected_type ?? 'english') }})</span>
             </h1>
             <div class="ms-auto">
