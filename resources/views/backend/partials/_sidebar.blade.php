@@ -22,13 +22,13 @@
                 <li>
                     <h3>Menu</h3>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('dashboard') ? 'has-link active' : '' }}"
                         href="{{ route('admin.dashboard') }}">
                         <i class="fa-solid fa-house side-menu__icon"></i>
                         <span class=" side-menu__label">Dashboard</span>
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- cmsss sectionn    --}}
                 <li class="slide">
