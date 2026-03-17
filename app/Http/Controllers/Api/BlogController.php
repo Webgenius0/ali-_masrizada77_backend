@@ -13,43 +13,37 @@ class BlogController extends Controller
      * Type অনুযায়ী ব্লগের লিস্ট নিয়ে আসা
      */
 public function index(Request $request)
-    {
+{
+    $query = Blog::where('status', 'active');
 
-        $query = Blog::where('status', 'active');
-
-
-        if ($request->filled('type')) {
-            $query->where('type', $request->type);
-        }
-
-        $blogs = $query->latest()->get();
-
-
-        $formattedBlogs = $blogs->map(function ($blog) {
-            return [
-                'id'          => $blog->id,
-                'type'        => ucfirst($blog->type), // English/De
-                'title'       => $blog->title,
-                'subtitle'    => $blog->subtitle ?? '',
-                'image_url'   => $blog->image ? asset($blog->image) : null,
-
-                'description_html' => $blog->description,
-
-
-                'description_raw'  => strip_tags($blog->description),
-
-                'created_date' => $blog->created_at->format('d M, Y'),
-            ];
-        });
-
-
-        return response()->json([
-            'status'  => 'success',
-            'message' => $formattedBlogs->isEmpty() ? 'No blogs found' : 'Data retrieved successfully',
-            'count'   => $formattedBlogs->count(),
-            'data'    => $formattedBlogs
-        ], 200);
+    if ($request->filled('type')) {
+        $query->where('type', $request->type);
+    } else {
+        $query->where('type', 'english');
     }
+
+    $blogs = $query->latest()->get();
+
+    $formattedBlogs = $blogs->map(function ($blog) {
+        return [
+            'id'               => $blog->id,
+            'type'             => ucfirst($blog->type),
+            'title'            => $blog->title,
+            'subtitle'         => $blog->subtitle ?? '',
+            'image_url'        => $blog->image ? asset($blog->image) : null,
+            'description_html' => $blog->description,
+            'description_raw'  => strip_tags($blog->description),
+            'created_date'     => $blog->created_at->format('d M, Y'),
+        ];
+    });
+
+    return response()->json([
+        'status'  => 'success',
+        'message' => $formattedBlogs->isEmpty() ? 'No blogs found' : 'Data retrieved successfully',
+        'count'   => $formattedBlogs->count(),
+        'data'    => $formattedBlogs
+    ], 200);
+}
 
     /**
      * নির্দিষ্ট একটি ব্লগের ডিটেইলস দেখা
