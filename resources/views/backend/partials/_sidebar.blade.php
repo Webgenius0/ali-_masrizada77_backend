@@ -414,6 +414,16 @@
                             </li>
                         </ul>
 
+                                                <ul class="slide-menu">
+
+                            <li>
+                                <a href="{{ route('admin.cms.home.infrastructure.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.infrastructure.index') ? 'active' : '' }}">
+                                   Infrastructure
+                                </a>
+                            </li>
+                        </ul>
+
 
 
                     </li>

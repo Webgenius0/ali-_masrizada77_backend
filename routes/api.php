@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\ConversationalAIController;
 use App\Http\Controllers\Api\Email_text_ai_ResponceController;
 use App\Http\Controllers\Api\DriveThruApiController;
 use App\Http\Controllers\Api\AboutUsApiController;
+use App\Http\Controllers\Api\InfrastructureController;
 
 use App\Http\Controllers\Api\BlogController;
 
@@ -80,11 +81,16 @@ Route::get('/about-us-content', [AboutUsApiController::class, 'getCMSContent']);
 
 
 // টাইপ অনুযায়ী ব্লগ লিস্ট পাওয়ার API
-// উদাহরণ: your-domain.com/api/blogs/english
 Route::get('/blogs', [BlogController::class, 'index']);
 
 // সিঙ্গেল ব্লগ দেখার API
 Route::get('/blog/details/{id}', [BlogController::class, 'show']);
+
+
+
+
+// Infrastructure API Route
+Route::get('/infrastructure', [InfrastructureController::class, 'getInfrastructureData']);
 
 // hrayhan    ------------------------------------- end --------------------------
 

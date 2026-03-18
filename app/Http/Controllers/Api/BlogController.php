@@ -9,9 +9,6 @@ use Exception;
 
 class BlogController extends Controller
 {
-    /**
-     * Type অনুযায়ী ব্লগের লিস্ট নিয়ে আসা
-     */
 public function index(Request $request)
 {
     $query = Blog::where('status', 'active');
@@ -45,9 +42,7 @@ public function index(Request $request)
     ], 200);
 }
 
-    /**
-     * নির্দিষ্ট একটি ব্লগের ডিটেইলস দেখা
-     */
+
     public function show($id)
     {
         try {

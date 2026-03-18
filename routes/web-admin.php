@@ -58,6 +58,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\NVPlatformOverviewController;
 use App\Http\Controllers\Web\Backend\CMS\Web\ConversationalAIController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Email_text_ai_ResponceController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Drive_ThruAIController;
+use App\Http\Controllers\Web\Backend\CMS\Web\InfrastructureController;
 use App\Http\Controllers\Web\Backend\AboutusController;
 
 
@@ -313,6 +314,12 @@ Route::group(['middleware' => ['web-admin']], function () {
             Route::put('/content', 'content')->name('content');
             Route::get('/display', 'display')->name('display');
         });
+
+
+    Route::prefix('home/infrastructure')->name('home.infrastructure.')->group(function () {
+    Route::get('/', [InfrastructureController::class, 'index'])->name('index');
+    Route::post('/content', [InfrastructureController::class, 'content'])->name('content');
+});
 
         //--------------------------------rayhanend-------------------------------------------------
 
