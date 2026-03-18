@@ -77,7 +77,7 @@ public function getInfrastructureData(Request $request)
             $categories[] = [
                 'title' => $titles[$i]['title'] ?? '',
                 'desc'  => $titles[$i]['desc'] ?? '',
-                'image' => isset($images[$i]) ? asset($images[$i]) : asset('uploads/no_image.png')
+                'image' => isset($images[$i]) && $images[$i] ? asset($images[$i]) : null,
             ];
         }
         return $categories;
