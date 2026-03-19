@@ -10,39 +10,49 @@ use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    public function store(Request $request)
+    public function storeContact(Request $request)
     {
+        // ১. ভ্যালিডেশন
         $validator = Validator::make($request->all(), [
-            'name'      => 'required|string|max:50',
-            'email'     => 'nullable|email|max:255',
-            'phone'     => 'required|numeric|digits:11',
-            'subject'   => 'nullable|string|max:255',
-            'message'   => 'required|string|max:1000'
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'phone'   => 'nullable|string|max:20',
+            'designation' => 'nullable|string|max:255',
+            'company' => 'nullable|string|max:255',
+            'message' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'code' => 422,
-                'status' => 'error',
-                //'msg' => $validator->errors()
-                'msg' => $validator->errors()->first()
-            ]);
+                'success' => false,
+                'errors'  => $validator->errors()
+            ], 422);
         }
 
+        // ২. ডাটা সেভ (Contacts Table)
         try {
-            Contact::create($request->only('name', 'email', 'phone', 'subject', 'message'));
+            $contact = new Contact();
+            $contact->name        = $request->name;
+            $contact->email       = $request->email;
+            $contact->phone       = $request->phone;
+            $contact->designation = $request->designation;
+            $contact->company     = $request->company;
+            $contact->subject     = $request->subject ?? 'Expert Consultation Request'; // Default Subject
+            $contact->message     = $request->message;
+            $contact->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Your message has been sent successfully!'
+            ], 201);
+
         } catch (Exception $e) {
             return response()->json([
-                'code' => 500,
-                'status' => 'error',
-                'msg' => $e->getMessage()
-            ]);
+                'success' => false,
+                'message' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
-
-        return response()->json([
-            'code' => 200,
-            'status' => 'success',
-            'msg' => 'Message sent successfully'
-        ]);
     }
+
+
 }

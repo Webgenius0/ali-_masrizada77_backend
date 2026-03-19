@@ -8,7 +8,7 @@
         border-radius: 4px; margin-top: 6px; display: block;
     }
     .icon-preview {
-        width: 36px; height: 36px; object-fit: contain; margin-top: 4px;
+        width: 50px; height: 100px; object-fit: contain; margin-top: 4px;
     }
     .faq-item, .feat-item {
         position: relative;
@@ -94,7 +94,7 @@
                 <div class="card-body">
                     @php $names = ['Cloud', 'Hybrid', 'On-Premise']; @endphp
                     @foreach($names as $key => $name)
-                    <div class="p-4 border mb-4 bg-light rounded">
+                    <div class="p-4 border mb-4 bg-light ">
                         <h6 class="fw-bold mb-3 text-uppercase">{{ $name }}</h6>
                         <div class="row g-3 mb-3">
                             <div class="col-md-4">

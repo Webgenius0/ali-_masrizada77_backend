@@ -59,7 +59,9 @@ use App\Http\Controllers\Web\Backend\CMS\Web\ConversationalAIController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Email_text_ai_ResponceController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Drive_ThruAIController;
 use App\Http\Controllers\Web\Backend\CMS\Web\InfrastructureController;
+use App\Http\Controllers\Web\Backend\CMS\Web\PartnerController;
 use App\Http\Controllers\Web\Backend\AboutusController;
+use App\Http\Controllers\Web\Backend\CMS\Web\GetinTouchController;
 
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
@@ -218,15 +220,18 @@ Route::group(['middleware' => ['web-admin']], function () {
 
     Route::get('subscriber', [SubscriberController::class, 'index'])->name('subscriber.index');
 
-    Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/status/{id}', 'status')->name('status');
-    });
+Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/status/{id}', 'status')->name('status');
+    Route::delete('/delete/{id}', 'destroy')->name('destroy'); // নতুন ডিলিট রাউট
+});
 
     Route::controller(TransactionController::class)->prefix('transaction')->name('transaction.')->group(function () {
         Route::get('/{user_id?}', 'index')->name('index');
         Route::get('/show/{id}', 'show')->name('show');
     });
+
+
 
 
     /*
@@ -319,6 +324,22 @@ Route::group(['middleware' => ['web-admin']], function () {
     Route::prefix('home/infrastructure')->name('home.infrastructure.')->group(function () {
     Route::get('/', [InfrastructureController::class, 'index'])->name('index');
     Route::post('/content', [InfrastructureController::class, 'content'])->name('content');
+});
+
+    Route::prefix('home/partner')->name('home.partner.')->group(function () {
+    Route::get('/', [PartnerController::class, 'index'])->name('index');
+    Route::post('/content', [PartnerController::class, 'content'])->name('content');
+});
+
+
+
+//get in touch 1
+
+
+
+Route::prefix('home/get-in-touch')->name('home.get-in-touch.')->group(function () {
+    Route::get('/', [GetinTouchController::class, 'index'])->name('index');
+    Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
 });
 
         //--------------------------------rayhanend-------------------------------------------------

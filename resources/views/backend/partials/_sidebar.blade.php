@@ -302,6 +302,16 @@
                             <span class="side-menu__label">FAQ</span>
                         </a>
                     </li>
+
+                                        <li class="slide">
+                        <a class="side-menu__item {{ request()->routeIs('admin.cms.home.get-in-touch.*') ? 'has-link active' : '' }}"
+                            href="{{ route('admin.cms.home.get-in-touch.index') }}">
+                            <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
+                            <span class="side-menu__label"> Get in Touch 1</span>
+                        </a>
+                    </li>
+
+
                     <li class="slide">
                         <a class="side-menu__item" data-bs-toggle="slide" href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -374,9 +384,16 @@
                                 </a>
                             </li>
                         </ul>
-
                         <ul class="slide-menu">
 
+                            <li>
+                                <a href="{{ route('admin.cms.home.infrastructure.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.infrastructure.index') ? 'active' : '' }}">
+                                    Diployment Models
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="slide-menu">
                             <li>
                                 <a href="{{ route('admin.cms.home.conversational.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.conversational.index') ? 'active' : '' }}">
@@ -413,17 +430,15 @@
                                 </a>
                             </li>
                         </ul>
-
-                                                <ul class="slide-menu">
+                        <ul class="slide-menu">
 
                             <li>
-                                <a href="{{ route('admin.cms.home.infrastructure.index') }}"
-                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.infrastructure.index') ? 'active' : '' }}">
-                                   Infrastructure
+                                <a href="{{ route('admin.cms.home.partner.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.partner.index') ? 'active' : '' }}">
+                                    Partner
                                 </a>
                             </li>
                         </ul>
-
 
 
                     </li>
@@ -455,7 +470,8 @@
                             <span class="side-menu__label">Location</span><i class="angle fa fa-angle-right"></i>
                         </a>
                         <ul class="slide-menu">
-                            <li><a href="{{ route('admin.location.country.index') }}" class="slide-item">Country</a></li>
+                            <li><a href="{{ route('admin.location.country.index') }}" class="slide-item">Country</a>
+                            </li>
                             <li><a href="#" class="slide-item">State</a></li>
                             <li><a href="#" class="slide-item">City</a></li>
                             <li><a href="#" class="slide-item">Area</a></li>

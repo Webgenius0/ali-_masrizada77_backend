@@ -13,58 +13,73 @@ class ContactController extends Controller
 {
     public function __construct()
     {
-        View::share('crud', 'booking');
+        // Breadcrumb এর জন্য share করা হয়েছে
+        View::share('crud', 'Contact Messages');
     }
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Contact::all();
+            // লেটেস্ট মেসেজগুলো আগে দেখানোর জন্য latest() ব্যবহার করা হয়েছে
+            $data = Contact::latest()->get();
+
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('info', function ($data) {
+                    return "<b>Name:</b> $data->name <br> <b>Email:</b> $data->email <br> <b>Phone:</b> " . ($data->phone ?? 'N/A');
+                })
+                ->addColumn('company_info', function ($data) {
+                    return "<b>Company:</b> " . ($data->company ?? 'N/A') . "<br> <b>Role:</b> " . ($data->designation ?? 'N/A');
+                })
                 ->addColumn('status', function ($data) {
                     $backgroundColor = $data->status == "active" ? '#4CAF50' : '#ccc';
                     $sliderTranslateX = $data->status == "active" ? '26px' : '2px';
                     $sliderStyles = "position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.3s ease; transform: translateX($sliderTranslateX);";
 
-                    $status = '<div class="form-check form-switch" style="margin-left:40px; position: relative; width: 50px; height: 24px; background-color: ' . $backgroundColor . '; border-radius: 12px; transition: background-color 0.3s ease; cursor: pointer;">';
-                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status" style="position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 2; cursor: pointer;">';
+                    $status = '<div onclick="showStatusChangeAlert(' . $data->id . ')" class="form-check form-switch" style="position: relative; width: 50px; height: 24px; background-color: ' . $backgroundColor . '; border-radius: 12px; transition: background-color 0.3s ease; cursor: pointer;">';
                     $status .= '<span style="' . $sliderStyles . '"></span>';
-                    $status .= '<label for="customSwitch' . $data->id . '" class="form-check-label" style="margin-left: 10px;"></label>';
                     $status .= '</div>';
 
                     return $status;
                 })
                 ->addColumn('action', function ($data) {
-                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-
-                                <a href="#" type="button" onclick="#" class="btn btn-primary fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-edit"></i>
-                                </a>
-
+                    return '<div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-info text-white view-message"
+                                    data-name="'.$data->name.'"
+                                    data-subject="'.$data->subject.'"
+                                    data-message="'.$data->message.'"
+                                    title="View Message">
+                                    <i class="fe fe-eye"></i>
+                                </button>
+                                <button type="button" onclick="deleteContact('.$data->id.')" class="btn btn-danger text-white" title="Delete">
+                                    <i class="fe fe-trash"></i>
+                                </button>
                             </div>';
                 })
-                ->rawColumns(['status', 'action'])
-                ->make();
+                ->rawColumns(['info', 'company_info', 'status', 'action'])
+                ->make(true);
         }
         return view("backend.layouts.contact");
     }
 
     public function status(int $id): JsonResponse
     {
-        $data = Contact::findOrFail($id);
+        $data = Contact::find($id);
         if (!$data) {
-            return response()->json([
-                'status' => 't-error',
-                'message' => 'Item not found.',
-            ]);
+            return response()->json(['status' => 'error', 'message' => 'Item not found.']);
         }
         $data->status = $data->status === 'active' ? 'inactive' : 'active';
         $data->save();
-        return response()->json([
-            'status' => 't-success',
-            'message' => 'Your action was successful!',
-        ]);
+        return response()->json(['status' => 'success', 'message' => 'Status updated successfully!']);
     }
 
+    public function destroy(int $id): JsonResponse
+    {
+        $data = Contact::find($id);
+        if ($data) {
+            $data->delete();
+            return response()->json(['status' => 'success', 'message' => 'Message deleted successfully!']);
+        }
+        return response()->json(['status' => 'error', 'message' => 'Failed to delete.']);
+    }
 }

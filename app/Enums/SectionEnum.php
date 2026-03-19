@@ -12,12 +12,12 @@ enum SectionEnum: string
     case INTRO = 'intro';
 
     case ABOUT = 'about';
-
+    
     //common sections
     case FOOTER = 'footer';
     case HEADER = 'header';
 
 
 
-    
+
 }

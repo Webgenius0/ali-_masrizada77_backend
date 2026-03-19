@@ -12,5 +12,6 @@ enum PageEnum: string
     case Drive_ThruAIController='drive_thruai';
     case Aboutus='aboutus';
     case Infrastructure='infrastructure';
+    case Partner='partner';
     case COMMON = 'common';
 }

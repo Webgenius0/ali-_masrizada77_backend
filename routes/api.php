@@ -31,8 +31,9 @@ use App\Http\Controllers\Api\Email_text_ai_ResponceController;
 use App\Http\Controllers\Api\DriveThruApiController;
 use App\Http\Controllers\Api\AboutUsApiController;
 use App\Http\Controllers\Api\InfrastructureController;
-
+use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\BlogController;
+use App\Http\Controllers\Api\GetinTouchController;
 
 
 // get  trem and privact data
@@ -89,8 +90,27 @@ Route::get('/blog/details/{id}', [BlogController::class, 'show']);
 
 
 
-// Infrastructure API Route
-Route::get('/infrastructure', [InfrastructureController::class, 'getInfrastructureData']);
+// deployment model  API Route
+Route::get('/deployment', [InfrastructureController::class, 'getInfrastructureData']);
+
+
+//became a partner
+
+Route::get('/become-a-partner', [PartnerController::class, 'getPartnerData']);
+
+
+
+
+
+//show get in touch1 1 data
+
+
+
+// ল্যাঙ্গুয়েজ অনুযায়ী ডাটা পাওয়ার API
+Route::get('/getintouch1-1data', [GetinTouchController::class, 'getContactSidebar']);
+//get in touch 1 contact store
+
+Route::post('/contact-submit', [ContactController::class, 'storeContact']);
 
 // hrayhan    ------------------------------------- end --------------------------
 
