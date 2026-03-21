@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('f_a_q_s', function (Blueprint $table) {
+Schema::create('f_a_q_s', function (Blueprint $table) {
             $table->id();
             $table->longText('question');
             $table->longText('answer');
+            $table->text('title')->nullable();
+            $table->text('discription')->nullable();
+            $table->enum('type', ['english', 'de', 'other'])->default('english');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
