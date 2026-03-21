@@ -62,6 +62,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\InfrastructureController;
 use App\Http\Controllers\Web\Backend\CMS\Web\PartnerController;
 use App\Http\Controllers\Web\Backend\AboutusController;
 use App\Http\Controllers\Web\Backend\CMS\Web\GetinTouchController;
+use App\Http\Controllers\Web\Backend\CMS\Web\ApplyJobController;
 use App\Http\Controllers\ElevenLabsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\HealthcareController;
 use App\Http\Controllers\Web\Backend\CMS\Web\EnergyandUtilitsController;
@@ -368,6 +369,13 @@ Route::controller(ContactController::class)->prefix('contact')->name('contact.')
 Route::prefix('home/get-in-touch')->name('home.get-in-touch.')->group(function () {
     Route::get('/', [GetinTouchController::class, 'index'])->name('index');
     Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
+});
+
+//applyjob content
+
+Route::prefix('home/applyjob')->name('home.applyjob.')->group(function () {
+    Route::get('/', [ApplyJobController::class, 'index'])->name('index');
+    Route::post('/content', [ApplyJobController::class, 'update'])->name('update');
 });
 
 

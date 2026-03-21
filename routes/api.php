@@ -37,6 +37,7 @@ use App\Http\Controllers\Api\HealthcareApiController;
 use App\Http\Controllers\Api\EnergyandUtilityController;
 use App\Http\Controllers\Api\GovermentController;
 use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\Api\ApplyJobController;
 
 
 
@@ -54,7 +55,7 @@ Route::get('/terms-conditions', [LegalCMSApiController::class, 'getTermsConditio
 
 // FAQ API Route
 Route::get('/faqs', [FaqController::class, 'index']);
-
+//---------------------------------
 
 
 
@@ -121,13 +122,22 @@ Route::get('/energy-content', [EnergyandUtilityController::class, 'getHealthcare
 //Goverment
 Route::get('/goverment-content', [GovermentController::class, 'getGovermentContent']);
 
+
+//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //show get in touch1 1 data
 Route::get('/getintouch1-1data', [GetinTouchController::class, 'getContactSidebar']);
-//get in touch 1 contact store
 
+//get in touch 1 contact store
 Route::post('/contact-submit', [ContactController::class, 'storeContact']);
 
-// hrayhan    ------------------------------------- end --------------------------
+
+
+//Applyjob content
+Route::get('/get-Applyjob-content', [ApplyJobController::class, 'getApplyjobSidebar']);
+
+
+//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+// ------------------------------------------------------rayhan    ------------------------------------- end --------------------------
 
 
 

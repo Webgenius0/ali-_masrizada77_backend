@@ -312,6 +312,14 @@
                         </a>
                     </li>
 
+                                        <li class="slide">
+                        <a class="side-menu__item {{ request()->routeIs('admin.cms.home.applyjob.*') ? 'has-link active' : '' }}"
+                            href="{{ route('admin.cms.home.applyjob.index') }}">
+                            <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
+                            <span class="side-menu__label"> Apply Job Content</span>
+                        </a>
+                    </li>
+
 
                     <li class="slide">
                         <a class="side-menu__item" data-bs-toggle="slide" href="#">
