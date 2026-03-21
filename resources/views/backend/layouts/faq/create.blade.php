@@ -37,8 +37,57 @@
                             <form method="POST" action="{{ route('admin.faq.store') }}">
                                 @csrf
 
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Select Type <span class="text-danger">*</span></label>
+                                            <select name="type" class="form-control form-select @error('type') is-invalid @enderror">
+                                                <option value="english" {{ old('type') == 'english' ? 'selected' : '' }}>English</option>
+                                                <option value="de" {{ old('type') == 'de' ? 'selected' : '' }}>DE (German)</option>
+                                                <option value="other" {{ old('type') == 'other' ? 'selected' : '' }}>Other</option>
+                                            </select>
+                                            @error('type')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Title (Optional)</label>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                class="form-control @error('title') is-invalid @enderror"
+                                                placeholder="Enter title"
+                                                value="{{ old('title') }}"
+                                            >
+                                            @error('title')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Description (Optional)</label>
+                                            <input
+                                                type="text"
+                                                name="discription"
+                                                class="form-control @error('discription') is-invalid @enderror"
+                                                placeholder="Enter description"
+                                                value="{{ old('discription') }}"
+                                            >
+                                            @error('discription')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Question</label>
+                                    <label class="form-label">Question <span class="text-danger">*</span></label>
                                     <input
                                         type="text"
                                         name="question"
@@ -52,22 +101,22 @@
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Answer</label>
-                                    <input
-                                        type="text"
+                                    <label class="form-label">Answer <span class="text-danger">*</span></label>
+                                    <textarea
                                         name="answer"
                                         class="form-control @error('answer') is-invalid @enderror"
-                                        placeholder="Enter answer"
-                                        value="{{ old('answer') }}"
-                                    >
+                                        rows="4"
+                                        placeholder="Enter answer">{{ old('answer') }}</textarea>
                                     @error('answer')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">
-                                    Submit
-                                </button>
+                                <div class="form-footer mt-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fe fe-plus me-1"></i> Submit FAQ
+                                    </button>
+                                </div>
 
                             </form>
                         </div>

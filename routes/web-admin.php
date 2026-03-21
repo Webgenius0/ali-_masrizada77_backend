@@ -62,6 +62,10 @@ use App\Http\Controllers\Web\Backend\CMS\Web\InfrastructureController;
 use App\Http\Controllers\Web\Backend\CMS\Web\PartnerController;
 use App\Http\Controllers\Web\Backend\AboutusController;
 use App\Http\Controllers\Web\Backend\CMS\Web\GetinTouchController;
+use App\Http\Controllers\ElevenLabsController;
+use App\Http\Controllers\Web\Backend\CMS\Web\HealthcareController;
+use App\Http\Controllers\Web\Backend\CMS\Web\EnergyandUtilitsController;
+use App\Http\Controllers\Web\Backend\CMS\Web\GovermentController;
 
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
@@ -78,6 +82,7 @@ Route::group(['middleware' => ['web-admin']], function () {
         Route::get('/delete/{id}', 'destroy')->name('destroy');
         Route::get('/status/{id}', 'status')->name('status');
     });
+
 
 
 
@@ -330,6 +335,29 @@ Route::controller(ContactController::class)->prefix('contact')->name('contact.')
     Route::get('/', [PartnerController::class, 'index'])->name('index');
     Route::post('/content', [PartnerController::class, 'content'])->name('content');
 });
+    // Healthcare Page Routes
+    Route::prefix('home/healthcare')->name('home.healthcare.')->group(function () {
+
+        Route::get('/', [HealthcareController::class, 'index'])->name('index');
+
+        Route::post('/content', [HealthcareController::class, 'content'])->name('content');
+    });
+
+        // Healthcare Page Routes
+    Route::prefix('home/energy')->name('home.energy.')->group(function () {
+
+        Route::get('/', [EnergyandUtilitsController::class, 'index'])->name('index');
+
+        Route::post('/content', [EnergyandUtilitsController::class, 'content'])->name('content');
+    });
+
+        Route::prefix('home/goverment')->name('home.goverment.')->group(function () {
+
+        Route::get('/', [GovermentController::class, 'index'])->name('index');
+
+        Route::post('/content', [GovermentController::class, 'content'])->name('content');
+    });
+
 
 
 
@@ -340,6 +368,20 @@ Route::controller(ContactController::class)->prefix('contact')->name('contact.')
 Route::prefix('home/get-in-touch')->name('home.get-in-touch.')->group(function () {
     Route::get('/', [GetinTouchController::class, 'index'])->name('index');
     Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
+});
+
+
+
+
+
+
+
+// checking ai voices syttemm
+Route::prefix('home/test')->name('home.test.')->group(function () {
+    // Voice Test Page
+    Route::get('/voice-test', [ElevenLabsController::class, 'testVoice'])->name('index');
+    // API for Signed URL
+    Route::get('/get-signed-url', [ElevenLabsController::class, 'getSignedUrl'])->name('voice.signed_url');
 });
 
         //--------------------------------rayhanend-------------------------------------------------

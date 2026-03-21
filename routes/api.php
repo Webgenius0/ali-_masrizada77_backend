@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\FirebaseTokenController;
 use App\Http\Controllers\Api\Frontend\categoryController;
-use App\Http\Controllers\Api\Frontend\FaqController;
 use App\Http\Controllers\Api\Frontend\HomeController;
 use App\Http\Controllers\Api\Frontend\ImageController;
 use App\Http\Controllers\Api\Frontend\PageController;
@@ -34,6 +33,11 @@ use App\Http\Controllers\Api\InfrastructureController;
 use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\GetinTouchController;
+use App\Http\Controllers\Api\HealthcareApiController;
+use App\Http\Controllers\Api\EnergyandUtilityController;
+use App\Http\Controllers\Api\GovermentController;
+use App\Http\Controllers\Api\FaqController;
+
 
 
 // get  trem and privact data
@@ -45,6 +49,17 @@ Route::get('/terms-conditions', [LegalCMSApiController::class, 'getTermsConditio
 
 
 // rayhan add ----------------------------------------------
+
+
+
+// FAQ API Route
+Route::get('/faqs', [FaqController::class, 'index']);
+
+
+
+
+
+
 
 Route::get('/home/intro', [HomePageController::class, 'getHomeIntro']);
 
@@ -98,15 +113,15 @@ Route::get('/deployment', [InfrastructureController::class, 'getInfrastructureDa
 
 Route::get('/become-a-partner', [PartnerController::class, 'getPartnerData']);
 
+//Health care
+Route::get('/healthcare-content', [HealthcareApiController::class, 'getHealthcareContent']);
 
-
-
+//energy and Utilitis
+Route::get('/energy-content', [EnergyandUtilityController::class, 'getHealthcareContent']);
+//Goverment
+Route::get('/goverment-content', [GovermentController::class, 'getGovermentContent']);
 
 //show get in touch1 1 data
-
-
-
-// ল্যাঙ্গুয়েজ অনুযায়ী ডাটা পাওয়ার API
 Route::get('/getintouch1-1data', [GetinTouchController::class, 'getContactSidebar']);
 //get in touch 1 contact store
 

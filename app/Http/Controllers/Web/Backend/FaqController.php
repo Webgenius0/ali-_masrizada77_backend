@@ -29,6 +29,9 @@ class FaqController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('type', function ($data) {
+                    return strtoupper($data->type);
+                })
                 ->addColumn('question', function ($data) {
                     return '<span title="' . e($data->question) . '">' .
                         Str::limit($data->question, 20) . ' ?</span>';
@@ -36,7 +39,6 @@ class FaqController extends Controller
                 ->addColumn('answer', function ($data) {
                     return Str::limit(strip_tags($data->answer), 40);
                 })
-
                 ->addColumn('status', function ($data) {
                     $backgroundColor = $data->status == "active" ? '#4CAF50' : '#ccc';
                     $sliderTranslateX = $data->status == "active" ? '26px' : '2px';
@@ -82,33 +84,37 @@ class FaqController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // ১. ভ্যালিডেশন
-    $validator = Validator::make($request->all(), [
-        'question' => 'required|string',
-        'answer'   => 'required|string',
-    ]);
-
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
-    }
-
-    try {
-        // ২. 'new' ছাড়াই ডেটা সেভ করার পদ্ধতি (Static Create Method)
-        FAQ::create([
-            'question' => $request->question,
-            'answer'   => $request->answer,
-            'status'   => 'active',
+    {
+        $validator = Validator::make($request->all(), [
+            'type'        => 'required|in:english,de,other',
+            'title'       => 'nullable|string|max:255',
+            'discription' => 'nullable|string',
+            'question'    => 'required|string',
+            'answer'      => 'required|string',
         ]);
 
-        session()->put('t-success', 'FAQ created successfully');
-    } catch (Exception $e) {
-        session()->put('t-error', $e->getMessage());
-        return redirect()->back();
-    }
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-    return redirect()->route('admin.faq.index');
-}
+        try {
+            FAQ::create([
+                'type'        => $request->type,
+                'title'       => $request->title,
+                'discription' => $request->discription,
+                'question'    => $request->question,
+                'answer'      => $request->answer,
+                'status'      => 'active',
+            ]);
+
+            session()->put('t-success', 'FAQ created successfully');
+        } catch (Exception $e) {
+            session()->put('t-error', $e->getMessage());
+            return redirect()->back();
+        }
+
+        return redirect()->route('admin.faq.index');
+    }
 
     /**
      * Display the specified resource.
@@ -131,38 +137,38 @@ class FaqController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, $id)
-{
-    $validator = Validator::make($request->all(), [
-        'question' => 'required|string',
-        'answer'   => 'required|string',
-    ]);
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'type'        => 'required|in:english,de,other',
+            'title'       => 'nullable|string|max:255',
+            'discription' => 'nullable|string',
+            'question'    => 'required|string',
+            'answer'      => 'required|string',
+        ]);
 
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        try {
+            $faq = FAQ::findOrFail($id);
+            $faq->update([
+                'type'        => $request->type,
+                'title'       => $request->title,
+                'discription' => $request->discription,
+                'question'    => $request->question,
+                'answer'      => $request->answer,
+            ]);
+
+            session()->put('t-success', 'FAQ updated successfully');
+        } catch (Exception $e) {
+            session()->put('t-error', $e->getMessage());
+        }
+
+        return redirect()->route('admin.faq.index');
     }
 
-    try {
-        $faq = FAQ::findOrFail($id);
-        // শুধুমাত্র প্রশ্ন এবং উত্তর আপডেট হবে
-        $faq->question = $request->question;
-        $faq->answer   = $request->answer;
-        $faq->save();
-
-        session()->put('t-success', 'FAQ updated successfully');
-    } catch (Exception $e) {
-        session()->put('t-error', $e->getMessage());
-    }
-
-    return redirect()->route('admin.faq.index');
-}
-
-
-//img start
-
-
-
-//img end
     /**
      * Remove the specified resource from storage.
      */
@@ -196,5 +202,4 @@ public function update(Request $request, $id)
             'message' => 'Status updated successfully',
         ]);
     }
-
 }

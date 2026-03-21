@@ -49,6 +49,7 @@
 
 
 
+
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.report.*') ? 'has-link active' : '' }}"
                         data-bs-toggle="slide" href="#">
@@ -303,7 +304,7 @@
                         </a>
                     </li>
 
-                                        <li class="slide">
+                    <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.cms.home.get-in-touch.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.cms.home.get-in-touch.index') }}">
                             <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
@@ -441,6 +442,48 @@
                         </ul>
 
 
+
+                        <ul class="slide-menu">
+
+                            <li>
+                                <a href="{{ route('admin.cms.home.healthcare.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.healthcare.index') ? 'active' : '' }}">
+                                    Health care
+                                </a>
+                            </li>
+                        </ul>
+
+                        {{-- <ul class="slide-menu">
+                            <li class="slide">
+                                <a href="{{ route('admin.cms.home.test.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.test.index') ? 'active' : '' }}">
+                                    Voice
+                                </a>
+                            </li>
+
+                            </ul> --}}
+
+                        <ul class="slide-menu">
+
+                            <li>
+                                <a href="{{ route('admin.cms.home.energy.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.energy.index') ? 'active' : '' }}">
+                                   Enegy and Utilities
+                                </a>
+                            </li>
+                        </ul>
+                                                <ul class="slide-menu">
+
+                            <li>
+                                <a href="{{ route('admin.cms.home.goverment.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.goverment.index') ? 'active' : '' }}">
+                                   Goverment
+                                </a>
+                            </li>
+                        </ul>
+
+
+
                     </li>
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.menu.*') ? 'has-link active' : '' }}"
@@ -449,6 +492,11 @@
                             <span class="side-menu__label">Menu</span>
                         </a>
                     </li>
+
+
+
+
+
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}"
                             data-bs-toggle="slide" href="#">

@@ -4,7 +4,6 @@
 
 <div class="app-content main-content mt-0">
     <div class="side-app">
-
         <div class="main-container container-fluid">
 
             <div class="page-header">
@@ -36,40 +35,88 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('admin.faq.update', $faq->id) }}">
                                 @csrf
-                                {{-- যদি আপনার কন্ট্রোলার পুট মেথড এক্সপেক্ট করে তবে @method('PUT') দিন, নতুবা নিচেরটি কাজ করবে --}}
                                 @method('POST')
 
-                                <div class="mb-4">
-                                    <label for="question" class="form-label">Question</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Select Type <span class="text-danger">*</span></label>
+                                            <select name="type" class="form-control form-select @error('type') is-invalid @enderror">
+                                                <option value="english" {{ old('type', $faq->type) == 'english' ? 'selected' : '' }}>English</option>
+                                                <option value="de" {{ old('type', $faq->type) == 'de' ? 'selected' : '' }}>DE (German)</option>
+                                                <option value="other" {{ old('type', $faq->type) == 'other' ? 'selected' : '' }}>Other</option>
+                                            </select>
+                                            @error('type')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Title (Optional)</label>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                class="form-control @error('title') is-invalid @enderror"
+                                                placeholder="Enter title"
+                                                value="{{ old('title', $faq->title) }}"
+                                            >
+                                            @error('title')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Description (Optional)</label>
+                                            <input
+                                                type="text"
+                                                name="discription"
+                                                class="form-control @error('discription') is-invalid @enderror"
+                                                placeholder="Enter description"
+                                                value="{{ old('discription', $faq->discription) }}"
+                                            >
+                                            @error('discription')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+
+                                <div class="form-group mb-4">
+                                    <label for="question" class="form-label">Question <span class="text-danger">*</span></label>
                                     <input type="text"
                                            class="form-control @error('question') is-invalid @enderror"
                                            name="question"
                                            id="question"
-                                           {{-- আপনার ডাটাবেস কলাম অনুযায়ী $faq->question বা $faq->title ব্যবহার করুন --}}
-                                           value="{{ old('question', $faq->question ?? $faq->title) }}"
+                                           value="{{ old('question', $faq->question) }}"
                                            placeholder="Enter question">
                                     @error('question')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <div class="mb-4">
-                                    <label for="answer" class="form-label">Answer</label>
-                                    <input type="text"
-                                           class="form-control @error('answer') is-invalid @enderror"
-                                           name="answer"
-                                           id="answer"
-                                           {{-- আপনার ডাটাবেস কলাম অনুযায়ী $faq->answer বা $faq->description ব্যবহার করুন --}}
-                                           value="{{ old('answer', $faq->answer ?? $faq->description) }}"
-                                           placeholder="Enter answer">
+                                <div class="form-group mb-4">
+                                    <label for="answer" class="form-label">Answer <span class="text-danger">*</span></label>
+                                    <textarea
+                                        name="answer"
+                                        id="answer"
+                                        class="form-control @error('answer') is-invalid @enderror"
+                                        rows="4"
+                                        placeholder="Enter answer">{{ old('answer', $faq->answer) }}</textarea>
                                     @error('answer')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">
-                                    Update FAQ
-                                </button>
+                                <div class="form-footer mt-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fe fe-save me-1"></i> Update FAQ
+                                    </button>
+                                </div>
 
                             </form>
                         </div>

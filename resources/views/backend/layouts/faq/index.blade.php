@@ -4,17 +4,12 @@
 <link href="{{ asset('default/datatable.css') }}" rel="stylesheet" />
 @endpush
 
-
 @section('content')
-<!--app-content open-->
 <div class="app-content main-content mt-0">
     <div class="side-app">
 
-        <!-- CONTAINER -->
         <div class="main-container container-fluid">
 
-
-            <!-- PAGE-HEADER -->
             <div class="page-header">
                 <div>
                     <h1 class="page-title">{{ $crud ? ucwords(str_replace('_', ' ', $crud)) : 'N/A' }}</h1>
@@ -27,31 +22,31 @@
                     </ol>
                 </div>
             </div>
-            <!-- PAGE-HEADER END -->
-
-            <!-- ROW-4 -->
             <div class="row">
                 <div class="col-12 col-sm-12">
                     <div class="card product-sales-main">
                         <div class="card-header border-bottom">
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-danger"><a href="#">Import</a></button>
-                                <button type="button" class="btn btn-warning"><a href="#">Export</a></button>
+                                <button type="button" class="btn btn-danger"><a href="#" class="text-white">Import</a></button>
+                                <button type="button" class="btn btn-warning"><a href="#" class="text-white">Export</a></button>
                             </div>
                             <div class="card-options ms-auto">
-                                <a href="{{ route('admin.faq.create') }}" class="btn btn-primary btn-sm">Add</a>
+                                <a href="{{ route('admin.faq.create') }}" class="btn btn-primary btn-sm">Add New FAQ</a>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="">
+                            <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap border-bottom" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th class="bg-transparent border-bottom-0 wp-15">ID</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Question</th>
-                                             <th class="bg-transparent border-bottom-0 wp-15">Answer</th>
+                                            <th class="bg-transparent border-bottom-0 wp-5">SL</th>
+                                            <th class="bg-transparent border-bottom-0">Type</th>
+                                            <th class="bg-transparent border-bottom-0">Title</th>
+                                            <th class="bg-transparent border-bottom-0">Description</th>
+                                            <th class="bg-transparent border-bottom-0">Question</th>
+                                            <th class="bg-transparent border-bottom-0">Answer</th>
                                             <th class="bg-transparent border-bottom-0">Status</th>
-                                            <th class="bg-transparent border-bottom-0">Action</th>
+                                            <th class="bg-transparent border-bottom-0 text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,17 +56,11 @@
                         </div>
 
                     </div>
-                </div><!-- COL END -->
+                </div></div>
             </div>
-            <!-- ROW-4 END -->
-
-        </div>
     </div>
 </div>
-<!-- CONTAINER CLOSED -->
 @endsection
-
-
 
 @push('scripts')
 <script>
@@ -82,6 +71,7 @@
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             }
         });
+
         if (!$.fn.DataTable.isDataTable('#datatable')) {
             let dTable = $('#datatable').DataTable({
                 order: [],
@@ -110,46 +100,41 @@
                 },
 
                 columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
+                        data: 'type',
+                        name: 'type',
+                        render: function(data) {
+                            return `<span class="badge bg-info-transparent text-info px-3 py-2 text-uppercase">${data}</span>`;
+                        }
                     },
+                    { data: 'title', name: 'title' },
                     {
-                        data: 'question',
-                        name: 'question',
-                        orderable: true,
-                        searchable: true
+                        data: 'discription',
+                        name: 'discription',
+                        render: function(data) {
+                            // ডিসক্রিপশন অনেক বড় হলে ভেঙে ছোট করে দেখাবে
+                            return data ? (data.length > 30 ? data.substr(0, 30) + '...' : data) : 'N/A';
+                        }
                     },
-                    {
-                        data: 'answer',
-                        name: 'answer',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
+                    { data: 'question', name: 'question' },
+                    { data: 'answer', name: 'answer' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false,
-                        className: 'dt-center text-center'
+                        className: 'text-center'
                     }
                 ],
-                            });
+            });
         }
     });
 
     // Status Change Confirm Alert
     function showStatusChangeAlert(id) {
         event.preventDefault();
-
         Swal.fire({
             title: 'Are you sure?',
             text: 'You want to update the status?',
@@ -178,16 +163,16 @@
             },
             error: function(error) {
                 NProgress.done();
-                toastr.error(error.message);
+                toastr.error("Something went wrong!");
             }
         });
     }
 
-    // delete Confirm
+    // Delete Confirm
     function showDeleteConfirm(id) {
         event.preventDefault();
         Swal.fire({
-            title: 'Are you sure you want to delete this record?',
+            title: 'Are you sure?',
             text: 'If you delete this, it will be gone forever.',
             icon: 'warning',
             showCancelButton: true,
@@ -201,17 +186,13 @@
         });
     }
 
-    // Delete Button
+    // Delete Action
     function deleteItem(id) {
         NProgress.start();
         let url = "{{ route('admin.faq.destroy', ':id') }}";
-        let csrfToken = '{{ csrf_token() }}';
         $.ajax({
             type: "DELETE",
             url: url.replace(':id', id),
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
             success: function(resp) {
                 NProgress.done();
                 toastr.success(resp.message);
@@ -219,16 +200,16 @@
             },
             error: function(error) {
                 NProgress.done();
-                toastr.error(error.message);
+                toastr.error("Failed to delete record.");
             }
         });
     }
 
-    //edit
     function goToEdit(id) {
         let url = "{{ route('admin.faq.edit', ':id') }}";
         window.location.href = url.replace(':id', id);
     }
+
     function goToOpen(id) {
         let url = "{{ route('admin.faq.show', ':id') }}";
         window.location.href = url.replace(':id', id);
