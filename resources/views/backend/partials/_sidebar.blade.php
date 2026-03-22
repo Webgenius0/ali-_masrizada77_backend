@@ -312,7 +312,7 @@
                         </a>
                     </li>
 
-                                        <li class="slide">
+                    <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.cms.home.applyjob.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.cms.home.applyjob.index') }}">
                             <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
@@ -476,21 +476,38 @@
                             <li>
                                 <a href="{{ route('admin.cms.home.energy.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.energy.index') ? 'active' : '' }}">
-                                   Enegy and Utilities
+                                    Enegy and Utilities
                                 </a>
                             </li>
                         </ul>
-                                                <ul class="slide-menu">
+                        <ul class="slide-menu">
 
                             <li>
                                 <a href="{{ route('admin.cms.home.goverment.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.goverment.index') ? 'active' : '' }}">
-                                   Goverment
+                                    Goverment
                                 </a>
                             </li>
                         </ul>
 
+                        <ul class="slide-menu">
 
+                            <li>
+                                <a href="{{ route('admin.cms.home.fastfood.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.fastfood.index') ? 'active' : '' }}">
+                                    FastFood and Terminals
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="slide-menu">
+
+                            <li>
+                                <a href="{{ route('admin.cms.home.finacial.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.finacial.index') ? 'active' : '' }}">
+                                    Financial Services
+                                </a>
+                            </li>
+                        </ul>
 
                     </li>
                     <li class="slide">

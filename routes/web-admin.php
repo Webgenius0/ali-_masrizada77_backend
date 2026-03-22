@@ -67,6 +67,8 @@ use App\Http\Controllers\ElevenLabsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\HealthcareController;
 use App\Http\Controllers\Web\Backend\CMS\Web\EnergyandUtilitsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\GovermentController;
+use App\Http\Controllers\Web\Backend\CMS\Web\FastFoodAndTerminalController;
+use App\Http\Controllers\Web\Backend\CMS\Web\FinancialServicesController;
 
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
@@ -226,11 +228,11 @@ Route::group(['middleware' => ['web-admin']], function () {
 
     Route::get('subscriber', [SubscriberController::class, 'index'])->name('subscriber.index');
 
-Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::get('/status/{id}', 'status')->name('status');
-    Route::delete('/delete/{id}', 'destroy')->name('destroy'); // নতুন ডিলিট রাউট
-});
+    Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy'); // নতুন ডিলিট রাউট
+    });
 
     Route::controller(TransactionController::class)->prefix('transaction')->name('transaction.')->group(function () {
         Route::get('/{user_id?}', 'index')->name('index');
@@ -312,14 +314,14 @@ Route::controller(ContactController::class)->prefix('contact')->name('contact.')
             Route::put('/content', 'content')->name('content');
             Route::get('/display', 'display')->name('display');
         });
-     Route::prefix('home/drive_thruai')->name('home.drive_thruai.')->controller(Drive_ThruAIController::class)->group(function () {
+        Route::prefix('home/drive_thruai')->name('home.drive_thruai.')->controller(Drive_ThruAIController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/{id}/show', 'show')->name('show');
             Route::put('/content', 'content')->name('content');
             Route::get('/display', 'display')->name('display');
         });
 
-         Route::prefix('home/aboutus')->name('home.aboutus.')->controller(AboutusController::class)->group(function () {
+        Route::prefix('home/aboutus')->name('home.aboutus.')->controller(AboutusController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/{id}/show', 'show')->name('show');
             Route::put('/content', 'content')->name('content');
@@ -327,70 +329,81 @@ Route::controller(ContactController::class)->prefix('contact')->name('contact.')
         });
 
 
-    Route::prefix('home/infrastructure')->name('home.infrastructure.')->group(function () {
-    Route::get('/', [InfrastructureController::class, 'index'])->name('index');
-    Route::post('/content', [InfrastructureController::class, 'content'])->name('content');
-});
+        Route::prefix('home/infrastructure')->name('home.infrastructure.')->group(function () {
+            Route::get('/', [InfrastructureController::class, 'index'])->name('index');
+            Route::post('/content', [InfrastructureController::class, 'content'])->name('content');
+        });
 
-    Route::prefix('home/partner')->name('home.partner.')->group(function () {
-    Route::get('/', [PartnerController::class, 'index'])->name('index');
-    Route::post('/content', [PartnerController::class, 'content'])->name('content');
-});
-    // Healthcare Page Routes
-    Route::prefix('home/healthcare')->name('home.healthcare.')->group(function () {
+        Route::prefix('home/partner')->name('home.partner.')->group(function () {
+            Route::get('/', [PartnerController::class, 'index'])->name('index');
+            Route::post('/content', [PartnerController::class, 'content'])->name('content');
+        });
+        // Healthcare Page Routes
+        Route::prefix('home/healthcare')->name('home.healthcare.')->group(function () {
 
-        Route::get('/', [HealthcareController::class, 'index'])->name('index');
+            Route::get('/', [HealthcareController::class, 'index'])->name('index');
 
-        Route::post('/content', [HealthcareController::class, 'content'])->name('content');
-    });
+            Route::post('/content', [HealthcareController::class, 'content'])->name('content');
+        });
 
         // Healthcare Page Routes
-    Route::prefix('home/energy')->name('home.energy.')->group(function () {
+        Route::prefix('home/energy')->name('home.energy.')->group(function () {
 
-        Route::get('/', [EnergyandUtilitsController::class, 'index'])->name('index');
+            Route::get('/', [EnergyandUtilitsController::class, 'index'])->name('index');
 
-        Route::post('/content', [EnergyandUtilitsController::class, 'content'])->name('content');
-    });
+            Route::post('/content', [EnergyandUtilitsController::class, 'content'])->name('content');
+        });
 
         Route::prefix('home/goverment')->name('home.goverment.')->group(function () {
 
-        Route::get('/', [GovermentController::class, 'index'])->name('index');
+            Route::get('/', [GovermentController::class, 'index'])->name('index');
 
-        Route::post('/content', [GovermentController::class, 'content'])->name('content');
-    });
+            Route::post('/content', [GovermentController::class, 'content'])->name('content');
+        });
 
+        Route::prefix('home/fastfood')->name('home.fastfood.')->group(function () {
 
+            Route::get('/', [FastFoodAndTerminalController::class, 'index'])->name('index');
 
+            Route::post('/content', [FastFoodAndTerminalController::class, 'content'])->name('content');
+        });
 
-//get in touch 1
+                Route::prefix('home/financail')->name('home.finacial.')->group(function () {
 
+            Route::get('/', [FinancialServicesController::class, 'index'])->name('index');
 
-
-Route::prefix('home/get-in-touch')->name('home.get-in-touch.')->group(function () {
-    Route::get('/', [GetinTouchController::class, 'index'])->name('index');
-    Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
-});
-
-//applyjob content
-
-Route::prefix('home/applyjob')->name('home.applyjob.')->group(function () {
-    Route::get('/', [ApplyJobController::class, 'index'])->name('index');
-    Route::post('/content', [ApplyJobController::class, 'update'])->name('update');
-});
+            Route::post('/content', [FinancialServicesController::class, 'content'])->name('content');
+        });
 
 
 
+        //------------------------------------------------------------------------------------------------------
+        //get in touch 1
+        Route::prefix('home/get-in-touch')->name('home.get-in-touch.')->group(function () {
+            Route::get('/', [GetinTouchController::class, 'index'])->name('index');
+            Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
+        });
+
+        //applyjob content
+
+        Route::prefix('home/applyjob')->name('home.applyjob.')->group(function () {
+            Route::get('/', [ApplyJobController::class, 'index'])->name('index');
+            Route::post('/content', [ApplyJobController::class, 'update'])->name('update');
+        });
 
 
 
 
-// checking ai voices syttemm
-Route::prefix('home/test')->name('home.test.')->group(function () {
-    // Voice Test Page
-    Route::get('/voice-test', [ElevenLabsController::class, 'testVoice'])->name('index');
-    // API for Signed URL
-    Route::get('/get-signed-url', [ElevenLabsController::class, 'getSignedUrl'])->name('voice.signed_url');
-});
+
+
+
+        // checking ai voices syttemm
+        Route::prefix('home/test')->name('home.test.')->group(function () {
+            // Voice Test Page
+            Route::get('/voice-test', [ElevenLabsController::class, 'testVoice'])->name('index');
+            // API for Signed URL
+            Route::get('/get-signed-url', [ElevenLabsController::class, 'getSignedUrl'])->name('voice.signed_url');
+        });
 
         //--------------------------------rayhanend-------------------------------------------------
 

@@ -38,6 +38,10 @@ use App\Http\Controllers\Api\EnergyandUtilityController;
 use App\Http\Controllers\Api\GovermentController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\ApplyJobController;
+use App\Http\Controllers\Api\FastFoodAndTermninalController;
+use App\Http\Controllers\Api\FinancialServicesController;
+
+
 
 
 
@@ -122,6 +126,10 @@ Route::get('/energy-content', [EnergyandUtilityController::class, 'getHealthcare
 //Goverment
 Route::get('/goverment-content', [GovermentController::class, 'getGovermentContent']);
 
+//fastFood And terminals
+Route::get('/fastfood-content', [FastFoodAndTermninalController::class, 'getFastfoodContent']);
+//Finacial Services
+Route::get('/financial-content', [FinancialServicesController::class, 'getFinancialContent']);
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //show get in touch1 1 data
