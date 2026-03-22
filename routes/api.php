@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\ApplyJobController;
 use App\Http\Controllers\Api\FastFoodAndTermninalController;
 use App\Http\Controllers\Api\FinancialServicesController;
+use App\Http\Controllers\Api\JobApplicationController;
 
 
 
@@ -134,6 +135,10 @@ Route::get('/fastfood-content', [FastFoodAndTermninalController::class, 'getFast
 Route::get('/financial-content', [FinancialServicesController::class, 'getFinancialContent']);
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+
+
 //show get in touch1 1 data
 Route::get('/getintouch1-1data', [GetinTouchController::class, 'getContactSidebar']);
 
@@ -141,9 +146,13 @@ Route::get('/getintouch1-1data', [GetinTouchController::class, 'getContactSideba
 Route::post('/contact-submit', [ContactController::class, 'storeContact']);
 
 
-
 //Applyjob content
 Route::get('/get-Applyjob-content', [ApplyJobController::class, 'getApplyjobSidebar']);
+
+//apply job
+Route::post('/job-apply', [JobApplicationController::class, 'store']);
+
+
 
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

@@ -69,6 +69,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\EnergyandUtilitsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\GovermentController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FastFoodAndTerminalController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FinancialServicesController;
+use App\Http\Controllers\Web\Backend\JobApplicationController;
 
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
@@ -85,6 +86,14 @@ Route::group(['middleware' => ['web-admin']], function () {
         Route::get('/delete/{id}', 'destroy')->name('destroy');
         Route::get('/status/{id}', 'status')->name('status');
     });
+
+
+
+Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
+    Route::get('/job-applications', [JobApplicationController::class, 'index'])->name('index');
+    Route::get('/job-applications/{id}', [JobApplicationController::class, 'show'])->name('show');
+    Route::delete('/job-applications/{id}', [JobApplicationController::class, 'destroy'])->name('destroy');
+});
 
 
 
@@ -384,18 +393,12 @@ Route::group(['middleware' => ['web-admin']], function () {
             Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
         });
 
-        //applyjob content
+        //applyjob content CMS content
 
         Route::prefix('home/applyjob')->name('home.applyjob.')->group(function () {
             Route::get('/', [ApplyJobController::class, 'index'])->name('index');
             Route::post('/content', [ApplyJobController::class, 'update'])->name('update');
         });
-
-
-
-
-
-
 
         // checking ai voices syttemm
         Route::prefix('home/test')->name('home.test.')->group(function () {

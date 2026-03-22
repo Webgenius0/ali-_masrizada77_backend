@@ -47,6 +47,15 @@
                     </a>
                 </li>
 
+                    <li class="slide">
+                        <a class="side-menu__item {{ request()->routeIs('home.getalljob.*') ? 'has-link active' : '' }}"
+                            href="{{ route('admin.home.getalljob.index') }}">
+                            <i class="fa-solid fa-list  side-menu__icon"></i>
+                            <span class="side-menu__label">Show Applicient </span>
+                        </a>
+                    </li>
+                </li>
+
 
 
 
