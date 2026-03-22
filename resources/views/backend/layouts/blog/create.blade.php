@@ -34,18 +34,35 @@
                                 @csrf
                                 <div class="row mb-4">
 
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="type" class="form-label">Blog Type / Language: <span class="text-danger">*</span></label>
-                                            <select name="type" id="type" class="form-control @error('type') is-invalid @enderror">
-                                                <option value="english" {{ old('type') == 'english' ? 'selected' : '' }}>English</option>
-                                                <option value="de" {{ old('type') == 'de' ? 'selected' : '' }}>German (DE)</option>
-                                            </select>
-                                            @error('type')
-                                                <span class="text-danger small">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
+<div class="col-md-12">
+    <div class="form-group">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label mb-0 fw-bold">Blog Type / Language: <span class="text-danger">*</span></label>
+
+            <div class="btn-group" role="group" aria-label="Language selection">
+                <input type="radio" class="btn-check" name="type" id="lang_en" value="english"
+                    {{ (old('type') == 'english' || !old('type')) ? 'checked' : '' }} autocomplete="off">
+                <label class="btn btn-sm btn-outline-primary px-3 shadow-sm" for="lang_en">
+                    <i class="fas fa-check-circle me-1"></i> English
+                </label>
+
+                <input type="radio" class="btn-check" name="type" id="lang_de" value="de"
+                    {{ old('type') == 'de' ? 'checked' : '' }} autocomplete="off">
+                <label class="btn btn-sm btn-outline-info px-3 shadow-sm" for="lang_de">
+                    <i class="fas fa-globe-europe me-1"></i> German (DE)
+                </label>
+            </div>
+        </div>
+
+        @error('type')
+            <div class="text-end">
+                <span class="text-danger small mt-1">{{ $message }}</span>
+            </div>
+        @enderror
+    </div>
+</div>
+
+
 
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -149,4 +166,21 @@
         }
     }
 </script>
+
+<style>
+    /* সিলেক্ট করা থাকলে ব্যাকগ্রাউন্ড কালার সলিড হবে */
+    .btn-check:checked + .btn-outline-primary {
+        background-color: #0d6efd !important;
+        color: #fff !important;
+    }
+    .btn-check:checked + .btn-outline-info {
+        background-color: #0dcaf0 !important;
+        color: #fff !important;
+    }
+    .btn-group .btn {
+        font-size: 13px; /* বাটন একটু ছোট দেখাবে */
+        border-radius: 5px;
+        margin-left: 5px; /* দুই বাটনের মাঝে গ্যাপ */
+    }
+</style>
 @endpush

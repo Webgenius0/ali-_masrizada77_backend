@@ -42,6 +42,45 @@ public function index(Request $request)
     ], 200);
 }
 
+public function suggestions()
+{
+    try {
+
+
+        // suggation
+        $suggestedBlogs = Blog::where('status', 'active')    // rome this blog is visible
+            ->latest()
+            ->take(4)                       // 4 blog
+            ->get();
+
+
+        $formattedSuggestions = $suggestedBlogs->map(function ($item) {
+            return [
+                'id'               => $item->id,
+                'type'             => ucfirst($item->type),
+                'title'            => $item->title,
+                'subtitle'         => $item->subtitle ?? '',
+                'image_url'        => $item->image ? asset($item->image) : null,
+                'description_raw'  => strip_tags($item->description),
+                'created_date'     => $item->created_at->format('d M, Y'),
+            ];
+        });
+
+        return response()->json([
+            'status'  => 'success',
+            'count'   => $formattedSuggestions->count(),
+            'data'    => $formattedSuggestions
+        ], 200);
+
+    } catch (Exception $e) {
+        return response()->json([
+            'status'  => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
 
     public function show($id)
     {

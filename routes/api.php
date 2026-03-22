@@ -104,6 +104,8 @@ Route::get('/about-us-content', [AboutUsApiController::class, 'getCMSContent']);
 // টাইপ অনুযায়ী ব্লগ লিস্ট পাওয়ার API
 Route::get('/blogs', [BlogController::class, 'index']);
 
+Route::get('/blogs-suggestions', [BlogController::class, 'suggestions']);
+
 // সিঙ্গেল ব্লগ দেখার API
 Route::get('/blog/details/{id}', [BlogController::class, 'show']);
 

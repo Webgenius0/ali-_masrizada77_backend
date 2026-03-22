@@ -13,7 +13,6 @@ class FinancialServicesController extends Controller
     public function getFinancialContent(Request $request)
     {
         try {
-            // ল্যাঙ্গুয়েজ টাইপ ধরুন (ডিফল্ট ইংরেজি)
             $type = $request->query('type', 'english');
 
             $cms = CMS::where('page', 'financialservices')
