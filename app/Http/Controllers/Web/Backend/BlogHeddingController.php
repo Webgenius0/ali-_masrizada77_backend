@@ -48,8 +48,8 @@ public function store(Request $request) {
 
         $file = $request->file('image1');
         $filename = time() . '_' . $request->type . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('uploads/cms/'), $filename);
-        $data->image1 = 'uploads/cms/' . $filename;
+        $file->move(public_path('uploads/cms/blog_heading'), $filename);
+        $data->image1 = 'uploads/cms/blog_heading' . $filename;
     }
 
     $data->save();
