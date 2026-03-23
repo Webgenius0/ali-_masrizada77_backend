@@ -12,6 +12,6 @@ class UserConfirmMail extends Mailable {
     public function __construct($data) { $this->data = $data; }
     public function build() {
         return $this->subject('Application Received - NovaVoca')
-                    ->view('Mail.user_confirm');
+                    ->view('mail.user_confirm');
     }
 }

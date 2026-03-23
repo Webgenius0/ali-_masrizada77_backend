@@ -12,7 +12,7 @@ class AdminJobMail extends Mailable {
     public function __construct($data) { $this->data = $data; }
     public function build() {
         $mail = $this->subject('New Job Application: ' . $this->data['first_name'])
-                     ->view('Mail.admin_job');
+                     ->view('mail.admin_job');
 
         if (isset($this->data['resume_path'])) {
             $mail->attach(public_path($this->data['resume_path']));
