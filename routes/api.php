@@ -41,7 +41,7 @@ use App\Http\Controllers\Api\ApplyJobController;
 use App\Http\Controllers\Api\FastFoodAndTermninalController;
 use App\Http\Controllers\Api\FinancialServicesController;
 use App\Http\Controllers\Api\JobApplicationController;
-use App\Http\Controllers\Api\BlogHeddingController;
+use App\Http\Controllers\Api\Hedding_blogController;
 
 
 
@@ -153,11 +153,8 @@ Route::get('/get-Applyjob-content', [ApplyJobController::class, 'getApplyjobSide
 //apply job
 Route::post('/job-apply', [JobApplicationController::class, 'store']);
 
-
-
 //blog hedding content
-
-Route::get('/blog-hedding', [BlogHeddingController::class, 'getBlogContent']);
+Route::get('/blog-hedding', [Hedding_blogController::class, 'getBlogContent']);
 
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

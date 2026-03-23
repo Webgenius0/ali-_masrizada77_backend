@@ -6,15 +6,14 @@ use App\Models\CMS;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class BlogHeddingController extends Controller
+class Hedding_blogController extends Controller
 {
     public function getBlogContent(Request $request)
     {
-
         $type = $request->query('type', 'english');
 
         $cms = CMS::where('page', 'blog')
-                ->where('section', 'blog_heading')
+                ->where('section', 'heading') // backend এর সাথে মিল রেখে
                 ->where('type', $type)
                 ->first();
 

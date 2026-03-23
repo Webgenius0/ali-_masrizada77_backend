@@ -69,7 +69,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\GovermentController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FastFoodAndTerminalController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FinancialServicesController;
 use App\Http\Controllers\Web\Backend\JobApplicationController;
-use App\Http\Controllers\Web\Backend\BlogHeddingController;
+use App\Http\Controllers\Web\Backend\Hedding_BlogController;
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
 
@@ -614,8 +614,8 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
     });
     //Bloag Heding content
         Route::prefix('home/blog_heading')->name('blog_heading.')->group(function () {
-            Route::get('/', [BlogHeddingController::class, 'index'])->name('index');
-            Route::post('/content', [BlogHeddingController::class, 'store'])->name('store');
+            Route::get('/', [Hedding_BlogController::class, 'index'])->name('index');
+            Route::post('/content', [Hedding_BlogController::class, 'store'])->name('store');
         });
 
     /*
