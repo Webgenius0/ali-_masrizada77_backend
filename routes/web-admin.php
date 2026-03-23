@@ -50,7 +50,6 @@ use App\Http\Controllers\Web\Backend\QuizController;
 use App\Http\Controllers\Web\Backend\ReportController;
 use App\Http\Controllers\Web\Backend\VariantController;
 use Illuminate\Support\Facades\Artisan;
-
 use App\Http\Controllers\web\backend\cms\LegalCMSController;
 use App\Http\Controllers\Web\Backend\CmsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Home\HomeCmsController;
@@ -70,7 +69,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\GovermentController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FastFoodAndTerminalController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FinancialServicesController;
 use App\Http\Controllers\Web\Backend\JobApplicationController;
-
+use App\Http\Controllers\Web\Backend\BlogHeddingController;
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
 
@@ -393,6 +392,11 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
             Route::post('/content', [GetinTouchController::class, 'update'])->name('update');
         });
 
+
+
+
+
+
         //applyjob content CMS content
 
         Route::prefix('home/applyjob')->name('home.applyjob.')->group(function () {
@@ -608,6 +612,11 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
         Route::delete('/delete/{id}', 'destroy')->name('destroy');
         Route::get('/status/{id}', 'status')->name('status');
     });
+    //Bloag Heding content
+        Route::prefix('home/blog_heading')->name('blog_heading.')->group(function () {
+            Route::get('/', [BlogHeddingController::class, 'index'])->name('index');
+            Route::post('/content', [BlogHeddingController::class, 'store'])->name('store');
+        });
 
     /*
     # Course

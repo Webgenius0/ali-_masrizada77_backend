@@ -110,6 +110,15 @@
                         <span class="side-menu__label">Course</span>
                     </a>
                 </li>
+                    <li class="slide">
+                        <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
+                            href="{{ route('admin.blog_heading.index') }}">
+                            <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
+                            <span class="side-menu__label"> Blog Heding Content</span>
+                        </a>
+                    </li>
+
+
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.blog.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.blog.index') }}">
