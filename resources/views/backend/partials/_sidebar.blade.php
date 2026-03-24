@@ -479,7 +479,7 @@
                             </li>
                         </ul>
 
-                        {{-- <ul class="slide-menu">
+                        <ul class="slide-menu">
                             <li class="slide">
                                 <a href="{{ route('admin.cms.home.test.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.test.index') ? 'active' : '' }}">
@@ -487,7 +487,7 @@
                                 </a>
                             </li>
 
-                            </ul> --}}
+                            </ul>
 
                         <ul class="slide-menu">
 

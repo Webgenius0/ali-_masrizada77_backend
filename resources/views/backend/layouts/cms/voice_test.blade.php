@@ -14,19 +14,18 @@
                         <div class="card-body text-center p-5">
                             <div class="mb-4">
                                 <span id="status-badge" class="badge bg-secondary-transparent text-secondary px-4 py-3 fs-16">
-                                    <i class="fe fe-info me-2"></i> <span id="status-text">Ready to Connect</span>
+                                    <i class="fe fe-info me-2"></i>
+                                    <span id="status-text">Ready to Connect</span>
                                 </span>
                             </div>
 
-                            <!-- ElevenLabs ConvAI Widget এখানে লোড হবে -->
-                            <div id="convai-widget-container" class="mb-5">
-                                <!-- Widget dynamically load হবে JS দিয়ে -->
-                            </div>
+                            <!-- Bubble Widget এখানে লোড হবে -->
+                            <div id="convai-widget-container" class="mb-5"></div>
 
                             <div id="visualizer" class="mb-5 d-none">
                                 <div class="spinner-grow text-primary" role="status" style="width: 4rem; height: 4rem;"></div>
-                                <p class="mt-4 text-primary fw-bold animate__animated animate__pulse animate__infinite fs-18">
-                                    AI is Listening & Responding...
+                                <p class="mt-4 text-primary fw-bold fs-18">
+                                    🎤 AI is Listening & Responding...
                                 </p>
                             </div>
 
@@ -47,89 +46,46 @@
     </div>
 </div>
 
-<!-- ElevenLabs ConvAI Widget Script (latest embed way) -->
-<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<!-- ElevenLabs ConvAI Widget Script -->
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async defer></script>
 
 <script>
-    let widget = null;
+    let currentWidget = null;
 
-    const startBtn = document.getElementById('start-btn');
-    const stopBtn = document.getElementById('stop-btn');
-    const statusText = document.getElementById('status-text');
-    const statusBadge = document.getElementById('status-badge');
-    const visualizer = document.getElementById('visualizer');
-    const container = document.getElementById('convai-widget-container');
+    const startBtn     = document.getElementById('start-btn');
+    const stopBtn      = document.getElementById('stop-btn');
+    const statusText   = document.getElementById('status-text');
+    const statusBadge  = document.getElementById('status-badge');
+    const visualizer   = document.getElementById('visualizer');
+    const container    = document.getElementById('convai-widget-container');
 
-    async function loadWidget(signedUrl) {
-        // Widget container খালি করো
+    // ==================== Load Widget ====================
+    function loadWidget() {
         container.innerHTML = '';
 
-        // Create <elevenlabs-convai> element
-        const convaiElement = document.createElement('elevenlabs-convai');
-        convaiElement.setAttribute('signed-url', signedUrl);
-        // convaiElement.setAttribute('agent-id', 'agent_01jw8gvfrvfr680qewj41n2y98'); // যদি public হয় তাহলে এটা ব্যবহার করো, signed-url না
-        convaiElement.setAttribute('variant', 'expanded');     // expanded / compact / bubble — চেষ্টা করো যেটা ভালো লাগে
-        convaiElement.setAttribute('dismissible', 'true');     // minimize করা যাবে
-        convaiElement.setAttribute('server-location', 'us');   // বা 'eu' যদি EU region হয়
+        const widget = document.createElement('elevenlabs-convai');
 
-        container.appendChild(convaiElement);
+        widget.setAttribute('agent-id', 'agent_01jw8gvfrvfr680qewj41n2y98');  // সঠিক Agent ID
+        widget.setAttribute('variant', 'bubble');           // bubble style
+        widget.setAttribute('dismissible', 'true');
+        widget.setAttribute('server-location', 'us');
 
-        // Widget load হওয়ার পর status update
-        statusText.innerText = "Widget Loaded – Click Start or Speak";
+        container.appendChild(widget);
+        currentWidget = widget;
+
+        statusText.innerText = "Connected! Click the bubble & speak";
+        statusBadge.classList.replace('bg-secondary-transparent', 'bg-success-transparent');
+        statusBadge.classList.replace('text-secondary', 'text-success');
         visualizer.classList.remove('d-none');
     }
 
-    startBtn.onclick = async () => {
-        try {
-            startBtn.disabled = true;
-            statusText.innerText = "Fetching Secure Connection...";
-            statusBadge.classList.replace('bg-secondary-transparent', 'bg-warning-transparent');
-            statusBadge.classList.replace('text-secondary', 'text-warning');
-
-            // Backend থেকে signed URL নাও
-            const response = await fetch("{{ route('admin.cms.home.test.voice.signed_url') }}", {
-                headers: { 'Accept': 'application/json' }
-            });
-
-            if (!response.ok) {
-                throw new Error(`Backend error: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (!data.success || !data.signed_url) {
-                throw new Error(data.message || data.error || "No signed_url received");
-            }
-
-            // Widget load করো signed URL দিয়ে
-            await loadWidget(data.signed_url);
-
-            statusText.innerText = "Connected! Start Speaking...";
-            statusBadge.classList.replace('bg-warning-transparent', 'bg-success-transparent');
-            statusBadge.classList.replace('text-warning', 'text-success');
-
-            startBtn.classList.add('d-none');
-            stopBtn.classList.remove('d-none');
-
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Connection Failed: " + error.message);
-            resetUI();
-        }
-    };
-
-    stopBtn.onclick = () => {
-        // Widget remove করে reset
-        container.innerHTML = '';
-        resetUI();
-    };
-
     function resetUI() {
+        container.innerHTML = '';
+        currentWidget = null;
+
         statusText.innerText = "Ready to Connect";
-        statusBadge.classList.remove('bg-success-transparent', 'bg-warning-transparent');
-        statusBadge.classList.add('bg-secondary-transparent');
-        statusBadge.classList.remove('text-success', 'text-warning');
-        statusBadge.classList.add('text-secondary');
+        statusBadge.classList.remove('bg-success-transparent', 'text-success');
+        statusBadge.classList.add('bg-secondary-transparent', 'text-secondary');
 
         startBtn.classList.remove('d-none');
         startBtn.disabled = false;
@@ -137,12 +93,37 @@
         visualizer.classList.add('d-none');
     }
 
-    // Optional: Widget থেকে event listen করতে চাইলে (advanced)
+    // ==================== Start Button Click ====================
+    startBtn.onclick = () => {
+        startBtn.disabled = true;
+        statusText.innerText = "Connecting to Voci...";
+
+        try {
+            loadWidget();
+
+            // Button hide করে Stop button দেখাও
+            startBtn.classList.add('d-none');
+            stopBtn.classList.remove('d-none');
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to start voice: " + error.message);
+            resetUI();
+        }
+    };
+
+    // ==================== Stop Button ====================
+    stopBtn.onclick = () => {
+        resetUI();
+    };
+
+    // Widget Events
     document.addEventListener('elevenlabs:connected', () => {
-        console.log('ElevenLabs widget connected!');
+        console.log('✅ Voci connected successfully');
     });
+
     document.addEventListener('elevenlabs:error', (e) => {
-        console.error('ElevenLabs error:', e.detail);
+        console.error('❌ Voci error:', e.detail);
     });
 </script>
 
