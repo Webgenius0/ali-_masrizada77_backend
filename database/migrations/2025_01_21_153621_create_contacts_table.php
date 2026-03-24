@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('designation')->nullable();
+            $table->string('business_type')->nullable();
             $table->string('company')->nullable();
             $table->string('subject')->nullable();
             $table->longText('message');

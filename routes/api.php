@@ -42,6 +42,7 @@ use App\Http\Controllers\Api\FastFoodAndTermninalController;
 use App\Http\Controllers\Api\FinancialServicesController;
 use App\Http\Controllers\Api\JobApplicationController;
 use App\Http\Controllers\Api\Hedding_blogController;
+use App\Http\Controllers\Api\Get_A_FreeController;
 
 
 
@@ -144,8 +145,9 @@ Route::get('/financial-content', [FinancialServicesController::class, 'getFinanc
 Route::get('/getintouch1-1data', [GetinTouchController::class, 'getContactSidebar']);
 
 //get in touch 1 contact store
-Route::post('/contact-submit', [ContactController::class, 'storeContact']);
-
+Route::post('/getintouch1-submit', [ContactController::class, 'storeContact']);
+//get in touch 1 contact store
+Route::post('/getfree-demo-submit', [Get_A_FreeController::class, 'GetFreeDemo']);
 
 //Applyjob content
 Route::get('/get-Applyjob-content', [ApplyJobController::class, 'getApplyjobSidebar']);

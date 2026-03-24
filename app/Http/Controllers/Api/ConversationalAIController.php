@@ -16,9 +16,9 @@ class ConversationalAIController extends Controller
     {
         $type = $request->query('type', 'english');
 
-        // আপনার Web Controller এর সাথে মিল রেখে ফিল্টার করা হলো
-        $data = CMS::where('page', PageEnum::ConversationalAI) // অথবা PageEnum::ConversationalAI->value
-            ->where('section', SectionEnum::INTRO)              // অথবা SectionEnum::INTRO->value
+
+        $data = CMS::where('page', PageEnum::ConversationalAI)
+            ->where('section', SectionEnum::INTRO)
             ->where('type', $type)
             ->where('status', 'active')
             ->first();
@@ -75,9 +75,9 @@ class ConversationalAIController extends Controller
     {
         $type = $request->query('type', 'english');
 
-        // আপনার Web Controller এর সাথে মিল রেখে ফিল্টার করা হলো
-        $data = CMS::where('page', PageEnum::ConversationalAI) // অথবা PageEnum::ConversationalAI->value
-            ->where('section', SectionEnum::INTRO)              // অথবা SectionEnum::INTRO->value
+
+        $data = CMS::where('page', PageEnum::ConversationalAI)
+            ->where('section', SectionEnum::INTRO)
             ->where('type', $type)
             ->where('status', 'active')
             ->first();

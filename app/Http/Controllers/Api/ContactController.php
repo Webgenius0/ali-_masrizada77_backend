@@ -54,5 +54,4 @@ class ContactController extends Controller
         }
     }
 
-
 }
