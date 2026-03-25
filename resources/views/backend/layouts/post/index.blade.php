@@ -1,9 +1,4 @@
-@extends('backend.app', ['title' => 'Post'])
-
-@push('styles')
-<link href="{{ asset('default/datatable.css') }}" rel="stylesheet" />
-@endpush
-
+@extends('backend.app', ['title' => 'Posts'])
 
 @section('content')
 <!--app-content open-->
@@ -13,60 +8,49 @@
         <!-- CONTAINER -->
         <div class="main-container container-fluid">
 
-
-            <!-- PAGE-HEADER -->
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">{{ $crud ? ucwords(str_replace('_', ' ', $crud)) : 'N/A' }}</h1>
+                    <h1 class="page-title">All Posts</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url("admin/dashboard") }}"><i class="fe fe-home me-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Post</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Index</li>
+                        <li class="breadcrumb-item active" aria-current="page">Posts</li>
                     </ol>
+                    <a href="{{ route('admin.post.create') }}" class="btn btn-primary btn-sm">
+                        <i class="fe fe-plus"></i> Add New Post
+                    </a>
                 </div>
             </div>
-            <!-- PAGE-HEADER END -->
 
-            <!-- ROW-4 -->
             <div class="row">
-                <div class="col-12 col-sm-12">
-                    <div class="card product-sales-main">
+                <div class="col-lg-12">
+                    <div class="card post-sales-main">
                         <div class="card-header border-bottom">
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-danger"><a href="#">Import</a></button>
-                                <button type="button" class="btn btn-warning"><a href="#">Export</a></button>
-                            </div>
-                            <div class="card-options ms-auto">
-                                <a href="{{ route($route . '.create') }}" class="btn btn-primary btn-sm">Add</a>
-                            </div>
+                            <h3 class="card-title mb-0">Posts List</h3>
                         </div>
                         <div class="card-body">
-                            <div class="">
-                                <table class="table table-bordered text-nowrap border-bottom" id="datatable">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom" id="postTable" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th class="bg-transparent border-bottom-0 wp-15">ID</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Title</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Category</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Subcategory</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Author</th>
-                                            <th class="bg-transparent border-bottom-0">Thumbnail</th>
-                                            <th class="bg-transparent border-bottom-0">Status</th>
-                                            <th class="bg-transparent border-bottom-0">Action</th>
+                                            <th class="text-center">#</th>
+                                            <th>Thumbnail</th>
+                                            <th>Title</th>
+                                            <th>Team</th>
+                                            <th>Location</th>
+                                            <th>Type</th>
+                                            <th>Status</th>
+                                            <th>Created At</th>
+                                            <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
-                </div><!-- COL END -->
+                </div>
             </div>
-            <!-- ROW-4 END -->
 
         </div>
     </div>
@@ -75,5 +59,100 @@
 @endsection
 
 @push('scripts')
-@include('backend.layouts.'.$part.'._script')
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(document).ready(function() {
+
+    $('#postTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('admin.post.index') }}",
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'thumbnail', name: 'thumbnail', orderable: false },
+            { data: 'title', name: 'title' },
+            { data: 'team', name: 'team' },
+            { data: 'location', name: 'location' },
+            { data: 'type', name: 'type' },
+            { data: 'status', name: 'status', orderable: false },
+            { data: 'created_at', name: 'created_at' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+
+    // ==================== Status Change with SweetAlert ====================
+    $(document).on('click', '.status-btn', function() {
+        let id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Change Status?',
+            text: "Do you want to toggle the status?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.get("{{ url('admin/post/status') }}/" + id, function(response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.success,
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                    $('#postTable').DataTable().ajax.reload(null, false);
+                });
+            }
+        });
+    });
+
+    // ==================== Delete with SweetAlert ====================
+    $(document).on('click', '.delete-btn', function() {
+        let id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ url('admin/post/delete') }}/" + id,
+                    type: 'DELETE',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: response.success,
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        $('#postTable').DataTable().ajax.reload(null, false);
+                    },
+                    error: function() {
+                        Swal.fire('Error!', 'Something went wrong.', 'error');
+                    }
+                });
+            }
+        });
+    });
+
+});
+</script>
 @endpush

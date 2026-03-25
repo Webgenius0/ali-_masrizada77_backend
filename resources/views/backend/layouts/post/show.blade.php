@@ -1,146 +1,102 @@
-@extends('backend.app', ['title' => 'Show Post'])
+@extends('backend.app', ['title' => 'View Post'])
 
 @section('content')
-
-<!--app-content open-->
 <div class="app-content main-content mt-0">
     <div class="side-app">
-
-        <!-- CONTAINER -->
         <div class="main-container container-fluid">
 
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">{{ $crud ? ucwords(str_replace('_', ' ', $crud)) : 'N/A' }}</h1>
+                    <h1 class="page-title">View Post</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url("admin/dashboard") }}"><i class="fe fe-home me-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Post</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Show</li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.post.index') }}">Posts</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">View</li>
                     </ol>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card post-sales-main">
+                <div class="col-lg-12">
+                    <div class="card">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title mb-0">Show</h3>
-                            <div class="card-options">
-                                <a href="javascript:window.history.back()" class="btn btn-sm btn-primary">Back</a>
-                            </div>
+                            <h3 class="card-title">{{ $post->title }}</h3>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered table-striped">
-                                <tr>
-                                    <th>Thumbnail</th>
-                                    <td>
-                                        <a href="{{ asset($post->thumb ?? 'default/logo.png') }}" target="_blank"><img src="{{ asset($post->thumb ?? 'default/logo.png') }}" alt="" width="50" height="50" class="img-fluid"></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Images</th>
-                                    <td>
-                                        @if($post->images)
-                                        @foreach ($post->images as $image)
-                                        <a href="{{ asset($image->path ?? 'default/logo.png') }}" target="_blank"><img src="{{ asset($image->path ?? 'default/logo.png') }}" class="img-fluid" alt="post image" width="50" height="50"></a>
-                                        @endforeach
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Title</th>
-                                    <td>{{ $post->title ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Slug</th>
-                                    <td>{{ $post->slug ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Author</th>
-                                    <td><a href="{{ route('admin.users.show', $post->user->id) }}">{{ $post->user->name }}</a></td>
-                                </tr>
-                                <tr>
-                                    <th>Category</th>
-                                    <td> <a href="{{ route('admin.category.show', $post->category->id) }}">{{ $post->category->name }}</a></td>
-                                </tr>
-                                <tr>
-                                    <th>Subcategory</th>
-                                    <td> <a href="{{ route('admin.subcategory.show', $post->subcategory->id) }}">{{ $post->subcategory->name }}</a></td>
-                                </tr>
-                                <tr>
-                                    <th>Content</th>
-                                    <td>{!! $post->content ?? 'N/A' !!}</td>
-                                </tr>
-                                <tr>
-                                    <th>Created At</th>
-                                    <td>{{ $post->created_at ? $post->created_at : 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Updated At</th>
-                                    <td>{{ $post->updated_at ? $post->updated_at : 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Action</th>
-                                    <td>
-                                        <button class="btn btn-sm btn-danger" onclick="showDeleteConfirm(`{{ $post->id }}`)">Delete</button>
-                                        <button class="btn btn-sm btn-primary" onclick="goToEdit(`{{ $post->id }}`)">Edit</button>
-                                    </td>
-                                </tr>
-                            </table>
+
+                            @if($post->thumbnail)
+                                <div class="text-center mb-4">
+                                    <img src="{{ asset($post->thumbnail) }}" class="img-fluid rounded" style="max-height: 350px;">
+                                </div>
+                            @endif
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th width="140">Team</th>
+                                            <td>{{ $post->team ?? 'N/A' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Location</th>
+                                            <td>{{ $post->location ?? 'N/A' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>LinkedIn</th>
+                                            <td>
+                                                @if($post->linkedin_link)
+                                                    <a href="{{ $post->linkedin_link }}" target="_blank">{{ $post->linkedin_link }}</a>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th width="140">Status</th>
+                                            <td>
+                                                <span class="badge {{ $post->status === 'active' ? 'bg-success' : 'bg-danger' }}">
+                                                    {{ ucfirst($post->status) }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Type</th>
+                                            <td><span class="badge bg-info">{{ strtoupper($post->type) }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Created At</th>
+                                            <td>{{ $post->created_at->format('d M, Y h:i A') }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            @if($post->picture)
+                                <div class="mt-4">
+                                    <h5>Additional Picture:</h5>
+                                    <img src="{{ asset($post->picture) }}" class="img-fluid rounded">
+                                </div>
+                            @endif
+
+                            <div class="mt-5">
+                                <h5>Content:</h5>
+                                <div class="card bg-light p-4">
+                                    {!! $post->content !!}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                </div><!-- COL END -->
+                </div>
             </div>
 
         </div>
     </div>
 </div>
-<!-- CONTAINER CLOSED -->
 @endsection
-@push('scripts')
-<script>
-    // delete Confirm
-    function showDeleteConfirm(id) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Are you sure you want to delete this record?',
-            text: 'If you delete this, it will be gone forever.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                NProgress.start();
-                let url = "{{ route($route . '.destroy', ':id') }}";
-                let csrfToken = '{{ csrf_token() }}';
-                $.ajax({
-                    type: "DELETE",
-                    url: url.replace(':id', id),
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(resp) {
-                        NProgress.done();
-                        toastr.success(resp.message);
-                        window.location.href = "{{ route($route . '.index') }}";
-                    },
-                    error: function(error) {
-                        NProgress.done();
-                        toastr.error(error.message);
-                    }
-                });
-            }
-        });
-    }
-
-    //edit
-    function goToEdit(id) {
-        let url = "{{ route($route . '.edit', ':id') }}";
-        window.location.href = url.replace(':id', id);
-    }
-</script>
-@endpush

@@ -184,8 +184,8 @@ Route::middleware(['auth:api'])->controller(PostController::class)->prefix('auth
     Route::delete('/delete/{id}', 'destroy');
 });
 
-Route::get('/posts', [PostController::class, 'posts']);
-Route::get('/post/show/{post_id}', [PostController::class, 'post']);
+Route::get('/job_posts', [PostController::class, 'post']);
+Route::get('/job_post/show/{id}', [PostController::class, 'show']);
 
 Route::middleware(['auth:api'])->controller(ImageController::class)->prefix('auth/post/image')->group(function () {
     Route::get('/', 'index');

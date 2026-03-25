@@ -47,13 +47,13 @@
                     </a>
                 </li>
 
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('home.getalljob.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.home.getalljob.index') }}">
-                            <i class="fa-solid fa-list  side-menu__icon"></i>
-                            <span class="side-menu__label">Show Applicient </span>
-                        </a>
-                    </li>
+                <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('home.getalljob.*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.home.getalljob.index') }}">
+                        <i class="fa-solid fa-list  side-menu__icon"></i>
+                        <span class="side-menu__label">Show Applicient </span>
+                    </a>
+                </li>
                 </li>
 
 
@@ -110,13 +110,13 @@
                         <span class="side-menu__label">Course</span>
                     </a>
                 </li>
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.blog_heading.index') }}">
-                            <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
-                            <span class="side-menu__label"> Blog Heding Content</span>
-                        </a>
-                    </li>
+                <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.blog_heading.index') }}">
+                        <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
+                        <span class="side-menu__label"> Blog Heding Content</span>
+                    </a>
+                </li>
 
 
                 <li class="slide">
@@ -487,7 +487,7 @@
                                 </a>
                             </li>
 
-                            </ul>
+                        </ul>
 
                         <ul class="slide-menu">
 

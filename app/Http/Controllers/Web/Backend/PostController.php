@@ -2,309 +2,186 @@
 
 namespace App\Http\Controllers\Web\Backend;
 
-use App\Helpers\Helper;
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Image;
-use App\Models\Subcategory;
-use Exception;
-use Illuminate\Http\JsonResponse;
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends Controller
 {
-
-    public $part;
-    public $route;
-    public $view;
-
-    public function __construct()
-    {
-        $this->part = 'post';
-        $this->route = 'admin.' . $this->part;
-        $this->view = 'backend.layouts.' . $this->part;
-        View::share('crud', 'post');
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Post::with(['category', 'subcategory', 'user'])->orderBy('id', 'desc')->get();
+            // শুধুমাত্র প্রয়োজনীয় কলামগুলো সিলেক্ট করা হয়েছে
+            $data = Post::latest()->select(['id', 'title', 'team', 'location', 'status', 'type', 'thumbnail', 'created_at']);
+
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('category', function ($data) {
-                    return "<a href='" . route('admin.category.show', $data->category_id) . "'>" . $data->category->name . "</a>";
+                ->addColumn('thumbnail', function ($post) {
+                    $img = ($post->thumbnail && file_exists(public_path($post->thumbnail)))
+                        ? asset($post->thumbnail)
+                        : asset('default/logo.png'); // default ইমেজ পাথ চেক করে নিন
+                    return '<img src="' . $img . '" width="60" class="rounded border shadow-sm">';
                 })
-                ->addColumn('subcategory', function ($data) {
-                    return "<a href='" . route('admin.subcategory.show', $data->subcategory_id) . "'>" . $data->subcategory->name . "</a>";
+                ->addColumn('status', function ($post) {
+                    $class = $post->status === 'active' ? 'btn-success' : 'btn-danger';
+                    return '<button class="status-btn btn btn-sm ' . $class . '" data-id="' . $post->id . '">'
+                           . ucfirst($post->status) . '</button>';
                 })
-                ->addColumn('author', function ($data) {
-                    return "<a href='" . route('admin.users.show', $data->user_id) . "'>" . $data->user->name . "</a>";
+                ->addColumn('type', function ($post) {
+                    $badge = $post->type === 'en' ? 'bg-primary' : ($post->type === 'de' ? 'bg-warning' : 'bg-info');
+                    return '<span class="badge ' . $badge . '">' . strtoupper($post->type) . '</span>';
                 })
-                ->addColumn('title', function ($data) {
-                    return Str::limit($data->title, 20);
+                ->addColumn('created_at', function ($post) {
+                    return $post->created_at ? $post->created_at->format('d M, Y') : 'N/A';
                 })
-                ->addColumn('thumbnail', function ($data) {
-                    $url = asset($data->thumbnail && file_exists(public_path($data->thumbnail)) ? $data->thumbnail : 'default/logo.svg');
-                    return '<img src="' . $url . '" alt="image" style="width: 50px; max-height: 100px; margin-left: 20px;">';
+                ->addColumn('action', function ($post) {
+                    return '
+                        <div class="btn-list">
+                            <a href="'.route('admin.post.show', $post->id).'" class="btn btn-sm btn-primary-light" title="View"><i class="fe fe-eye"></i></a>
+                            <a href="'.route('admin.post.edit', $post->id).'" class="btn btn-sm btn-warning-light" title="Edit"><i class="fe fe-edit"></i></a>
+                            <button class="btn btn-sm btn-danger-light delete-btn" data-id="'.$post->id.'" title="Delete"><i class="fe fe-trash-2"></i></button>
+                        </div>';
                 })
-                ->addColumn('status', function ($data) {
-
-                    $backgroundColor = $data->status == "active" ? '#4CAF50' : '#ccc';
-                    $sliderTranslateX = $data->status == "active" ? '26px' : '2px';
-                    $sliderStyles = "position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.3s ease; transform: translateX($sliderTranslateX);";
-
-                    $status = '<div class="form-check form-switch" style="margin-left:40px; position: relative; width: 50px; height: 24px; background-color: ' . $backgroundColor . '; border-radius: 12px; transition: background-color 0.3s ease; cursor: pointer;">';
-                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status" style="position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 2; cursor: pointer;">';
-                    $status .= '<span style="' . $sliderStyles . '"></span>';
-                    $status .= '<label for="customSwitch' . $data->id . '" class="form-check-label" style="margin-left: 10px;"></label>';
-                    $status .= '</div>';
-
-                    return $status;
-                })
-                ->addColumn('action', function ($data) {
-
-                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-
-                                <a href="#" type="button" onclick="goToEdit(' . $data->id . ')" class="btn btn-primary fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-edit"></i>
-                                </a>
-
-                                <a href="#" type="button" onclick="goToOpen(' . $data->id . ')" class="btn btn-success fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-eye"></i>
-                                </a>
-
-                                <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-trash"></i>
-                                </a>
-                            </div>';
-                })
-                ->rawColumns(['category', 'subcategory', 'author', 'title', 'thumbnail', 'status', 'action'])
-                ->make();
+                ->rawColumns(['thumbnail', 'status', 'type', 'action'])
+                ->make(true);
         }
 
-        return view($this->view . ".index", [
-            'part' => $this->part,
-            'route' => $this->route
-        ]);
+        return view('backend.layouts.post.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $categories = Category::where('status', 'active')->get();
-        return view($this->view . ".create", [
-            'categories' => $categories,
-            'route' => $this->route
-        ]);
+        return view('backend.layouts.post.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title'             => 'required|max:250',
-            'content'           => 'required|string',
-            'thumbnail'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            'category_id'       => 'required|exists:categories,id',
-            'subcategory_id'    => 'required|exists:subcategories,id',
-            'images'            => 'nullable|array|max:3',
-            'images.*'          => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+        $request->validate([
+            'title'         => 'required|string|max:255',
+            'team'          => 'nullable|string|max:255',
+            'location'      => 'nullable|string|max:255',
+            'content'       => 'required|string',
+            'thumbnail'     => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'picture'       => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'linkedin_link' => 'nullable|url|max:255',
+            'status'        => 'nullable|in:active,inactive',
+            'type'          => 'nullable|in:en,de,others',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
 
         try {
-            $data = $validator->validated();
-
             $post = new Post();
-
-            $post->user_id = auth('web')->user()->id;
+            $post->title         = $request->title;
+            $post->slug          = Str::slug($request->title);
+            $post->team          = $request->team;
+            $post->location      = $request->location;
+            $post->content       = $request->content;
+            $post->linkedin_link = $request->linkedin_link;
+            $post->status        = $request->status ?? 'active';
+            $post->type          = $request->type ?? 'en';
 
             if ($request->hasFile('thumbnail')) {
-                $data['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'post', time() . '_' . getFileName($request->file('thumbnail')));
+                $file = $request->file('thumbnail');
+                $filename = time() . '_thumb.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/posts'), $filename);
+                $post->thumbnail = 'uploads/posts/' . $filename;
             }
 
-            $post->slug = Helper::makeSlug(Post::class, $data['title']);
+            if ($request->hasFile('picture')) {
+                $file = $request->file('picture');
+                $filename = time() . '_pic.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/posts'), $filename);
+                $post->picture = 'uploads/posts/' . $filename;
+            }
 
-            $post->title = $data['title'];
-            $post->thumbnail = $data['thumbnail'];
-            $post->content = $data['content'];
-            $post->category_id = $data['category_id'];
-            $post->subcategory_id = $data['subcategory_id'];
             $post->save();
 
-            if (isset($request['images']) && count($request['images']) > 0 && count($request['images']) <= 3) {
-                foreach ($request['images'] as $image) {
-                    $imageName = 'images_' . Str::random(10);
-                    $image = Helper::fileUpload($image, 'post', $imageName);
-                    Image::create(['post_id' => $post->id, 'path' => $image]);
-                }
-            } else {
-                session()->put('t-error', 'Please select at least one image and maximum 3 images');
-            }
-
-            session()->put('t-success', 'post created successfully');
-        } catch (Exception $e) {
-
-            session()->put('t-error', $e->getMessage());
+            return redirect()->route('admin.post.index')->with('t-success', 'Post created successfully!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
-
-        return redirect()->route($this->route . '.index')->with('t-success', 'post created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post, $id)
-    {
-        $post = Post::with(['category', 'subcategory', 'user'])->where('id', $id)->first();
-        return view($this->view . ".show", [
-            'post' => $post,
-            'route' => $this->route
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post, $id)
+    public function show($id)
     {
         $post = Post::findOrFail($id);
-        $categories = Category::where('status', 'active')->get();
-        $subcategories = Subcategory::where('status', 'active')->get();
-        return view($this->view . ".edit", [
-            'post' => $post,
-            'categories' => $categories,
-            'subcategories' => $subcategories,
-            'route' => $this->route
-        ]);
+        return view('backend.layouts.post.show', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        return view('backend.layouts.post.edit', compact('post'));
+    }
+
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'title'             => 'required|max:250',
-            'content'           => 'required|string',
-            'thumbnail'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            'category_id'       => 'required|exists:categories,id',
-            'subcategory_id'    => 'required|exists:subcategories,id',
-            'images'            => 'nullable|array|max:3',
-            'images.*'          => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+        $request->validate([
+            'title'         => 'required|string|max:255',
+            'content'       => 'required|string',
+            'thumbnail'     => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'picture'       => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         try {
-            $data = $validator->validated();
-
             $post = Post::findOrFail($id);
+            $post->title         = $request->title;
+            $post->slug          = Str::slug($request->title);
+            $post->team          = $request->team;
+            $post->location      = $request->location;
+            $post->content       = $request->content;
+            $post->linkedin_link = $request->linkedin_link;
+            $post->status        = $request->status ?? $post->status;
+            $post->type          = $request->type ?? $post->type;
 
             if ($request->hasFile('thumbnail')) {
-                $validate['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'post', time() . '_' . getFileName($request->file('thumbnail')));
+                if ($post->thumbnail && file_exists(public_path($post->thumbnail))) {
+                    unlink(public_path($post->thumbnail));
+                }
+                $file = $request->file('thumbnail');
+                $filename = time() . '_thumb.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/posts'), $filename);
+                $post->thumbnail = 'uploads/posts/' . $filename;
             }
 
-            $post->title = $data['title'];
-            $post->thumbnail = $data['thumbnail'] ?? $post->thumbnail;
-            $post->content = $data['content'];
-            $post->category_id = $data['category_id'];
-            $post->subcategory_id = $data['subcategory_id'];
+            if ($request->hasFile('picture')) {
+                if ($post->picture && file_exists(public_path($post->picture))) {
+                    unlink(public_path($post->picture));
+                }
+                $file = $request->file('picture');
+                $filename = time() . '_pic.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/posts'), $filename);
+                $post->picture = 'uploads/posts/' . $filename;
+            }
+
             $post->save();
-
-            //image insert
-            $image_count = Image::where('post_id', $post->id)->count();
-            $new_images_count = $request->has('images') ? count($request['images']) : 0;
-
-            if (($image_count + $new_images_count) > 3) {
-                session()->put('t-error', 'Please select at most 3 images');
-            } else {
-                if ($new_images_count > 0) {
-                    foreach ($request->file('images') as $image) {
-                        $imageName = 'images_' . Str::random(10);
-                        $uploadedImagePath = Helper::fileUpload($image, 'post', $imageName);
-                        Image::create(['post_id' => $post->id, 'path' => $uploadedImagePath]);
-                    }
-                }
-            }
-
-            session()->put('t-success', 'post updated successfully');
-        } catch (Exception $e) {
-
-            session()->put('t-error', $e->getMessage());
-        }
-
-        return redirect()->route($this->route . '.edit', $post->id)->with('t-success', 'post updated successfully');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        try {
-
-            $data = Post::findOrFail($id);
-
-            if ($data->thumbnail && file_exists(public_path($data->thumbnail))) {
-                Helper::fileDelete(public_path($data->thumbnail));
-            }
-
-            $images = Image::where('post_id', $data->id)->get();
-            if (count($images) > 0) {
-                foreach ($images as $image) {
-                    if ($image->path && file_exists(public_path($image->path))) {
-                        Helper::fileDelete(public_path($image->path));
-                    }
-                    $image->delete();
-                }
-            }
-
-            $data->delete();
-            return response()->json([
-                'status' => 't-success',
-                'message' => 'Your action was successful!'
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 't-error',
-                'message' => 'Your action was successful!'
-            ]);
+            return redirect()->route('admin.post.index')->with('t-success', 'Post updated successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Update failed: ' . $e->getMessage());
         }
     }
 
-    public function status(int $id): JsonResponse
+    public function destroy($id)
     {
-        $data = Post::findOrFail($id);
-        if (!$data) {
-            return response()->json([
-                'status' => 't-error',
-                'message' => 'Item not found.',
-            ]);
+        $post = Post::findOrFail($id);
+        if ($post->thumbnail && file_exists(public_path($post->thumbnail))) {
+            unlink(public_path($post->thumbnail));
         }
-        $data->status = $data->status === 'active' ? 'inactive' : 'active';
-        $data->save();
-        return response()->json([
-            'status' => 't-success',
-            'message' => 'Your action was successful!',
-        ]);
+        if ($post->picture && file_exists(public_path($post->picture))) {
+            unlink(public_path($post->picture));
+        }
+        $post->delete();
+
+      session()->put('t-success', 'Post Deleted successfully');
+    }
+
+    public function status($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->status = $post->status === 'active' ? 'inactive' : 'active';
+        $post->save();
+
+         session()->put('t-success', 'Post status change successfully');
     }
 }

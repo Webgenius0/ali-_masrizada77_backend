@@ -126,5 +126,4 @@
         console.error('❌ Voci error:', e.detail);
     });
 </script>
-
 @endsection
