@@ -130,7 +130,7 @@
                     <a class="side-menu__item {{ request()->routeIs('admin.post.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.post.index') }}">
                         <i class="fa-solid fa-blog side-menu__icon"></i>
-                        <span class="side-menu__label">Post</span>
+                        <span class="side-menu__label">Job Post</span>
                     </a>
                 </li>
                 <li class="slide">
