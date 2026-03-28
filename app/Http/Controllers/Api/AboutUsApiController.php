@@ -55,7 +55,7 @@ class AboutUsApiController extends Controller
                 'extra_qa_section' => [
                     'title'    => $meta['sec5_title'] ?? '',
                     'subtitle' => $meta['sec5_subtitle'] ?? '',
-                    'qa_list'  => $meta['sec5_qa'] ?? [],
+                    'qa_list'  => array_values($meta['sec5_qa'] ?? []),
                 ]
             ];
 

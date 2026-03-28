@@ -407,7 +407,7 @@
                             <li>
                                 <a href="{{ route('admin.cms.home.npoverview.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.npoverview.index') ? 'active' : '' }}">
-                                    nvplatformoverview
+                                    NV Platform overview
                                 </a>
                             </li>
                         </ul>
@@ -535,11 +535,6 @@
                             <span class="side-menu__label">Menu</span>
                         </a>
                     </li>
-
-
-
-
-
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}"
                             data-bs-toggle="slide" href="#">
