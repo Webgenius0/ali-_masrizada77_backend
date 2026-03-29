@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers\Web\Backend;
+
+use App\Http\Controllers\Controller;
+use App\Enums\PageEnum;
+use App\Enums\SectionEnum;
+use App\Helpers\Helper;
+use App\Models\CMS;
+use Exception;
+use App\Services\CmsService;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
+class CarrerPageController extends Controller
+{
+    protected $cmsService;
+    public $page;
+    public $section;
+    public $uploadPath;
+
+    public function __construct(CmsService $cmsService)
+    {
+        $this->cmsService = $cmsService;
+        $this->page = PageEnum::CarrerPage;
+        $this->section = SectionEnum::INTRO;
+        $this->uploadPath = 'cms/career';
+    }
+
+    public function index(Request $request)
+    {
+        $type = $request->query('type', 'english');
+        $data = CMS::where('page', $this->page)
+                   ->where('section', $this->section)
+                   ->where('type', $type)
+                   ->first();
+
+        return view('backend.layouts.cms.carrer.index', compact('data', 'type'));
+    }
+
+    public function content(Request $request)
+    {
+        try {
+            $type = $request->get('type', 'english');
+            $section = CMS::where('page', $this->page)
+                ->where('section', $this->section)
+                ->where('type', $type)
+                ->first();
+
+            $oldMetadata = $section->metadata ?? [];
+
+            // --- ১. ইমেজ হ্যান্ডলিং (Hero, Stats, Partner) ---
+            $hero_image = $oldMetadata['hero_image'] ?? null;
+            if ($request->hasFile('hero_image')) {
+                if ($hero_image && file_exists(public_path($hero_image))) @unlink(public_path($hero_image));
+                $hero_image = Helper::fileUpload($request->file('hero_image'), $this->uploadPath, 'hero_' . time());
+            }
+
+            $stats_image = $oldMetadata['stats_image'] ?? null;
+            if ($request->hasFile('stats_image')) {
+                if ($stats_image && file_exists(public_path($stats_image))) @unlink(public_path($stats_image));
+                $stats_image = Helper::fileUpload($request->file('stats_image'), $this->uploadPath, 'stats_' . time());
+            }
+
+            // --- ২. মেটাডাটা প্রিপারেশন (সব ডাটা স্টোর) ---
+            $metadata = [
+                // Image 1: Hero Section
+                'hero_title'     => $request->hero_title,
+                'hero_desc'      => $request->hero_desc,
+                'hero_btn_text'  => $request->hero_btn_text,
+                'hero_image'     => $hero_image,
+
+                // Image 2: Stats Section
+                'stats_title'    => $request->stats_title,
+                'stats_desc'     => $request->stats_desc,
+                'stats_image'    => $stats_image,
+                'stat_emp_title' => $request->stat_emp_title,
+                'stat_emp'       => $request->stat_emp,
+                'stat_emp_desc'  => $request->stat_emp_desc,
+                'stat_hours'     => $request->stat_hours,
+                'stat_hours_desc'=> $request->stat_hours_desc,
+                'stat_offices'   => $request->stat_offices,
+                'stat_offices_desc'=> $request->stat_offices_desc,
+
+                // Image 3: Benefits Section (Accordion)
+                'benefits_title' => $request->benefits_title,
+                'benefits_footer'=> $request->benefits_footer,
+                'benefits_list'  => $request->benefits_list, // JSON Array
+            ];
+
+            $finalData = [
+                'page'     => $this->page,
+                'section'  => $this->section,
+                'type'     => $type,
+                'metadata' => $metadata,
+                'status'   => 'active',
+                'slug'     => $section->slug ?? 'career-' . Str::random(10)
+            ];
+
+            if ($section) {
+                $section->update($finalData);
+                $msg = 'Career page updated successfully.';
+            } else {
+                CMS::create($finalData);
+                $msg = 'Career page created successfully.';
+            }
+
+            Cache::forget('cms');
+            return redirect()->back()->with('t-success', $msg);
+
+        } catch (Exception $e) {
+            return redirect()->back()->with('t-error', $e->getMessage());
+        }
+    }
+}

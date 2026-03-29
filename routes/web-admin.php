@@ -70,6 +70,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\FastFoodAndTerminalController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FinancialServicesController;
 use App\Http\Controllers\Web\Backend\JobApplicationController;
 use App\Http\Controllers\Web\Backend\Hedding_BlogController;
+use App\Http\Controllers\Web\Backend\CarrerPageController;
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
 
@@ -383,6 +384,12 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
             Route::post('/content', [FinancialServicesController::class, 'content'])->name('content');
         });
 
+        //carrer pages
+
+                Route::prefix('home/career')->name('home.career.')->group(function () {
+            Route::get('/', [CarrerPageController::class, 'index'])->name('index');
+            Route::post('/content', [CarrerPageController::class, 'content'])->name('content');
+        });
 
 
         //------------------------------------------------------------------------------------------------------

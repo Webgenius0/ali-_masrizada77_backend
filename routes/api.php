@@ -43,7 +43,7 @@ use App\Http\Controllers\Api\FinancialServicesController;
 use App\Http\Controllers\Api\JobApplicationController;
 use App\Http\Controllers\Api\Hedding_blogController;
 use App\Http\Controllers\Api\Get_A_FreeController;
-
+use App\Http\Controllers\Api\CareerController;
 
 
 
@@ -136,6 +136,10 @@ Route::get('/fastfood-content', [FastFoodAndTermninalController::class, 'getFast
 //Finacial Services
 Route::get('/financial-content', [FinancialServicesController::class, 'getFinancialContent']);
 
+
+//career page API
+Route::get('/career-page', [CareerController::class, 'getCareerData']);
+
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
@@ -186,6 +190,7 @@ Route::middleware(['auth:api'])->controller(PostController::class)->prefix('auth
 
 Route::get('/job_posts', [PostController::class, 'post']);
 Route::get('/job_post/show/{id}', [PostController::class, 'show']);
+Route::get('/post_carrer', [PostController::class, 'post_carrer']);
 
 Route::middleware(['auth:api'])->controller(ImageController::class)->prefix('auth/post/image')->group(function () {
     Route::get('/', 'index');

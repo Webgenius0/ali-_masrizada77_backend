@@ -9,56 +9,71 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
-     * টাইপ অনুযায়ী সব পোস্টের লিস্ট
-     * URL Example: /api/posts?type=en
+     * টাইপ অনুযায়ী সব পোস্টের লিস্ট
+     * Default Type: 'en'
      */
     public function post(Request $request)
     {
-        $query = Post::where('status', 'active')->where('type','en');
+        // URL-এ type না থাকলে default 'en' নিবে
+        $type = $request->query('type', 'en');
 
-        // যদি URL-এ type থাকে তবে ফিল্টার করবে
-        if ($request->has('type') && $request->type != null) {
-            $query->where('type', $request->type);
-        }
-
-        $posts = $query->select('id', 'title', 'team', 'location', 'thumbnail', 'type', 'created_at')
+        $posts = Post::where('status', 'active')
+            ->where('type', $type)
+            ->select('id', 'title', 'team', 'location', 'thumbnail','content', 'type', 'created_at')
             ->latest()
             ->get()
             ->map(function ($post) {
                 $post->thumbnail = $post->thumbnail ? asset($post->thumbnail) : null;
+                $post->formatted_date = $post->created_at->format('d M, Y');
                 return $post;
             });
 
         return response()->json([
             'success' => true,
-            'message' => $request->type
-                         ? strtoupper($request->type) . ' posts retrieved successfully'
-                         : 'All active posts retrieved successfully',
+            'message' => strtoupper($type) . ' posts retrieved successfully',
+            'data'    => $posts
+        ], 200);
+    }
+
+    public function post_carrer(Request $request)
+    {
+        // URL-এ type না থাকলে default 'en' নিবে
+        $type = $request->query('type', 'en');
+
+        $posts = Post::where('status', 'active')
+            ->where('type', $type)
+            ->select('id', 'title', 'team', 'location', 'type', 'created_at')
+            ->latest()
+            ->get()
+            ->map(function ($post) {
+                $post->formatted_date = $post->created_at->format('d M, Y');
+                return $post;
+            });
+
+        return response()->json([
+            'success' => true,
+            'message' => strtoupper($type) . ' posts retrieved successfully',
             'data'    => $posts
         ], 200);
     }
 
     /**
-     * আইডি এবং টাইপ অনুযায়ী একটি নির্দিষ্ট পোস্টের ফুল ডিটেইলস
-     * URL Example: /api/post/5?type=en
+     * আইডি অনুযায়ী একটি নির্দিষ্ট পোস্টের ডিটেইলস
+     * Default Type: 'en'
      */
     public function show(Request $request, $id)
     {
-        // আইডি দিয়ে পোস্টটি খোঁজা হচ্ছে
-        $query = Post::where('id', $id)->where('status', 'active');
+        $type = $request->query('type', 'en');
 
-        // যদি ইউজার নির্দিষ্ট টাইপের পোস্ট দেখতে চায় (যেমন শুধু 'en' পোস্টের ডিটেইলস)
-        if ($request->has('type') && $request->type != null) {
-            $query->where('type', $request->type);
-        }
+        $post = Post::where('id', $id)
+            ->where('status', 'active')
+            ->where('type', $type)
+            ->first();
 
-        $post = $query->first();
-
-        // যদি পোস্ট না পাওয়া যায় বা টাইপ না মিলে
         if (!$post) {
             return response()->json([
                 'success' => false,
-                'message' => 'Post not found or type mismatch'
+                'message' => 'Post not found for type: ' . $type
             ], 404);
         }
 

@@ -526,6 +526,15 @@
                                 </a>
                             </li>
                         </ul>
+                        <ul class="slide-menu">
+
+                            <li>
+                                <a href="{{ route('admin.cms.home.career.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.career.index') ? 'active' : '' }}">
+                                    Career page
+                                </a>
+                            </li>
+                        </ul>
 
                     </li>
                     <li class="slide">
