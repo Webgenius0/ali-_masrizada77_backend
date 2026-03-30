@@ -39,6 +39,15 @@
 
                                 <div class="row mb-4">
 
+                                                                        <div class="form-group">
+                                        <label for="description" class="form-label">Description:</label>
+                                        <textarea class="form-control @error('description') is-invalid @enderror"
+                                            name="description" placeholder="Description" id="description">{{ $setting->description ?? old('description') ?? '' }}</textarea>
+                                        @error('description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="logo_width" class="form-label">Logo Width:</label>
                                         <input type="number" class="form-control @error('logo_width') is-invalid @enderror"
