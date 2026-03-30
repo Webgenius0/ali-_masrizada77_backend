@@ -44,18 +44,18 @@ class HomePageController extends Controller
                             'type' => 'video',
                             'url'  => $data->video ? asset($data->video) : null,
                         ],
-                        'actions' => [
-                            [
-                                'label'   => $data->btn_text,
-                                'url'     => $data->btn_link,
-                                'primary' => true,
-                            ],
-                            [
-                                'label'   => $meta['btn2_text'] ?? null,
-                                'url'     => $meta['btn2_link'] ?? null,
-                                'primary' => false,
-                            ],
-                        ],
+                        // 'actions' => [
+                        //     [
+                        //         'label'   => $data->btn_text,
+                        //         'url'     => $data->btn_link,
+                        //         'primary' => true,
+                        //     ],
+                        //     [
+                        //         'label'   => $meta['btn2_text'] ?? null,
+                        //         'url'     => $meta['btn2_link'] ?? null,
+                        //         'primary' => false,
+                        //     ],
+                        // ],
                     ],
 
                     // ─── 2. Info Section ─────────────────────────────────────────
