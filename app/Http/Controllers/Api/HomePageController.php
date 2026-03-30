@@ -140,11 +140,13 @@ class HomePageController extends Controller
                     ],
 
 
-             'last_better_cx' => [
+                    'last_better_cx' => [
                         'title'       => $meta['last_bettercx_title'] ?? 'Better CX, better Business',
                         'description' => $meta['last_bettercx_desc'] ?? null,
 
-                    ]
+                    ],
+                    'logo_img1' => isset($meta['logo_img1']) ? asset($meta['logo_img1']) : null,
+                    'logo_img2' => isset($meta['logo_img2']) ? asset($meta['logo_img2']) : null,
                 ]
             ], 200);
         } catch (Exception $e) {

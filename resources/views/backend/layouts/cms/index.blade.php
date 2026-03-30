@@ -370,19 +370,57 @@
 
                         <div class="card">
                             <div class="card-header bg-warning text-dark">
-                            <h5>8.Better CX, better Business</h5>
-                        </div>
+                                <h5>8.Better CX, better Business</h5>
+                            </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <x-form.text name="last_bettercx_title" label="Better CX, better Business" :value="$data->metadata['last_bettercx_title'] ?? 'Better CX, better Business'" />
+                                        <x-form.text name="last_bettercx_title" label="Better CX, better Business"
+                                            :value="$data->metadata['last_bettercx_title'] ??
+                                                'Better CX, better Business'" />
                                     </div>
                                     <div class="col-md-6">
-                                        <x-form.text name="last_bettercx_desc" label="Better CX, better Business Description"
-                                            :value="$data->metadata['last_bettercx_desc'] ?? ''" />
+                                        <x-form.text name="last_bettercx_desc"
+                                            label="Better CX, better Business Description" :value="$data->metadata['last_bettercx_desc'] ?? ''" />
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5>9. Logo Images</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+
+                                    {{-- Logo 1 --}}
+                                    <div class="col-md-6">
+                                        <x-form.file name="logo_img1" label="Logo Image 1" />
+
+                                        @if (isset($data->metadata['logo_img1']))
+                                            <div class="mt-2">
+                                                <img src="{{ asset($data->metadata['logo_img1']) }}"
+                                                    style="height: 70px; border:1px solid #ddd; padding:5px;">
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    {{-- Logo 2 --}}
+                                    <div class="col-md-6">
+                                        <x-form.file name="logo_img2" label="Logo Image 2" />
+
+                                        @if (isset($data->metadata['logo_img2']))
+                                            <div class="mt-2">
+                                                <img src="{{ asset($data->metadata['logo_img2']) }}"
+                                                    style="height: 70px; border:1px solid #ddd; padding:5px;">
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 

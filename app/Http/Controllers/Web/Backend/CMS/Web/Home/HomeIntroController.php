@@ -81,6 +81,33 @@ class HomeIntroController extends Controller
                 ? Helper::fileUpload($request->file('bottom_video'), $this->uploadPath, time() . '_bottom')
                 : ($section->image4 ?? null);
 
+
+$metaImages = [];
+
+$metaImageFields = ['logo_img1', 'logo_img2'];
+
+foreach ($metaImageFields as $field) {
+    if ($request->hasFile($field)) {
+
+        $oldImage = $section->metadata[$field] ?? null;
+
+        if ($oldImage && file_exists(public_path($oldImage))) {
+            @unlink(public_path($oldImage));
+        }
+
+        $metaImages[$field] = Helper::fileUpload(
+            $request->file($field),
+            $this->uploadPath . '/meta',
+            time() . "_$field"
+        );
+
+    } else {
+        $metaImages[$field] = $section->metadata[$field] ?? null;
+    }
+}
+
+
+
             // ২. Metadata Preparation
 $metadata = [
     // Hero Section Buttons
@@ -138,7 +165,9 @@ $metadata = [
     //last better cx
     'last_bettercx_title'=>$request->last_bettercx_title,
     'last_bettercx_desc'=>$request->last_bettercx_desc,
-
+// logo session 2
+'logo_img1' => $metaImages['logo_img1'] ?? null,
+'logo_img2' => $metaImages['logo_img2'] ?? null,
 
 ];
 
