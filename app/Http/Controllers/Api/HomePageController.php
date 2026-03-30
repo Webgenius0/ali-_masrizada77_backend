@@ -111,10 +111,10 @@ class HomePageController extends Controller
                     'cx_solutions' => [
                         'title'       => $meta['cx_title']       ?? null,
                         'description' => $meta['cx_description'] ?? null,
-                        'link'        => [
-                            'label' => $meta['cx_link_title'] ?? null,
-                            'url'   => $meta['cx_link_add']   ?? null,
-                        ],
+                        // 'link'        => [
+                        //     'label' => $meta['cx_link_title'] ?? null,
+                        //     'url'   => $meta['cx_link_add']   ?? null,
+                        // ],
                         // ─── 5. CX Features (blade-এ section 5, cx-এর ভেতরে) ────
                         'features' => collect($meta['cx_features'] ?? [])
                             ->map(fn($item) => [
