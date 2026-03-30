@@ -22,9 +22,11 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title mb-0">Applicant Info: {{ $application->first_name }} {{ $application->last_name }}</h3>
+                            <h3 class="card-title mb-0">Applicant: {{ $application->first_name }} {{ $application->last_name }}</h3>
                             <div class="card-options">
-                                <a href="{{ route('admin.home.getalljob.index') }}" class="btn btn-sm btn-primary">Back</a>
+                                <a href="{{ route('admin.home.getalljob.index') }}" class="btn btn-sm btn-primary">
+                                    <i class="fe fe-arrow-left me-2"></i>Back
+                                </a>
                             </div>
                         </div>
 
@@ -34,37 +36,35 @@
                                     <h5 class="fw-bold text-primary mb-3">Personal Information</h5>
                                     <p><strong>First Name:</strong> {{ $application->first_name }}</p>
                                     <p><strong>Last Name:</strong> {{ $application->last_name }}</p>
-                                    <p><strong>Email Address:</strong> {{ $application->email }}</p>
-                                    <p><strong>Phone Number:</strong> {{ $application->phone_number }}</p>
+                                    <p><strong>Email:</strong> {{ $application->email }}</p>
+                                    <p><strong>Phone:</strong> {{ $application->phone_number }}</p>
                                     <p><strong>Country:</strong> {{ $application->country }}</p>
                                 </div>
 
                                 <div class="col-md-6 mb-4 border-start">
-                                    <h5 class="fw-bold text-primary mb-3">Professional Information</h5>
-                                    <p><strong>Most Recent Employer:</strong> {{ $application->most_recent_employer }}</p>
-                                    <p><strong>Most Recent Job Title:</strong> {{ $application->most_recent_job_title }}</p>
-                                    <p><strong>Application Date:</strong> {{ $application->created_at->format('d M, Y h:i A') }}</p>
+                                    <h5 class="fw-bold text-primary mb-3">Application Context</h5>
+                                    <p><strong>Submitted At:</strong> {{ $application->created_at->format('d M, Y h:i A') }}</p>
+                                    <p><strong>Status:</strong> <span class="badge bg-success-transparent text-success">Received</span></p>
                                 </div>
                             </div>
 
                             <hr class="my-4">
 
+                            <div class="row">
+                                <div class="col-md-12 mb-4">
+                                    <h5 class="fw-bold text-primary mb-3">Why NovaVoca?</h5>
+                                    <div class="p-4 bg-light border  shadow-sm" style="white-space: pre-line;">
+                                        {{-- আমরা এপিআই-তে 'why_novavoca' ডাটা 'most_recent_employer' কলামে সেভ করছি --}}
+                                        {{ $application->most_recent_employer ?? 'No information provided.' }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- যেহেতু রেজুমি নেই, তাই ডকুমেন্ট সেকশনটি শুধু তথ্যের জন্য রাখা হলো বা চাইলে আপনি এটি বাদ দিতে পারেন --}}
                             <div class="row mt-4">
                                 <div class="col-md-12">
-                                    <h5 class="fw-bold text-primary mb-3">Submitted Documents</h5>
-                                    <div class="btn-list">
-                                        <a href="{{ asset($application->resume_path) }}" target="_blank" class="btn btn-success">
-                                            <i class="fe fe-download me-2"></i>Download Resume (CV)
-                                        </a>
-
-                                        @if($application->cover_letter_path)
-                                        <a href="{{ asset($application->cover_letter_path) }}" target="_blank" class="btn btn-warning text-white">
-                                            <i class="fe fe-file-text me-2"></i>View Cover Letter
-                                        </a>
-                                        @else
-                                        <span class="badge bg-light text-muted p-2">No Cover Letter Provided</span>
-                                        @endif
-                                    </div>
+                                    <h5 class="fw-bold text-primary mb-3">Submission Info</h5>
+                                    <p class="text-muted small">This application was submitted via the online form. No physical documents were attached.</p>
                                 </div>
                             </div>
                         </div>

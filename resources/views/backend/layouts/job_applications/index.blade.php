@@ -31,8 +31,7 @@
                                             <th class="wd-15p border-bottom-0">#</th>
                                             <th class="wd-15p border-bottom-0">Name</th>
                                             <th class="wd-20p border-bottom-0">Email</th>
-                                            <th class="wd-15p border-bottom-0">Job Title</th>
-                                            <th class="wd-10p border-bottom-0">Resume</th>
+                                            <th class="wd-15p border-bottom-0">Phone</th>
                                             <th class="wd-10p border-bottom-0">Date</th>
                                             <th class="wd-15p border-bottom-0">Action</th>
                                         </tr>
@@ -57,26 +56,21 @@
 
 <script type="text/javascript">
     $(function () {
-        // DataTable Initialization
         var table = $('.yajra-datatable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('admin.home.getalljob.index') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'name', name: 'name'},
+                {data: 'name', name: 'name'}, // কন্ট্রোলারের addColumn('name') থেকে আসছে
                 {data: 'email', name: 'email'},
-                {data: 'most_recent_job_title', name: 'most_recent_job_title'},
-                {data: 'resume', name: 'resume', orderable: false, searchable: false},
-                {data: 'created_at', name: 'created_at', render: function(data){
-                    return moment(data).format('DD MMM, YYYY');
-                }},
+                {data: 'phone_number', name: 'phone_number'},
+                {data: 'date', name: 'date'}, // কন্ট্রোলারের addColumn('date') থেকে সরাসরি তারিখ আসছে
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
     });
 
-    // SweetAlert Delete Confirmation
     function deleteApplication(id) {
         Swal.fire({
             title: 'Are you sure?',
@@ -90,20 +84,30 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                // Submit the hidden form
                 document.getElementById('delete-form-' + id).submit();
             }
         });
     }
 </script>
 
-{{-- Success Alert after deletion --}}
 @if(session('t-success'))
 <script>
     Swal.fire({
         position: 'top-end',
         icon: 'success',
         title: "{{ session('t-success') }}",
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
+@endif
+
+@if(session('t-error'))
+<script>
+    Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: "{{ session('t-error') }}",
         showConfirmButton: false,
         timer: 1500
     });

@@ -2,6 +2,7 @@
 <p><strong>Name:</strong> {{ $data['first_name'] }} {{ $data['last_name'] }}</p>
 <p><strong>Email:</strong> {{ $data['email'] }}</p>
 <p><strong>Phone:</strong> {{ $data['phone_number'] }}</p>
-<p><strong>Recent Employer:</strong> {{ $data['most_recent_employer'] }}</p>
-<p><strong>Job Title:</strong> {{ $data['most_recent_job_title'] }}</p>
-<p>Resume is attached with this email.</p>
+<p><strong>Country:</strong> {{ $data['country'] }}</p>
+<p><strong>Why NovaVoca:</strong> {{ $data['most_recent_employer'] }}</p>
+
+<p>Note: No resume was attached to this application.</p>

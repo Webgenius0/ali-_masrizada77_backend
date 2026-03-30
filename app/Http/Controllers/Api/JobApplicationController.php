@@ -9,21 +9,18 @@ use App\Mail\UserConfirmMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class JobApplicationController extends Controller
 {
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:50',
-            'last_name' => 'required|string|max:50',
-            'email' => 'required|email',
-            'country' => 'required|string',
-            'phone_number' => 'required|string',
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:5120', // 5MB max
-            'cover_letter' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
-            'most_recent_employer' => 'required|string',
-            'most_recent_job_title' => 'required|string',
+            'full_name'    => 'required|string|max:100',
+            'email'        => 'required|email|max:100',
+            'country'      => 'required|string',
+            'phone_number' => 'required|string|max:20',
+            'why_novavoca' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -31,42 +28,30 @@ class JobApplicationController extends Controller
         }
 
         try {
-            $data = $request->except(['resume', 'cover_letter']);
-            $folder = 'uploads/job_applications';
+            $nameParts = explode(' ', trim($request->full_name), 2);
+            $firstName = $nameParts[0];
+            $lastName  = isset($nameParts[1]) ? $nameParts[1] : ' ';
 
-            if (!file_exists(public_path($folder))) {
-                mkdir(public_path($folder), 0777, true);
-            }
+            $data = [
+                'first_name' => $firstName,
+                'last_name'  => $lastName,
+                'email'      => $request->email,
+                'country'    => $request->country,
+                'phone_number' => $request->phone_number,
 
-            // File Uploads
-            if ($request->hasFile('resume')) {
-                $file = $request->file('resume');
-                $name = 'resume_' . time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path($folder), $name);
-                $data['resume_path'] = $folder . '/' . $name;
-            }
+                'most_recent_employer'  => $request->why_novavoca ?? 'N/A',
+                'most_recent_job_title' => 'N/A',
+                'resume_path'           => 'no_file',
+            ];
 
-            if ($request->hasFile('cover_letter')) {
-                $file = $request->file('cover_letter');
-                $name = 'cl_' . time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path($folder), $name);
-                $data['cover_letter_path'] = $folder . '/' . $name;
-            }
-
-            // Database Save
             JobApplication::create($data);
 
-            // Emails Sending
-            Mail::to('rayhan259606@gmail.com')->send(new AdminJobMail($data)); // Admin
-            Mail::to($data['email'])->send(new UserConfirmMail($data)); // Applicant
+            Mail::to('rayhan259606@gmail.com')->send(new AdminJobMail($data));
+            Mail::to($request->email)->send(new UserConfirmMail($data));
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Application submitted successfully! Check your email.'
-            ], 200);
-
+            return response()->json(['status' => true, 'message' => 'Application submitted successfully!'], 200);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => $e->getMessage()], 500);
+            return response()->json(['status' => false, 'message' => 'Something went wrong.'], 500);
         }
     }
 }
