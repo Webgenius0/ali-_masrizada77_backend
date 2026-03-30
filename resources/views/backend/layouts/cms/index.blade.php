@@ -291,15 +291,16 @@
                                         </div>
                                     @endif
                                 </div>
+                                <div class="col-md-6 mt-3">
+                                    <x-form.text name="bottom_btn_title" label="Section Title" :value="$data->metadata['bottom_btn_title'] ?? ''" />
+                                </div>
                                 <div class="col-md-12 mt-3">
                                     <x-form.text name="bottom_desc" label="Section Description" :value="$data->metadata['bottom_desc'] ?? ''" />
                                 </div>
-                                <div class="col-md-6 mt-3">
-                                    <x-form.text name="bottom_btn_title" label="Button Title" :value="$data->metadata['bottom_btn_title'] ?? ''" />
-                                </div>
-                                <div class="col-md-6 mt-3">
+
+                                {{-- <div class="col-md-6 mt-3">
                                     <x-form.text name="bottom_btn_link" label="Button Link" :value="$data->metadata['bottom_btn_link'] ?? ''" />
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
