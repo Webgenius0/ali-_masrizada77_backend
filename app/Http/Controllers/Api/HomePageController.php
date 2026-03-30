@@ -35,6 +35,9 @@ class HomePageController extends Controller
                 'status'   => 'success',
                 'language' => $type,
                 'data'     => [
+                'headr_main_content'=>[
+                     'header_text'    => $meta['header_text'],
+                ],
 
                     // ─── 1. Hero Section ────────────────────────────────────────
                     'hero' => [

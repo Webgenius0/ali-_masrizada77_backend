@@ -12,7 +12,7 @@ class LogoController extends Controller
 {
  public function showlogo()
 {
-    $data = Setting::latest()->first(['logo', 'logo_height', 'logo_width','description']);
+    $data = Setting::latest()->first(['logo', 'logo_height', 'logo_width']);
 
     if (!$data) {
         return response()->json([
@@ -23,7 +23,6 @@ class LogoController extends Controller
 
     return response()->json([
         'success' => true,
-        'desc'=>$data->description,
         'logo' => asset($data->logo),
         'height' => $data->logo_height,
         'width' => $data->logo_width,

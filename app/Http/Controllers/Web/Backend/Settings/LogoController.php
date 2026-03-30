@@ -32,7 +32,6 @@ class LogoController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-            'description'    => 'nullable|string|max:500',
             'logo_width'     => 'nullable|numeric',
             'logo_height'    => 'nullable|numeric',
             'logo'           => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',

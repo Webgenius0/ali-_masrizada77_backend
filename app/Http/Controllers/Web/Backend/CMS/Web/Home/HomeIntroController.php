@@ -110,6 +110,9 @@ foreach ($metaImageFields as $field) {
 
             // ২. Metadata Preparation
 $metadata = [
+
+//headr data
+     'header_text'=>$request->header_text,
     // Hero Section Buttons
     'btn2_text'            => $request->btn2_text,
     'btn2_link'            => $request->btn2_link,

@@ -30,6 +30,17 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header bg-primary text-white">
+                            <h5>** Heder Main Title</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                 <div class="col-md-12 mt-3">
+                                    <x-form.text name="header_text" label="Button 1 Link" :value="$data->metadata['header_text'] ?? ''" />
+                                </div>
+                                </div>
+                        </div>
+
+                        <div class="card-header bg-primary text-white">
                             <h5>1. Hero Section (Title, Video File, 2 Buttons)</h5>
                         </div>
                         <div class="card-body">
@@ -196,8 +207,7 @@
                                         <div class="col-md-4">
                                             <x-form.text name="stat_3_val" label="Stat 3 Percentage (%)"
                                                 :value="$data->metadata['stat_3_val'] ?? '37'" />
-                                            <x-form.text name="stat_3_text" label="Stat 3 Description"
-                                                :value="$data->metadata['stat_3_text'] ?? ''" />
+                                            <x-form.text name="stat_3_text" label="Stat 3 Description" :value="$data->metadata['stat_3_text'] ?? ''" />
                                         </div>
                                     </div>
                                 </div>
