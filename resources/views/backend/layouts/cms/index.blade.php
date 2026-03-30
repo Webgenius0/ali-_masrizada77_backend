@@ -243,11 +243,11 @@
                                         :value="$data->metadata['cx_title'] ?? ''" /></div>
                                 <div class="col-md-12"><x-form.text name="cx_description" label="CX Description"
                                         :value="$data->metadata['cx_description'] ?? ''" /></div>
-                                <div class="col-md-6"><x-form.text name="cx_link_title" label="Link Title"
+                                {{-- <div class="col-md-6"><x-form.text name="cx_link_title" label="Link Title"
                                         :value="$data->metadata['cx_link_title'] ?? ''" /></div>
                                 <div class="col-md-6"><x-form.text name="cx_link_add" label="Link URL"
                                         :value="$data->metadata['cx_link_add'] ?? ''" />
-                                </div>
+                                </div> --}}
                             </div>
 
                             <hr>
