@@ -137,6 +137,13 @@ class HomePageController extends Controller
                             'question' => $faq['q'] ?? null,
                             'answer'   => $faq['a'] ?? null,
                         ])
+                    ],
+
+
+             'last_better_cx' => [
+                        'title'       => $meta['last_bettercx_title'] ?? 'Better CX, better Business',
+                        'description' => $meta['last_bettercx_desc'] ?? null,
+
                     ]
                 ]
             ], 200);

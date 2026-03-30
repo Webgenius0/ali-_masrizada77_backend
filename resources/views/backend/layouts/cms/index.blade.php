@@ -145,7 +145,7 @@
                     </div> --}}
                     <div class="card shadow mb-4">
                         <div class="card-header bg-dark text-white d-flex justify-content-between">
-                            <h5>6. Case Study & Industry Section</h5>
+                            <h5>3. Case Study & Industry Section</h5>
                             <span class="badge badge-light">Stats: 75%, 95%, 37%</span>
                         </div>
                         <div class="card-body">
@@ -177,25 +177,29 @@
                                             :value="$data->metadata['case_description'] ?? ''" />
                                     </div>
 
-<div class="row mt-3">
-    {{-- Stat 1 --}}
-    <div class="col-md-4 border-end">
-        <x-form.text name="stat_1_val" label="Stat 1 Percentage (%)" :value="$data->metadata['stat_1_val'] ?? '75'" />
-        <x-form.text name="stat_1_text" label="Stat 1 Description" :value="$data->metadata['stat_1_text'] ?? ''" />
-    </div>
+                                    <div class="row mt-3">
+                                        {{-- Stat 1 --}}
+                                        <div class="col-md-4 border-end">
+                                            <x-form.text name="stat_1_val" label="Stat 1 Percentage (%)"
+                                                :value="$data->metadata['stat_1_val'] ?? '75'" />
+                                            <x-form.text name="stat_1_text" label="Stat 1 Description" :value="$data->metadata['stat_1_text'] ?? ''" />
+                                        </div>
 
-    {{-- Stat 2 --}}
-    <div class="col-md-4 border-end">
-        <x-form.text name="stat_2_val" label="Stat 2 Percentage (%)" :value="$data->metadata['stat_2_val'] ?? '95'" />
-        <x-form.text name="stat_2_text" label="Stat 2 Description" :value="$data->metadata['stat_2_text'] ?? ''" />
-    </div>
+                                        {{-- Stat 2 --}}
+                                        <div class="col-md-4 border-end">
+                                            <x-form.text name="stat_2_val" label="Stat 2 Percentage (%)"
+                                                :value="$data->metadata['stat_2_val'] ?? '95'" />
+                                            <x-form.text name="stat_2_text" label="Stat 2 Description" :value="$data->metadata['stat_2_text'] ?? ''" />
+                                        </div>
 
-    {{-- Stat 3 --}}
-    <div class="col-md-4">
-        <x-form.text name="stat_3_val" label="Stat 3 Percentage (%)" :value="$data->metadata['stat_3_val'] ?? '37'" />
-        <x-form.text name="stat_3_text" label="Stat 3 Description" :value="$data->metadata['stat_3_text'] ?? ''" />
-    </div>
-</div>
+                                        {{-- Stat 3 --}}
+                                        <div class="col-md-4">
+                                            <x-form.text name="stat_3_val" label="Stat 3 Percentage (%)"
+                                                :value="$data->metadata['stat_3_val'] ?? '37'" />
+                                            <x-form.text name="stat_3_text" label="Stat 3 Description"
+                                                :value="$data->metadata['stat_3_text'] ?? ''" />
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
@@ -272,7 +276,7 @@
                     </div>
                     <div class="card shadow mb-4 border-success">
                         <div class="card-header bg-success text-white">
-                            <h5>7. Bottom Video & Call to Action</h5>
+                            <h5>5. Bottom Video & Call to Action</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -302,7 +306,7 @@
 
                     <div class="card shadow mb-4 border-warning">
                         <div class="card-header bg-warning text-dark">
-                            <h5>8. Start Deployment AI Agents</h5>
+                            <h5>6. Start Deployment AI Agents</h5>
                         </div>
                         <div class="card-body">
                             <x-form.text name="ai_agents_title" label="Section Main Title" :value="$data->metadata['ai_agents_title'] ?? 'Start deployment AI Agents'" />
@@ -331,7 +335,7 @@
 
                     <div class="card shadow mb-4 border-warning">
                         <div class="card-header bg-warning text-dark">
-                            <h5>9. FAQ Section</h5>
+                            <h5>7. FAQ Section</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -363,14 +367,31 @@
                                 @endfor
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card mb-5 shadow">
-                        <div class="card-body p-4 text-center">
-                            <button type="submit" class="btn btn-success btn-lg w-50">SAVE
-                                {{ strtoupper($type ?? 'ENGLISH') }} DATA</button>
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                            <h5>8.Better CX, better Business</h5>
                         </div>
-                    </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <x-form.text name="last_bettercx_title" label="Better CX, better Business" :value="$data->metadata['last_bettercx_title'] ?? 'Better CX, better Business'" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-form.text name="last_bettercx_desc" label="Better CX, better Business Description"
+                                            :value="$data->metadata['last_bettercx_desc'] ?? ''" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card mb-5 shadow">
+                            <div class="card-body p-4 text-center">
+                                <button type="submit" class="btn btn-success btn-lg w-50">SAVE
+                                    {{ strtoupper($type ?? 'ENGLISH') }} DATA</button>
+                            </div>
+                        </div>
                 </form>
             </div>
         </div>

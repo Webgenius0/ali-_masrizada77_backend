@@ -134,6 +134,12 @@ $metadata = [
     'faq_title'            => $request->faq_title,
     'faq_discription' => $request->faq_discription,
     'faq'                  => $request->faq,
+
+    //last better cx
+    'last_bettercx_title'=>$request->last_bettercx_title,
+    'last_bettercx_desc'=>$request->last_bettercx_desc,
+
+
 ];
 
             // CX Features Handling (Image handling fixed for existing images)
