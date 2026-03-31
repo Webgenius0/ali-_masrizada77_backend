@@ -78,12 +78,13 @@ class HomePageController extends Controller
                         ],
                         'buttons'  => [
                             [
-                                'label' => $data->btn_text              ?? null,
-                                'url'   => $data->btn_link              ?? null,
+                                'label_1' => $data->btn_text              ?? null,
+                                'label' => $meta['btn2_text']           ?? null,
+                                // 'url'   => $data->btn_link              ?? null,
                             ],
                             [
-                                'label' => $meta['btn2_text']           ?? null,
-                                'url'   => $meta['btn2_link']           ?? null,
+                                // 'label' => $meta['btn2_text']           ?? null,
+                                // 'url'   => $meta['btn2_link']           ?? null,
                             ],
                         ],
                     ],

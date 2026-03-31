@@ -66,16 +66,16 @@
                         <div class="col-md-3 mt-3">
                                     <x-form.text name="btn_text" label="Button 1 Title" :value="$data->btn_text ?? ''" />
                                 </div>
-                                <div class="col-md-3 mt-3">
+                                {{-- <div class="col-md-3 mt-3">
                                     <x-form.text name="btn_link" label="Button 1 Link" :value="$data->btn_link ?? ''" />
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-3 mt-3">
                                     <x-form.text name="btn2_text" label="Button 2 Title" :value="$data->metadata['btn2_text'] ?? ''" />
                                 </div>
-                                <div class="col-md-3 mt-3">
+                                {{-- <div class="col-md-3 mt-3">
                                     <x-form.text name="btn2_link" label="Button 2 Link" :value="$data->metadata['btn2_link'] ?? ''" />
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
