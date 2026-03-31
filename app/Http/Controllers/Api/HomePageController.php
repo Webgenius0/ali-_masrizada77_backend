@@ -64,6 +64,8 @@ class HomePageController extends Controller
                 'data'     => [
                     'headr_main_content' => [
                         'header_text' => $meta['header_text'],
+                        'logo_img1' => isset($meta['logo_img1']) ? asset($meta['logo_img1']) : null,
+                        'logo_img2' => isset($meta['logo_img2']) ? asset($meta['logo_img2']) : null,
                     ],
 
                     // ─── 1. Hero Section ────────────────────────────────────────
@@ -94,9 +96,7 @@ class HomePageController extends Controller
                         'subtitle' => $meta['case_sec_subtitle']  ?? null,
 
                         'spotlight' => [
-                            'image_subtitle' => $meta['case_image_subtile'] ?? null,
-                            'image'          => $data->image2 ? asset($data->image2) : null,
-                            'description'    => $meta['case_description'] ?? null,
+
                             'statistics'     => [
                                 [
                                     'value' => $meta['stat_1_val']  ?? '0',
@@ -120,6 +120,10 @@ class HomePageController extends Controller
                                     'title' => $item['title'] ?? null,
                                     'image' => isset($item['img']) ? asset($item['img']) : null,
                                 ])->values(),
+
+                             'image_subtitle' => $meta['case_image_subtile'] ?? null,
+                            'image'          => $data->image2 ? asset($data->image2) : null,
+                         'image_description'    => $meta['case_description'] ?? null,
                         ],
                     ],
 

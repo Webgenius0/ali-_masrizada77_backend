@@ -105,55 +105,6 @@
                         </div>
                     </div>
 
-                    {{-- <div class="card shadow mb-4">
-                        <div class="card-header bg-secondary text-white">
-                            <h5>3. Feature Section (Picture + 4 Texts)</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                    <x-form.file name="image1" label="Upload Section Video (MP4)" />
-
-
-                                    @if (isset($data->image1) && file_exists(public_path($data->image1)))
-                                        <div class="mt-2">
-                                            <video width="320" height="180" controls style="border: 1px solid #ddd; border-radius: 5px;">
-                                                <source src="{{ asset($data->image1) }}" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                            <br>
-                                            <small class="text-success">Current Video: {{ basename($data->image1) }}</small>
-                                        </div>
-                                    @else
-                                        <div class="mt-2">
-                                            <small class="text-muted">No video uploaded yet.</small>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <x-form.text name="feature_title" label="Title" :value="$data->metadata['feature_title'] ?? ''" />
-                                    <x-form.text name="feature_short" label="Short Title" :value="$data->metadata['feature_short'] ?? ''" />
-                                    <div class="row">
-                                        @for ($i = 0; $i < 4; $i++)
-                                            <div class="col-md-6">
-                                                <x-form.text name="feature_list[]" label="Feature {{ $i + 1 }}"
-                                                    :value="$data->metadata['feature_list'][$i] ?? ''" />
-                                            </div>
-                                        @endfor
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <x-form.text name="sec2_link_title" label="Link Title" :value="$data->metadata['sec2_link_title'] ?? ''" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <x-form.text name="sec2_link_url" label="Link Name / URL" :value="$data->metadata['sec2_link_url'] ?? ''" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="card shadow mb-4">
                         <div class="card-header bg-dark text-white d-flex justify-content-between">
                             <h5>3. Case Study & Industry Section</h5>
