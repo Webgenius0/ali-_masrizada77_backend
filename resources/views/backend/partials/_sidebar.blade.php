@@ -47,18 +47,12 @@
                     </a>
                 </li>
 
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('home.getalljob.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.home.getalljob.index') }}">
-                        <i class="fa-solid fa-list  side-menu__icon"></i>
-                        <span class="side-menu__label">Show Applicient </span>
-                    </a>
-                </li>
+
                 </li>
 
 
 
-
+{{--
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.report.*') ? 'has-link active' : '' }}"
                         data-bs-toggle="slide" href="#">
@@ -69,11 +63,11 @@
                         <li><a href="{{ route('admin.report.users') }}" class="slide-item">User</a></li>
                         <li><a href="#" class="slide-item">Orders</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <li>
                     <h3>Basic</h3>
                 </li>
-                @role('admin')
+                {{-- @role('admin')
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.brand.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.brand.index') }}">
@@ -109,7 +103,7 @@
                         <i class="fa-solid fa-graduation-cap side-menu__icon"></i>
                         <span class="side-menu__label">Course</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.blog_heading.index') }}">
@@ -133,7 +127,7 @@
                         <span class="side-menu__label">Job Post</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.quiz.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.quiz.index') }}">
                         <i class="fa-solid fa-feather side-menu__icon"></i>
@@ -196,9 +190,18 @@
                         <i class="fa-solid fa-file side-menu__icon"></i>
                         <span class="side-menu__label">Project</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <h3>Components</h3>
+                </li>
+
+
+                <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('home.getalljob.*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.home.getalljob.index') }}">
+                        <i class="fa-solid fa-list  side-menu__icon"></i>
+                        <span class="side-menu__label">Show Applicient </span>
+                    </a>
                 </li>
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.contact.*') ? 'has-link active' : '' }}"
@@ -214,7 +217,7 @@
                         <span class="side-menu__label">Subscriber</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.chat.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.chat.index') }}">
                         <i class="fa-brands fa-rocketchat side-menu__icon"></i>
@@ -240,7 +243,7 @@
                             <li><a href="{{ route('admin.permissions.index') }}" class="slide-item">Permission</a></li>
                         </ul>
                     </li>
-                @endrole
+                @endrole --}}
                 @role('admin')
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}"
@@ -280,7 +283,7 @@
                         </ul>
                     </li>
                 @endrole
-                @role('admin')
+                {{-- @role('admin')
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.template.*') ? 'has-link active' : '' }}"
                             data-bs-toggle="slide" href="#">
@@ -292,7 +295,7 @@
                             </li>
                         </ul>
                     </li>
-                @endrole
+                @endrole --}}
                 @role('admin')
                     <li>
                         <h3>CMS</h3>
@@ -537,13 +540,13 @@
                         </ul>
 
                     </li>
-                    <li class="slide">
+                    {{-- <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.menu.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.menu.index') }}">
                             <i class="fa-solid fa-bars-staggered side-menu__icon"></i>
                             <span class="side-menu__label">Menu</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}"
                             data-bs-toggle="slide" href="#">
@@ -557,7 +560,7 @@
                         </ul>
                     </li>
                 @endrole
-                @role('admin')
+                {{-- @role('admin')
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.location.*') ? 'has-link active' : '' }}"
                             data-bs-toggle="slide" href="#">
@@ -572,7 +575,7 @@
                             <li><a href="#" class="slide-item">Area</a></li>
                         </ul>
                     </li>
-                @endrole
+                @endrole --}}
 
                 @can('dev')
                     <li class="{{ env('APP_ENV') == 'production' ? 'd-none' : '' }}">
