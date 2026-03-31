@@ -31,13 +31,40 @@ class HomePageController extends Controller
 
             $meta = $data->metadata ?? [];
 
+            // ─── Fetch slug category data (category-1, category-2, category-3) ───
+            $slugs = ['category-1', 'category-2', 'category-3'];
+
+            $categoryFeatures = [];
+            foreach ($slugs as $slug) {
+                $cmsData = CMS::where('slug', $slug)
+                    ->where('type', $type)
+                    ->where('status', 'active')
+                    ->first();
+
+                if ($cmsData) {
+                    $slugMeta = $cmsData->metadata ?? [];
+                    $categoryFeatures[$slug] = [
+                        'title'    => $slugMeta['feature_title'] ?? null,
+                        'subtitle' => $slugMeta['feature_short'] ?? null,
+                        'image'    => $cmsData->image1 ? asset($cmsData->image1) : null,
+                        'list'     => $slugMeta['feature_list'] ?? [],
+                        'footer_link' => [
+                            'label' => $slugMeta['sec2_link_title'] ?? null,
+                            'url'   => $slugMeta['sec2_link_url']   ?? null,
+                        ],
+                    ];
+                }
+            }
+
+            $slugOrder = array_values($slugs);
+
             return response()->json([
                 'status'   => 'success',
                 'language' => $type,
                 'data'     => [
-                'headr_main_content'=>[
-                     'header_text'    => $meta['header_text'],
-                ],
+                    'headr_main_content' => [
+                        'header_text' => $meta['header_text'],
+                    ],
 
                     // ─── 1. Hero Section ────────────────────────────────────────
                     'hero' => [
@@ -47,18 +74,6 @@ class HomePageController extends Controller
                             'type' => 'video',
                             'url'  => $data->video ? asset($data->video) : null,
                         ],
-                        // 'actions' => [
-                        //     [
-                        //         'label'   => $data->btn_text,
-                        //         'url'     => $data->btn_link,
-                        //         'primary' => true,
-                        //     ],
-                        //     [
-                        //         'label'   => $meta['btn2_text'] ?? null,
-                        //         'url'     => $meta['btn2_link'] ?? null,
-                        //         'primary' => false,
-                        //     ],
-                        // ],
                     ],
 
                     // ─── 2. Info Section ─────────────────────────────────────────
@@ -66,21 +81,20 @@ class HomePageController extends Controller
                         'title'    => $meta['sec2_title'] ?? null,
                         'subtitle' => $meta['sec2_short'] ?? null,
                         'items'    => collect($meta['sec2_items'] ?? [])
-                            ->map(fn($item) => [
+                            ->map(fn($item, $index) => [
                                 'title'       => $item['title'] ?? null,
                                 'description' => $item['desc']  ?? null,
+                                'features'    => $categoryFeatures[$slugOrder[$index] ?? ''] ?? null, // ✅ merged
                             ])->values(),
                     ],
 
                     // ─── 3. Case Study & Industry Section ────────────────────────
-                    // (blade-এ section 3, controller-এ আগে section 5 ছিল — fix করা হয়েছে)
                     'case_study' => [
                         'title'    => $meta['case_sec_title']    ?? null,
                         'subtitle' => $meta['case_sec_subtitle']  ?? null,
 
-                        // LEFT SIDE
                         'spotlight' => [
-                            'image_subtitle' => $meta['case_image_subtile'] ?? null, // ✅ missing ছিল
+                            'image_subtitle' => $meta['case_image_subtile'] ?? null,
                             'image'          => $data->image2 ? asset($data->image2) : null,
                             'description'    => $meta['case_description'] ?? null,
                             'statistics'     => [
@@ -99,9 +113,8 @@ class HomePageController extends Controller
                             ],
                         ],
 
-                        // RIGHT SIDE
                         'industry' => [
-                            'description' => $meta['industry_description'] ?? null, // ✅ missing ছিল
+                            'description' => $meta['industry_description'] ?? null,
                             'items'       => collect($meta['industry_items'] ?? [])
                                 ->map(fn($item) => [
                                     'title' => $item['title'] ?? null,
@@ -114,12 +127,7 @@ class HomePageController extends Controller
                     'cx_solutions' => [
                         'title'       => $meta['cx_title']       ?? null,
                         'description' => $meta['cx_description'] ?? null,
-                        // 'link'        => [
-                        //     'label' => $meta['cx_link_title'] ?? null,
-                        //     'url'   => $meta['cx_link_add']   ?? null,
-                        // ],
-                        // ─── 5. CX Features (blade-এ section 5, cx-এর ভেতরে) ────
-                        'features' => collect($meta['cx_features'] ?? [])
+                        'features'    => collect($meta['cx_features'] ?? [])
                             ->map(fn($item) => [
                                 'title'       => $item['title']    ?? null,
                                 'description' => $item['desc']     ?? null,
@@ -129,16 +137,14 @@ class HomePageController extends Controller
 
                     // ─── 5. Bottom Video & CTA ───────────────────────────────────
                     'cta' => [
-                        'title' => $meta['bottom_btn_title'] ?? null,
-                        'description' => $meta['bottom_desc'] ?? null,
-
+                        'title'       => $meta['bottom_btn_title'] ?? null,
+                        'description' => $meta['bottom_desc']      ?? null,
                         'media'       => [
                             'type' => 'video',
-                            // blade-এ name="bottom_video" কিন্তু DB-তে image4 — দুটোই check
                             'url'  => ($data->image4 ?? null)
                                 ? asset($data->image4)
                                 : (($data->bottom_video ?? null) ? asset($data->bottom_video) : null),
-                        ]
+                        ],
                     ],
 
                     // ─── 6. AI Deployment Agents ─────────────────────────────────
@@ -172,8 +178,8 @@ class HomePageController extends Controller
 
                     // ─── 9. Logo Images ───────────────────────────────────────────
                     'logos' => [
-                       'logo_img1'=> isset($meta['logo_img1']) ? asset($meta['logo_img1']) : null,
-                     'logo_img2'=>  isset($meta['logo_img2']) ? asset($meta['logo_img2']) : null,
+                        'logo_img1' => isset($meta['logo_img1']) ? asset($meta['logo_img1']) : null,
+                        'logo_img2' => isset($meta['logo_img2']) ? asset($meta['logo_img2']) : null,
                     ],
 
                 ],
