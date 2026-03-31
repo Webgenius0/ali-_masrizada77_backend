@@ -76,6 +76,16 @@ class HomePageController extends Controller
                             'type' => 'video',
                             'url'  => $data->video ? asset($data->video) : null,
                         ],
+                        'buttons'  => [
+                            [
+                                'label' => $data->btn_text              ?? null,
+                                'url'   => $data->btn_link              ?? null,
+                            ],
+                            [
+                                'label' => $meta['btn2_text']           ?? null,
+                                'url'   => $meta['btn2_link']           ?? null,
+                            ],
+                        ],
                     ],
 
                     // ─── 2. Info Section ─────────────────────────────────────────
@@ -121,9 +131,9 @@ class HomePageController extends Controller
                                     'image' => isset($item['img']) ? asset($item['img']) : null,
                                 ])->values(),
 
-                             'image_subtitle' => $meta['case_image_subtile'] ?? null,
+                            'image_subtitle' => $meta['case_image_subtile'] ?? null,
                             'image'          => $data->image2 ? asset($data->image2) : null,
-                         'image_description'    => $meta['case_description'] ?? null,
+                            'image_description'    => $meta['case_description'] ?? null,
                         ],
                     ],
 
