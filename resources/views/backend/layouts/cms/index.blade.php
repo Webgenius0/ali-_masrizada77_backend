@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <div class="row">
                                  <div class="col-md-12 mt-3">
-                                    <x-form.text name="header_text" label="Button 1 Link" :value="$data->metadata['header_text'] ?? ''" />
+                                    <x-form.text name="header_text" label="Heder Main Title" :value="$data->metadata['header_text'] ?? ''" />
                                 </div>
                                 </div>
                         </div>
