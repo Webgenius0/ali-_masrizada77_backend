@@ -11,10 +11,7 @@ use Exception;
 
 class InfrastructureController extends Controller
 {
-    /**
-     * Get Infrastructure Data for Frontend
-     */
-public function getInfrastructureData(Request $request)
+    public function getInfrastructureData(Request $request)
     {
         try {
             $type = $request->query('type', 'english');
@@ -30,13 +27,13 @@ public function getInfrastructureData(Request $request)
             if (!$data) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'No infrastructure data found for ' . $type
+                    'message' => 'No infrastructure data found'
                 ], 404);
             }
 
             $metadata = $data->metadata;
 
-            // ফ্রন্টএন্ডে পাঠানোর জন্য ডাটা ফরম্যাট করা
+            // মূল রেসপন্স স্ট্রাকচার
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -45,12 +42,15 @@ public function getInfrastructureData(Request $request)
                         'sub_title' => $metadata['sec1_sub_title'] ?? '',
                     ],
                     'categories'  => $this->formatCategories($metadata),
-                    'deployments' => $this->formatDeployments($metadata),
-                    'comparison'  => $this->formatComparison($metadata),
-                    'faq' => [
+
+                    // এখানে ডেপ্লয়মেন্ট গুলো আলাদা কি (key) তে ভাগ করা হয়েছে
+                    'deployment_sections' => $this->formatDeploymentSections($metadata),
+
+                    'comparison_table'  => $this->formatComparison($metadata),
+                    'faq_section' => [
                         'title'     => $metadata['faq_title'] ?? '',
                         'sub_title' => $metadata['faq_sub_title'] ?? '',
-                        'items'     => $metadata['faqs'] ?? []
+                        'items'     => array_values($metadata['faqs'] ?? [])
                     ]
                 ]
             ], 200);
@@ -65,34 +65,20 @@ public function getInfrastructureData(Request $request)
     }
 
     /**
-     * ক্যাটাগরি এবং ইমেজ URL ফরম্যাট করা
+     * Deployment গুলোকে আলাদা আলাদা অবজেক্টে রূপান্তর (deployment_1, 2, 3...)
      */
-    private function formatCategories($metadata)
-    {
-        $categories = [];
-        $titles = $metadata['sec2_data'] ?? [];
-        $images = $metadata['sec2_images'] ?? [];
-
-        for ($i = 0; $i < 3; $i++) {
-            $categories[] = [
-                'title' => $titles[$i]['title'] ?? '',
-                'desc'  => $titles[$i]['desc'] ?? '',
-                'image' => isset($images[$i]) && $images[$i] ? asset($images[$i]) : null,
-            ];
-        }
-        return $categories;
-    }
-
-    /**
-     * Deployment সেকশনের আইকনগুলোর পূর্ণাঙ্গ URL করা
-     */
-    private function formatDeployments($metadata)
+    private function formatDeploymentSections($metadata)
     {
         $deployments = $metadata['sec3_deployments'] ?? [];
+        $formatted = [];
 
-        return collect($deployments)->map(function ($item) {
+        foreach ($deployments as $index => $item) {
+            // ইনডেক্স ১ থেকে শুরু করার জন্য $index + 1
+            $keyName = "deployment_" . ($index + 1);
+
+            $features = [];
             if (isset($item['features'])) {
-                $item['features'] = collect($item['features'])->map(function ($feat) {
+                $features = collect($item['features'])->map(function ($feat) {
                     return [
                         'title' => $feat['title'] ?? '',
                         'sub'   => $feat['sub'] ?? '',
@@ -100,17 +86,37 @@ public function getInfrastructureData(Request $request)
                     ];
                 })->toArray();
             }
-            return $item;
-        });
+
+            $formatted[$keyName] = [
+                'main_title' => $item['title'] ?? '',
+                'sub_title'  => $item['sub'] ?? '',
+                'description'=> $item['desc'] ?? '',
+                'features'   => array_values($features)
+            ];
+        }
+
+        return $formatted;
     }
 
-    /**
-     * Comparison Table (c, f, h, o) কে পূর্ণাঙ্গ নামে রূপান্তর
-     */
+    private function formatCategories($metadata)
+    {
+        $categories = [];
+        $sec2Data = $metadata['sec2_data'] ?? [];
+        $images = $metadata['sec2_images'] ?? [];
+
+        for ($i = 0; $i < 3; $i++) {
+            $categories[] = [
+                'title' => $sec2Data[$i]['title'] ?? '',
+                'desc'  => $sec2Data[$i]['desc'] ?? '',
+                'image' => (isset($images[$i]) && $images[$i]) ? asset($images[$i]) : asset('uploads/no_image.png'),
+            ];
+        }
+        return $categories;
+    }
+
     private function formatComparison($metadata)
     {
         $rows = $metadata['table_rows'] ?? [];
-
         return collect($rows)->map(function ($row) {
             return [
                 'feature' => $row['f'] ?? '',
@@ -118,6 +124,6 @@ public function getInfrastructureData(Request $request)
                 'hybrid'  => $row['h'] ?? '',
                 'on_prem' => $row['o'] ?? '',
             ];
-        });
+        })->values();
     }
 }
