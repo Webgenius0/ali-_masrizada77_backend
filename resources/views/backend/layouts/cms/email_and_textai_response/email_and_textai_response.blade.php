@@ -183,6 +183,26 @@
                                 <div class="card-body border text-center">
                                     <x-form.text name="sec4_title" label="Main Title" :value="$data->metadata['sec4_title'] ?? ''" />
                                     <x-form.text name="sec4_subtitle" label="Subtitle" :value="$data->metadata['sec4_subtitle'] ?? ''" />
+
+                                    <div class="form-group mt-3">
+                                        <label class="form-label">Section 4 Features (Multiple)</label>
+                                        <div id="sec4-features-container">
+                                            @php
+                                                $features = $data->metadata['sec4_features'] ?? [''];
+                                            @endphp
+                                            @foreach ($features as $feature)
+                                                <div class="input-group mb-2">
+                                                    <input type="text" name="sec4_features[]" class="form-control"
+                                                        value="{{ $feature }}" placeholder="Enter feature text">
+                                                    <button type="button"
+                                                        class="btn btn-danger remove-feature">X</button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-primary mt-2" id="add-feature">
+                                            <i class="fe fe-plus"></i> Add More Feature
+                                        </button>
+                                    </div>
                                     <div class="col-md-4 text-center">
                                         <x-form.file name="image1" label="Upload Section Video"
                                             accept="video/mp4,video/webm" />
@@ -219,74 +239,51 @@
 @endsection
 
 @push('scripts')
-    <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-    <!-- SweetAlert2 JS (শেষের দিকে / body এর আগে) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('capability-items-container');
             const addButton = document.getElementById('add-capability-item');
 
+            // --- Section 2: Add Capability ---
             addButton.addEventListener('click', function() {
                 const index = container.querySelectorAll('.capability-item').length;
                 const emptyMsg = container.querySelector('.empty-msg');
                 if (emptyMsg) emptyMsg.remove();
 
                 const html = `
-            <div class="capability-item mb-4 border bg-white position-relative shadow-none animate__animated animate__fadeInUp">
-                <button type="button" class="btn btn-outline-danger btn-sm position-absolute remove-item" style="top: 15px; right: 15px;">
-                    <i class="fe fe-trash-2"></i>
-                </button>
-                <div class="d-flex align-items-center mb-3">
-                    <div class="avatar avatar-sm bg-primary text-white rounded-circle me-2 fw-bold small">${index + 1}</div>
-                    <h6 class="mb-0 fw-bold text-dark text-uppercase small">New Capability Detail</h6>
-                </div>
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <label class="form-label fw-semibold small text-muted">Title</label>
-                        <input type="text" name="sec2_items[${index}][title]" class="form-control form-control-lg border-faded" placeholder="Enter title...">
+                <div class="capability-item mb-4 border bg-white position-relative shadow-none animate__animated animate__fadeInUp">
+                    <button type="button" class="btn btn-outline-danger btn-sm position-absolute remove-item" style="top: 15px; right: 15px;">
+                        <i class="fe fe-trash-2"></i>
+                    </button>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar avatar-sm bg-primary text-white rounded-circle me-2 fw-bold small">${index + 1}</div>
+                        <h6 class="mb-0 fw-bold text-dark text-uppercase small">New Capability Detail</h6>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label fw-semibold small text-muted">Description</label>
-                        <textarea name="sec2_items[${index}][desc]" class="form-control border-faded" rows="3" placeholder="Briefly explain this..."></textarea>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-semibold small text-muted">Title</label>
+                            <input type="text" name="sec2_items[${index}][title]" class="form-control form-control-lg border-faded" placeholder="Enter title...">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small text-muted">Description</label>
+                            <textarea name="sec2_items[${index}][desc]" class="form-control border-faded" rows="3" placeholder="Briefly explain this..."></textarea>
+                        </div>
                     </div>
-                </div>
-            </div>
-            `;
+                </div>`;
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // Remove with SweetAlert2
+            // --- Section 2: Remove with SweetAlert2 ---
             container.addEventListener('click', function(e) {
                 const removeBtn = e.target.closest('.remove-item');
                 if (removeBtn) {
                     const item = removeBtn.closest('.capability-item');
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'Cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            item.remove();
-                            reindexItems();
-
-                            // Optional: success message
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Deleted!',
-                                text: 'Capability has been removed.',
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-                        }
+                    confirmDelete(() => {
+                        item.remove();
+                        reindexItems();
                     });
                 }
             });
@@ -296,44 +293,60 @@
                 items.forEach((item, idx) => {
                     const badge = item.querySelector('.avatar');
                     if (badge) badge.innerText = idx + 1;
-
                     const titleInput = item.querySelector('input[name*="[title]"]');
-                    const descInput = item.querySelector(
-                    'textarea[name*="[desc]"]'); // textarea হিসেবে চেঞ্জ করা হয়েছে
+                    const descInput = item.querySelector('textarea[name*="[desc]"]');
                     if (titleInput) titleInput.name = `sec2_items[${idx}][title]`;
                     if (descInput) descInput.name = `sec2_items[${idx}][desc]`;
                 });
             }
+
+            // --- Section 4: Add More Feature ---
+            document.getElementById('add-feature').addEventListener('click', function() {
+                const featContainer = document.getElementById('sec4-features-container');
+                const div = document.createElement('div');
+                div.className = 'input-group mb-2 animate__animated animate__fadeInIn';
+                div.innerHTML = `
+                    <input type="text" name="sec4_features[]" class="form-control" placeholder="Enter feature text">
+                    <button type="button" class="btn btn-danger remove-feature">X</button>
+                `;
+                featContainer.appendChild(div);
+            });
+
+            // --- Section 4: Remove Feature with SweetAlert2 ---
+            document.addEventListener('click', function(e) {
+                const removeBtn = e.target.closest('.remove-feature');
+                if (removeBtn) {
+                    const row = removeBtn.parentElement;
+                    confirmDelete(() => {
+                        row.remove();
+                    });
+                }
+            });
+
+            /**
+             * Common SweetAlert Confirmation
+             */
+            function confirmDelete(callback) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This item will be removed from the list!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, remove it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        callback();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Removed!',
+                            timer: 1000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
         });
     </script>
-
-    <style>
-        .border-faded {
-            border-color: #e9ebfa !important;
-        }
-
-        .capability-item {
-            transition: all 0.3s ease;
-        }
-
-        .capability-item:hover {
-            border-color: #705ec8 !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
-        }
-
-        .hvr-grow {
-            transition: transform 0.2s;
-        }
-
-        .hvr-grow:hover {
-            transform: scale(1.05);
-        }
-
-        .avatar.avatar-sm {
-            width: 28px;
-            height: 28px;
-            line-height: 28px;
-            font-size: 12px;
-        }
-    </style>
-@endpush
