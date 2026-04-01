@@ -55,7 +55,9 @@ class Email_text_ai_ResponceController extends Controller
                     'more_than_just_a_messgae' => [
                         'title'    => $data->metadata['sec4_title'] ?? '',
                         'subtitle' => $data->metadata['sec4_subtitle'] ?? '',
-                        'features' => $data->metadata['sec4_features'] ?? [],
+                        'features' => array_map(function ($feature) {
+                            return ['title' => $feature];
+                        }, $data->metadata['sec4_features'] ?? []),
                         'video'    => isset($data->metadata['sec4_image']) ? asset($data->metadata['sec4_image']) : null,
                     ],
                 ]
