@@ -19,10 +19,10 @@ class InfrastructureController extends Controller
             $section = SectionEnum::INTRO ?? 'MAIN';
 
             $data = CMS::where('page', $page)
-                       ->where('section', $section)
-                       ->where('type', $type)
-                       ->where('status', 'active')
-                       ->first();
+                ->where('section', $section)
+                ->where('type', $type)
+                ->where('status', 'active')
+                ->first();
 
             if (!$data) {
                 return response()->json([
@@ -50,11 +50,16 @@ class InfrastructureController extends Controller
                     'faq_section' => [
                         'title'     => $metadata['faq_title'] ?? '',
                         'sub_title' => $metadata['faq_sub_title'] ?? '',
-                        'items'     => array_values($metadata['faqs'] ?? [])
+                        // 'items'     => array_values($metadata['faqs'] ?? []),
+                        'faqs'  => array_values(array_map(function ($item) {
+                            return [
+                                'title' => $item['q'] ?? '',
+                                'discription' => $item['a'] ?? ''
+                            ];
+                        }, $metadata['faqs'] ?? [])),
                     ]
                 ]
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -90,7 +95,7 @@ class InfrastructureController extends Controller
             $formatted[$keyName] = [
                 'main_title' => $item['title'] ?? '',
                 'sub_title'  => $item['sub'] ?? '',
-                'description'=> $item['desc'] ?? '',
+                'description' => $item['desc'] ?? '',
                 'features'   => array_values($features)
             ];
         }
