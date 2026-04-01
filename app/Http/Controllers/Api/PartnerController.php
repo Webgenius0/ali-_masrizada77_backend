@@ -73,14 +73,25 @@ class PartnerController extends Controller
                 'main_faq' => [
                     'title' => $meta['faq_title'] ?? '',
                     'image' => isset($meta['faq_image']) ? asset($meta['faq_image']) : null,
-                    'faqs'  => $meta['faqs'] ?? [],// Array of {q, a}
+                    'faqs'     => array_values(array_map(function ($item) {
+                        return [
+                            'title' => $item['q'] ?? '',
+                            'discription' => $item['a'] ?? ''
+                        ];
+                    }, $meta['faqs'] ?? [])),
                 ],
 
 
                 'extra_faq' => [
                     'title'    => $meta['extra_faq_title'] ?? '',
                     'subtitle' => $meta['extra_faq_sub'] ?? '',
-                    'faqs'     => $meta['extra_faqs'] ?? [],// Array of {q, a}
+
+                    'faqs'     => array_values(array_map(function ($item) {
+                        return [
+                            'title' => $item['q'] ?? '',
+                            'discription' => $item['a'] ?? ''
+                        ];
+                    }, $meta['extra_faqs'] ?? [])),
                 ],
             ]
         ];
