@@ -47,7 +47,7 @@ class AboutUsApiController extends Controller
         'image'       => isset($meta['sec3_image']) ? asset($meta['sec3_image']) : null,
         'description' => $meta['sec3_img_desc'] ?? '',
         // এখানে array_values ব্যবহার করে অবজেক্টকে অ্যারেতে রূপান্তর করা হয়েছে
-        'qa_list'     => array_values(array_map(function($item) {
+        'faqs'     => array_values(array_map(function($item) {
             return [
                 'title' => $item['q'] ?? '',
                 'discription' => $item['a'] ?? ''
@@ -61,7 +61,7 @@ class AboutUsApiController extends Controller
     'extra_qa_section' => [
         'title'    => $meta['sec5_title'] ?? '',
         'subtitle' => $meta['sec5_subtitle'] ?? '',
-        'qa_list'  => array_values(array_map(function($item) {
+        'faqs'  => array_values(array_map(function($item) {
             return [
                 'title' => $item['q'] ?? '',
                 'discription' => $item['a'] ?? ''
