@@ -4,49 +4,62 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\CMS;
 use Illuminate\Http\Request;
 use Exception;
 
 class BlogController extends Controller
 {
-    public function index(Request $request)
-    {
-        try {
-            // শুধুমাত্র একটিভ ব্লগগুলো নিব
-            $blogs = Blog::where('status', 'active')->latest()->get();
+public function index(Request $request)
+{
+    try {
+        // ল্যাঙ্গুয়েজ টাইপ নির্ধারণ (Default: english)
+        $lang = $request->get('type', 'english');
+        $isDe = ($lang == 'de' || $lang == 'german');
 
-            // ফ্রন্টএন্ড থেকে আসা ল্যাঙ্গুয়েজ টাইপ (Default: english)
-            $lang = $request->get('type', 'english');
+        // ১. হেডার কন্টেন্ট রিট্রিভ করা (CMS টেবিল থেকে)
+        $cms = CMS::where('page', 'blog')
+                ->where('section', 'heading')
+                ->where('type', $lang)
+                ->first();
 
-            $formattedBlogs = $blogs->map(function ($blog) use ($lang) {
-                // চেক করছি টাইপ কি জার্মান (de) কিনা
-                $isDe = ($lang == 'de' || $lang == 'german');
+        $headerContent = [
+            'title'       => $cms->title ?? '',
+            'description' => $cms->description ?? '',
+            'image'       => ($cms && $cms->image1) ? asset($cms->image1) : null,
+            'status'      => $cms->status ?? null,
+        ];
 
-                return [
-                    'id'               => $blog->id,
-                    'type'             => ucfirst($lang),
-                    // টাইপ অনুযায়ী টাইটেল, সাবটাইটেল এবং ডেসক্রিপশন সেট করা হচ্ছে
-                    'title'            => $isDe ? ($blog->title_de ?? $blog->title) : $blog->title,
-                    'subtitle'         => $isDe ? ($blog->subtitle_de ?? $blog->subtitle) : $blog->subtitle,
-                    'image_url'        => $blog->image ? asset($blog->image) : null,
-                    'description_html' => $isDe ? ($blog->description_de ?? $blog->description) : $blog->description,
-                    'description_raw'  => strip_tags($isDe ? ($blog->description_de ?? $blog->description) : $blog->description),
-                    'created_date'     => $blog->created_at->format('d M, Y'),
-                ];
-            });
+        // ২. সব একটিভ ব্লগ একসাথে নেওয়া (Pagination ছাড়া)
+        $blogs = Blog::where('status', 'active')->latest()->get();
 
-            return response()->json([
-                'status'  => 'success',
-                'message' => $formattedBlogs->isEmpty() ? 'No blogs found' : 'Data retrieved successfully',
-                'count'   => $formattedBlogs->count(),
-                'data'    => $formattedBlogs
-            ], 200);
+        // ডাটা ট্রান্সফর্ম করা
+        $formattedBlogs = $blogs->map(function ($blog) use ($lang, $isDe) {
+            return [
+                'id'               => $blog->id,
+                'type'             => ucfirst($lang),
+                'title'            => $isDe ? ($blog->title_de ?? $blog->title) : $blog->title,
+                'subtitle'         => $isDe ? ($blog->subtitle_de ?? $blog->subtitle) : $blog->subtitle,
+                'image_url'        => $blog->image ? asset($blog->image) : null,
+                'description_html' => $isDe ? ($blog->description_de ?? $blog->description) : $blog->description,
+                'description_raw'  => strip_tags($isDe ? ($blog->description_de ?? $blog->description) : $blog->description),
+                'created_date'     => $blog->created_at->format('d M, Y'),
+            ];
+        });
 
-        } catch (Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
-        }
+        // ৩. ফাইনাল রেসপন্স
+        return response()->json([
+            'status'  => 'success',
+            'message' => $formattedBlogs->isEmpty() ? 'No blogs found' : 'Data retrieved successfully',
+            'header'  => $headerContent, // হেডিং ডাটা
+            'count'   => $formattedBlogs->count(),
+            'data'    => $formattedBlogs // সব ব্লগ একসাথে
+        ], 200);
+
+    } catch (Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
-
+}
     public function suggestions(Request $request)
     {
         try {
