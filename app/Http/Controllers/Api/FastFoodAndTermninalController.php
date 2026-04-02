@@ -75,8 +75,8 @@ class FastFoodAndTermninalController extends Controller
 
                     'faqs' => collect($metadata['sec6_faqs'] ?? [])->map(function($faq) {
                         return [
-                            'question' => $faq['q'] ?? '',
-                            'answer' => $faq['a'] ?? '',
+                            'title' => $faq['q'] ?? '',
+                            'description' => $faq['a'] ?? '',
                         ];
                     }),
                 ],
