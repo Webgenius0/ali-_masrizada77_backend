@@ -1,6 +1,47 @@
 @extends('backend.app')
 @section('content')
 
+{{-- ট্রান্সপারেন্ট ইমেজ দেখার জন্য কাস্টম সিএসএস --}}
+<style>
+    .image-preview-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin: 10px auto;
+        border: 2px solid #3e4b5b; /* বর্ডার একটু গাঢ় করা হয়েছে */
+        border-radius: 8px;
+        overflow: hidden;
+
+        /* ডার্ক চেকারবোর্ড ব্যাকগ্রাউন্ড (সাদা আইকন দেখার জন্য পারফেক্ট) */
+        background-color: #2c3e50;
+        background-image: linear-gradient(45deg, #34495e 25%, transparent 25%),
+                          linear-gradient(-45deg, #34495e 25%, transparent 25%),
+                          linear-gradient(45deg, transparent 75%, #34495e 75%),
+                          linear-gradient(-45deg, transparent 75%, #34495e 75%);
+        background-size: 16px 16px;
+        background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .image-preview-wrapper img {
+        max-width: 80%; /* আইকনটি বর্ডারের সাথে লেগে না যাওয়ার জন্য */
+        max-height: 80%;
+        object-fit: contain;
+        /* ড্রপ শ্যাডো দেওয়া হয়েছে যাতে সাদা আইকন আরও ফুটে ওঠে */
+        filter: drop-shadow(0px 0px 2px rgba(0,0,0,0.5));
+    }
+
+    .side-image-preview-wrapper {
+        width: 150px;
+        height: 150px;
+        margin: 10px 0;
+    }
+</style>
+
 <div class="app-content main-content mt-0">
     <div class="side-app">
         <div class="main-container container-fluid">
@@ -81,16 +122,22 @@
                             <div class="col-md-4">
                                 <label class="form-label">Side Image</label>
                                 <input type="file" name="sec3_image" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_img_prev')">
-                                <img id="sec3_img_prev" src="{{ asset($data->metadata['sec3_image'] ?? 'backend/images/no-image.png') }}" class="img-thumbnail" style="max-width:140px;">
+                                {{-- আপডেট করা প্রিভিউ বক্স --}}
+                                <div class="image-preview-wrapper side-image-preview-wrapper">
+                                    <img id="sec3_img_prev" src="{{ asset($data->metadata['sec3_image'] ?? 'backend/images/no-image.png') }}" alt="Preview">
+                                </div>
                             </div>
                         </div>
 
                         <div id="sec3-wrapper">
                             @foreach($data->metadata['sec3_items'] ?? [] as $key => $item)
                             <div class="row mb-3 border p-3 item-box align-items-center position-relative">
-                                <div class="col-md-3">
+                                <div class="col-md-3 text-center">
                                     <input type="file" name="sec3_icon_{{$key}}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_icon_prev_{{$key}}')">
-                                    <img id="sec3_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" width="60" height="60" class="mx-auto d-block">
+                                    {{-- আপডেট করা প্রিভিউ বক্স --}}
+                                    <div class="image-preview-wrapper">
+                                        <img id="sec3_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" alt="Icon">
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" name="sec3_items[{{$key}}][title]" class="form-control mb-2" placeholder="Title" value="{{ $item['title'] ?? '' }}">
@@ -119,10 +166,11 @@
                         <div id="sec4-wrapper" class="row">
                             @foreach($data->metadata['sec4_items'] ?? [] as $key => $item)
                             <div class="col-md-4 mb-3 item-box">
-                                <div class="border p-2">
+                                <div class="border p-2 text-center">
                                     <input type="file" name="sec4_icon_{{$key}}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_{{$key}}')">
-                                    <div class="text-center mb-2">
-                                        <img id="sec4_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" width="50" height="50">
+                                    {{-- আপডেট করা প্রিভিউ বক্স --}}
+                                    <div class="image-preview-wrapper">
+                                        <img id="sec4_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" alt="Icon">
                                     </div>
                                     <input type="text" name="sec4_items[{{$key}}][title]" class="form-control mb-2" placeholder="Feature Title" value="{{ $item['title'] ?? '' }}">
                                     <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
@@ -133,6 +181,7 @@
                     </div>
                 </div>
 
+                {{-- সেকশন ৫ এবং ৬ আগের মতোই থাকবে --}}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card mb-4">
@@ -221,9 +270,12 @@
         const index = Date.now(); // Using timestamp to ensure unique ID for preview
         const html = `
             <div class="row mb-3 border p-3 item-box align-items-center position-relative">
-                <div class="col-md-3">
+                <div class="col-md-3 text-center">
                     <input type="file" name="sec3_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_icon_prev_${index}')">
-                    <img id="sec3_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="60" height="60" class="mx-auto d-block">
+                    {{-- আপডেট করা প্রিভিউ বক্স --}}
+                    <div class="image-preview-wrapper">
+                        <img id="sec3_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" alt="Icon">
+                    </div>
                 </div>
                 <div class="col-md-3">
                     <input type="text" name="sec3_items[${index}][title]" class="form-control mb-2" placeholder="Title">
@@ -244,10 +296,11 @@
         const index = Date.now();
         const html = `
             <div class="col-md-4 mb-3 item-box">
-                <div class="border p-2">
+                <div class="border p-2 text-center">
                     <input type="file" name="sec4_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_${index}')">
-                    <div class="text-center mb-2">
-                        <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="50" height="50">
+                    {{-- আপডেট করা প্রিভিউ বক্স --}}
+                    <div class="image-preview-wrapper">
+                        <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" alt="Icon">
                     </div>
                     <input type="text" name="sec4_items[${index}][title]" class="form-control mb-2" placeholder="Feature Title">
                     <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
