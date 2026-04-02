@@ -1,11 +1,9 @@
 @extends('backend.app', ['title' => 'Posts'])
 
 @section('content')
-<!--app-content open-->
 <div class="app-content main-content mt-0">
     <div class="side-app">
 
-        <!-- CONTAINER -->
         <div class="main-container container-fluid">
 
             <div class="page-header">
@@ -36,10 +34,9 @@
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th>Thumbnail</th>
-                                            <th>Title</th>
+                                            <th>Title (EN / DE)</th> {{-- কলামের নাম পরিবর্তন করা হয়েছে --}}
                                             <th>Team</th>
                                             <th>Location</th>
-                                            <th>Type</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th class="text-center">Action</th>
@@ -55,14 +52,11 @@
         </div>
     </div>
 </div>
-<!-- CONTAINER CLOSED -->
 @endsection
 
 @push('scripts')
-<!-- DataTables -->
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
-<!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -75,10 +69,9 @@ $(document).ready(function() {
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
             { data: 'thumbnail', name: 'thumbnail', orderable: false },
-            { data: 'title', name: 'title' },
+            { data: 'title_combined', name: 'title' }, {{-- কন্ট্রোলার থেকে পাঠানো টাইটেল কলাম --}}
             { data: 'team', name: 'team' },
             { data: 'location', name: 'location' },
-            { data: 'type', name: 'type' },
             { data: 'status', name: 'status', orderable: false },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -102,13 +95,15 @@ $(document).ready(function() {
                 $.get("{{ url('admin/post/status') }}/" + id, function(response) {
                     Swal.fire({
                         title: 'Success!',
-                        text: response.success,
+                        text: response.message, {{-- response.success এর বদলে response.message --}}
                         icon: 'success',
-                        timer: 2000,
+                        timer: 1500,
                         showConfirmButton: false
                     });
 
                     $('#postTable').DataTable().ajax.reload(null, false);
+                }).fail(function() {
+                    Swal.fire('Error!', 'Could not change status.', 'error');
                 });
             }
         });
@@ -137,9 +132,9 @@ $(document).ready(function() {
                     success: function(response) {
                         Swal.fire({
                             title: 'Deleted!',
-                            text: response.success,
+                            text: response.message,
                             icon: 'success',
-                            timer: 2000,
+                            timer: 1500,
                             showConfirmButton: false
                         });
 

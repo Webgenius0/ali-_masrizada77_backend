@@ -64,7 +64,7 @@ class AboutUsApiController extends Controller
         'faqs'  => array_values(array_map(function($item) {
             return [
                 'title' => $item['q'] ?? '',
-                'discription' => $item['a'] ?? ''
+                'description' => $item['a'] ?? ''
             ];
         }, $meta['sec5_qa'] ?? [])),
     ]

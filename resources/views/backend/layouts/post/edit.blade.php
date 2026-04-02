@@ -20,23 +20,29 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card">
+                    <div class="card shadow-lg">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title">Edit Post</h3>
+                            <h3 class="card-title">Update Post Information</h3>
                             <div class="card-options">
                                 <a href="{{ route('admin.post.index') }}" class="btn btn-sm btn-primary">Back</a>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-4">
                             <form method="POST" action="{{ route('admin.post.update', $post->id) }}" enctype="multipart/form-data">
                                 @csrf
-                                @method('POST')
+                                @method('POST') {{-- রিসোর্স কন্ট্রোলারের জন্য PUT/PATCH মেথড ব্যবহার করা ভালো --}}
 
                                 <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Title <span class="text-danger">*</span></label>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">English Title <span class="text-danger">*</span></label>
                                         <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $post->title) }}" required>
                                         @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold text-info">German Title (DE)</label>
+                                        <input type="text" name="title_de" class="form-control @error('title_de') is-invalid @enderror" value="{{ old('title_de', $post->title_de) }}">
+                                        @error('title_de') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -49,10 +55,16 @@
                                         <input type="text" name="location" class="form-control" value="{{ old('location', $post->location) }}">
                                     </div>
 
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Content <span class="text-danger">*</span></label>
+                                    <div class="col-md-12 mb-4">
+                                        <label class="form-label fw-bold">English Content <span class="text-danger">*</span></label>
                                         <textarea name="content" class="summernote form-control @error('content') is-invalid @enderror" rows="10">{{ old('content', $post->content) }}</textarea>
                                         @error('content') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div class="col-md-12 mb-4">
+                                        <label class="form-label fw-bold text-info">German Content (DE)</label>
+                                        <textarea name="content_de" class="summernote form-control @error('content_de') is-invalid @enderror" rows="10">{{ old('content_de', $post->content_de) }}</textarea>
+                                        @error('content_de') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div class="col-md-12 mb-3">
@@ -62,37 +74,29 @@
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Thumbnail</label>
-                                        <input type="file" name="thumbnail" class="dropify form-control">
-                                        @if($post->thumbnail)
-                                            <div class="mt-2">
-                                                <img src="{{ asset($post->thumbnail) }}" width="150" class="rounded border">
-                                            </div>
-                                        @endif
+                                        <input type="file" name="thumbnail" class="dropify form-control" data-default-file="{{ $post->thumbnail ? asset($post->thumbnail) : '' }}">
+                                        <small class="text-muted">Leave empty to keep existing thumbnail</small>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Picture</label>
-                                        <input type="file" name="picture" class="dropify form-control">
-                                        @if($post->picture)
-                                            <div class="mt-2">
-                                                <img src="{{ asset($post->picture) }}" width="150" class="rounded border">
-                                            </div>
-                                        @endif
+                                        <label class="form-label">Main Picture</label>
+                                        <input type="file" name="picture" class="dropify form-control" data-default-file="{{ $post->picture ? asset($post->picture) : '' }}">
+                                        <small class="text-muted">Leave empty to keep existing picture</small>
                                     </div>
 
-
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Type</label>
-                                        <select name="type" class="form-control">
-                                            <option value="en" {{ old('type', $post->type) == 'en' ? 'selected' : '' }}>EN</option>
-                                            <option value="de" {{ old('type', $post->type) == 'de' ? 'selected' : '' }}>DE</option>
-
+                                        <label class="form-label">Status</label>
+                                        <select name="status" class="form-control select2">
+                                            <option value="active" {{ old('status', $post->status) == 'active' ? 'selected' : '' }}>Active</option>
+                                            <option value="inactive" {{ old('status', $post->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary">Update Post</button>
+                                <div class="mt-5 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-6">
+                                        <i class="fe fe-refresh-cw me-2"></i> Update Post
+                                    </button>
                                 </div>
                             </form>
                         </div>

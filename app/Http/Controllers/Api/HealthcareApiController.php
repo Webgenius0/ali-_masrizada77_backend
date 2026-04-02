@@ -16,9 +16,9 @@ class HealthcareApiController extends Controller
             $type = $request->query('type', 'english');
 
             $cms = CMS::where('page', 'healthcare')
-                      ->where('section', 'main_content')
-                      ->where('type', $type)
-                      ->first();
+                ->where('section', 'main_content')
+                ->where('type', $type)
+                ->first();
 
             if (!$cms) {
                 return response()->json([
@@ -35,15 +35,17 @@ class HealthcareApiController extends Controller
                     'title' => $metadata['sec1_title'] ?? '',
                     'sub_title' => $metadata['sec1_sub_title'] ?? '',
                     'video_url' => isset($metadata['sec1_video']) ? asset($metadata['sec1_video']) : null,
+                    'label' => $metadata['sec1_url_title'] ?? null,
                 ],
                 'spotlight_section' => [
                     'title' => $metadata['sec2_title'] ?? '',
                     'sub_title' => $metadata['sec2_sub_title'] ?? '',
                     'video_url' => isset($metadata['sec2_video']) ? asset($metadata['sec2_video']) : null,
-                    'statistics' => collect($metadata['sec2_stats'] ?? [])->map(function($stat) {
+                    'statistics' => collect($metadata['sec2_stats'] ?? [])->map(function ($stat) {
                         return [
-                            'percentage' => $stat['val'] ?? '',
-                            'label' => $stat['title'] ?? '',
+                            // (float) বা (int) দিয়ে কাস্ট করা হয়েছে যাতে আউটপুট নাম্বার হিসেবে আসে
+                            'percentage' => isset($stat['val']) ? (float)$stat['val'] : 0,
+                            'label'      => $stat['title'] ?? '',
                         ];
                     }),
                 ],
@@ -51,7 +53,7 @@ class HealthcareApiController extends Controller
                     'title' => $metadata['sec3_title'] ?? '',
                     'description' => $metadata['sec3_desc'] ?? '',
                     'side_image' => isset($metadata['sec3_image']) ? asset($metadata['sec3_image']) : null,
-                    'features' => collect($metadata['sec3_items'] ?? [])->map(function($item) {
+                    'features' => collect($metadata['sec3_items'] ?? [])->map(function ($item) {
                         return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,
                             'title' => $item['title'] ?? '',
@@ -62,7 +64,7 @@ class HealthcareApiController extends Controller
                 'operations_section' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
-                    'features' => collect($metadata['sec4_items'] ?? [])->map(function($item) {
+                    'features' => collect($metadata['sec4_items'] ?? [])->map(function ($item) {
                         return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,
                             'title' => $item['title'] ?? '',
@@ -78,7 +80,7 @@ class HealthcareApiController extends Controller
                     'title' => $metadata['sec6_title'] ?? '',
                     'sub_title' => $metadata['sec6_sub_title'] ?? '',
 
-                    'faqs' => collect($metadata['sec6_faqs'] ?? [])->map(function($faq) {
+                    'faqs' => collect($metadata['sec6_faqs'] ?? [])->map(function ($faq) {
                         return [
                             'title' => $faq['q'] ?? '',
                             'description' => $faq['a'] ?? '',
@@ -92,7 +94,6 @@ class HealthcareApiController extends Controller
                 'status_code' => 200,
                 'data' => $data
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

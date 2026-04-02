@@ -14,18 +14,22 @@ class PostController extends Controller
      */
     public function post(Request $request)
     {
-        // URL-এ type না থাকলে default 'en' নিবে
-        $type = $request->query('type', 'en');
+        $type = $request->query('type', 'en'); // en অথবা de
 
         $posts = Post::where('status', 'active')
-            ->where('type', $type)
-            ->select('id', 'title', 'team', 'location', 'thumbnail','content', 'type', 'created_at')
             ->latest()
             ->get()
-            ->map(function ($post) {
-                $post->thumbnail = $post->thumbnail ? asset($post->thumbnail) : null;
-                $post->formatted_date = $post->created_at->format('d M, Y');
-                return $post;
+            ->map(function ($post) use ($type) {
+                return [
+                    'id'             => $post->id,
+                    // টাইপ অনুযায়ী ডাটা রিটার্ন করবে
+                    'title'          => $type == 'de' ? ($post->title_de ?? $post->title) : $post->title,
+                    'content'        => $type == 'de' ? ($post->content_de ?? $post->content) : $post->content,
+                    'team'           => $post->team,
+                    'location'       => $post->location,
+                    'thumbnail'      => $post->thumbnail ? asset($post->thumbnail) : null,
+                    'formatted_date' => $post->created_at->format('d M, Y'),
+                ];
             });
 
         return response()->json([
@@ -37,17 +41,19 @@ class PostController extends Controller
 
     public function post_carrer(Request $request)
     {
-        // URL-এ type না থাকলে default 'en' নিবে
         $type = $request->query('type', 'en');
 
         $posts = Post::where('status', 'active')
-            ->where('type', $type)
-            ->select('id', 'title', 'team', 'location', 'type', 'created_at')
             ->latest()
             ->get()
-            ->map(function ($post) {
-                $post->formatted_date = $post->created_at->format('d M, Y');
-                return $post;
+            ->map(function ($post) use ($type) {
+                return [
+                    'id'             => $post->id,
+                    'title'          => $type == 'de' ? ($post->title_de ?? $post->title) : $post->title,
+                    'team'           => $post->team,
+                    'location'       => $post->location,
+                    'formatted_date' => $post->created_at->format('d M, Y'),
+                ];
             });
 
         return response()->json([
@@ -59,7 +65,6 @@ class PostController extends Controller
 
     /**
      * আইডি অনুযায়ী একটি নির্দিষ্ট পোস্টের ডিটেইলস
-     * Default Type: 'en'
      */
     public function show(Request $request, $id)
     {
@@ -67,13 +72,12 @@ class PostController extends Controller
 
         $post = Post::where('id', $id)
             ->where('status', 'active')
-            ->where('type', $type)
             ->first();
 
         if (!$post) {
             return response()->json([
                 'success' => false,
-                'message' => 'Post not found for type: ' . $type
+                'message' => 'Post not found'
             ], 404);
         }
 
@@ -82,16 +86,14 @@ class PostController extends Controller
             'message' => 'Post details retrieved successfully',
             'data'    => [
                 'id'            => $post->id,
-                'title'         => $post->title,
-                'slug'          => $post->slug,
+                // যদি টাইপ 'de' হয় এবং ডাটা থাকে তবে সেটা দিবে, নাহলে ইংলিশটাই দিবে (fallback)
+                'title'         => $type == 'de' ? ($post->title_de ?? $post->title) : $post->title,
+                'content'       => $type == 'de' ? ($post->content_de ?? $post->content) : $post->content,
                 'team'          => $post->team,
                 'location'      => $post->location,
-                'content'       => $post->content,
                 'thumbnail'     => $post->thumbnail ? asset($post->thumbnail) : null,
                 'picture'       => $post->picture ? asset($post->picture) : null,
                 'linkedin_link' => $post->linkedin_link,
-                'type'          => $post->type,
-                'status'        => $post->status,
                 'created_at'    => $post->created_at->format('d M, Y')
             ]
         ], 200);

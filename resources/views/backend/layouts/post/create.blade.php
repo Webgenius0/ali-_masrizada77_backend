@@ -22,7 +22,7 @@
                 <div class="col-lg-12">
                     <div class="card shadow-lg">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title">Create Post</h3>
+                            <h3 class="card-title">Add Post Information (Multilingual)</h3>
                             <div class="card-options">
                                 <a href="{{ route('admin.post.index') }}" class="btn btn-sm btn-primary">Back</a>
                             </div>
@@ -33,45 +33,16 @@
                                 @csrf
 
                                 <div class="row">
-
-                                    <!-- ==================== Beautiful Type Buttons ==================== -->
-                                    <div class="col-md-12 mb-4">
-                                        <label class="form-label fw-bold mb-3">Type <span class="text-danger">*</span></label>
-
-                                        <div class="row g-3">
-                                            <!-- EN -->
-                                            <div class="col-md-4">
-                                                <input type="radio" name="type" id="type_en" value="en"
-                                                       {{ old('type', 'en') == 'en' ? 'checked' : '' }} class="btn-check">
-                                                <label for="type_en" class="btn btn-outline-primary w-100 py-4 text-center border-2 h-100">
-                                                    <i class="fe fe-globe fs-3 mb-2 d-block"></i>
-                                                    <span class="fs-5 fw-bold">🇬🇧 EN (English)</span>
-                                                </label>
-                                            </div>
-
-                                            <!-- DE -->
-                                            <div class="col-md-4">
-                                                <input type="radio" name="type" id="type_de" value="de"
-                                                       {{ old('type') == 'de' ? 'checked' : '' }} class="btn-check">
-                                                <label for="type_de" class="btn btn-outline-warning w-100 py-4 text-center border-2 h-100">
-                                                    <i class="fe fe-globe fs-3 mb-2 d-block"></i>
-                                                    <span class="fs-5 fw-bold">🇩🇪 DE (German)</span>
-                                                </label>
-                                            </div>
-
-
-                                        </div>
-
-                                        @error('type')
-                                            <span class="text-danger mt-2 d-block">{{ $message }}</span>
-                                        @enderror
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">English Title <span class="text-danger">*</span></label>
+                                        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" placeholder="Enter English Title" required>
+                                        @error('title') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
-                                    <!-- অন্যান্য ফিল্ডস -->
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Title <span class="text-danger">*</span></label>
-                                        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" required>
-                                        @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">German Title (DE)</label>
+                                        <input type="text" name="title_de" class="form-control @error('title_de') is-invalid @enderror" value="{{ old('title_de') }}" placeholder="Enter German Title">
+                                        @error('title_de') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -86,10 +57,16 @@
                                         @error('location') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Content <span class="text-danger">*</span></label>
+                                    <div class="col-md-12 mb-4">
+                                        <label class="form-label fw-bold">English Content <span class="text-danger">*</span></label>
                                         <textarea name="content" class="summernote form-control @error('content') is-invalid @enderror" rows="10">{{ old('content') }}</textarea>
                                         @error('content') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div class="col-md-12 mb-4">
+                                        <label class="form-label fw-bold text-info">German Content (DE)</label>
+                                        <textarea name="content_de" class="summernote form-control @error('content_de') is-invalid @enderror" rows="10">{{ old('content_de') }}</textarea>
+                                        @error('content_de') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div class="col-md-12 mb-3">
@@ -100,23 +77,23 @@
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Thumbnail</label>
-                                        <input type="file" name="thumbnail" class="dropify form-control @error('thumbnail') is-invalid @enderror">
-                                        <small class="text-muted">jpeg, jpg, png (max 5MB)</small>
+                                        <input type="file" name="thumbnail" class="dropify form-control @error('thumbnail') is-invalid @enderror" data-height="150">
+                                        <small class="text-muted">Max size 5MB (jpeg, png)</small>
                                         @error('thumbnail') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Picture</label>
-                                        <input type="file" name="picture" class="dropify form-control @error('picture') is-invalid @enderror">
-                                        <small class="text-muted">jpeg, jpg, png (max 5MB)</small>
+                                        <label class="form-label">Main Picture</label>
+                                        <input type="file" name="picture" class="dropify form-control @error('picture') is-invalid @enderror" data-height="150">
+                                        <small class="text-muted">Max size 5MB (jpeg, png)</small>
                                         @error('picture') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
                                 </div>
 
-                                <div class="mt-5">
-                                    <button type="submit" class="btn btn-primary btn-lg px-5">
-                                        <i class="fe fe-save me-2"></i> Submit Post
+                                <div class="mt-5 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-6">
+                                        <i class="fe fe-save me-2"></i> Save Post
                                     </button>
                                 </div>
                             </form>

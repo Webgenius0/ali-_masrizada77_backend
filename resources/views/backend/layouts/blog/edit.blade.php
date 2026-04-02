@@ -4,7 +4,6 @@
 
 <div class="app-content main-content mt-0">
     <div class="side-app">
-
         <div class="main-container container-fluid">
 
             <div class="page-header">
@@ -24,7 +23,7 @@
                 <div class="col-lg-12">
                     <div class="card post-sales-main">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title mb-0">Update {{ ucfirst($part) }}</h3>
+                            <h3 class="card-title mb-0">Update {{ ucfirst($part) }} (Multi-Language)</h3>
                             <div class="card-options">
                                 <a href="javascript:window.history.back()" class="btn btn-sm btn-primary">Back</a>
                             </div>
@@ -34,81 +33,88 @@
                                 @csrf
                                 @method('PUT')
 
-                                <div class="row mb-4">
+                                <div class="row">
 
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="type" class="form-label">Blog Type / Language: <span class="text-danger">*</span></label>
-                                            <select name="type" id="type" class="form-control @error('type') is-invalid @enderror">
-                                                <option value="english" {{ old('type', $blog->type) == 'english' ? 'selected' : '' }}>English</option>
-                                                <option value="de" {{ old('type', $blog->type) == 'de' ? 'selected' : '' }}>German (DE)</option>
-                                                <option value="other" {{ old('type', $blog->type) == 'other' ? 'selected' : '' }}>Other</option>
-                                            </select>
-                                            @error('type')
-                                                <span class="text-danger small">{{ $message }}</span>
-                                            @enderror
+                                    <div class="col-xl-6 border-end">
+                                        <div class="d-flex align-items-center mb-4">
+                                            <span class="avatar avatar-md brround bg-primary-transparent text-primary me-2"><i class="fe fe-edit-3"></i></span>
+                                            <h5 class="mb-0 fw-bold text-primary">English Content (Primary)</h5>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="title" class="form-label">Title: <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" placeholder="Enter title" id="title" value="{{ old('title', $blog->title) }}">
+                                            <label for="title" class="form-label fw-semibold">Title (EN): <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" placeholder="Enter english title" value="{{ old('title', $blog->title) }}">
                                             @error('title')
                                                 <span class="text-danger small">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="subtitle" class="form-label">Subtitle:</label>
-                                            <input type="text" class="form-control @error('subtitle') is-invalid @enderror" name="subtitle" placeholder="Enter subtitle" id="subtitle" value="{{ old('subtitle', $blog->subtitle) }}">
-                                            @error('subtitle')
-                                                <span class="text-danger small">{{ $message }}</span>
-                                            @enderror
+                                            <label for="subtitle" class="form-label fw-semibold">Subtitle (EN):</label>
+                                            <input type="text" class="form-control" name="subtitle" placeholder="Enter english subtitle" value="{{ old('subtitle', $blog->subtitle) }}">
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="image" class="form-label">Feature Image:</label>
-                                            <div class="row align-items-center shadow-sm  border  mx-0 bg-light">
-                                                <div class="col-md-8">
-                                                    <x-form.file
-                                                        name="image"
-                                                        id="image"
-                                                        class="form-control @error('image') is-invalid @enderror"
-                                                        onchange="previewImage(this)"
-                                                    />
-                                                    <small class="text-muted d-block mt-1">Accepted: JPG, PNG, WebP (Max: 2MB)</small>
-                                                </div>
-                                                <div class="col-md-4 text-center mt-3 mt-md-0">
-                                                    <img id="image-preview"
-                                                         src="{{ $blog->image ? asset($blog->image) : asset('backend/images/default.png') }}"
-                                                         alt="Preview"
-                                                         style="width: 120px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
-                                                    <p class="small text-muted mb-0">Current Image</p>
-                                                </div>
-                                            </div>
-                                            @error('image')
-                                                <span class="text-danger small">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="description" class="form-label">Description: <span class="text-danger">*</span></label>
-                                            <textarea class="summernote form-control @error('description') is-invalid @enderror" name="description" id="description">{{ old('description', $blog->description) }}</textarea>
+                                            <label for="description" class="form-label fw-semibold">Description (EN): <span class="text-danger">*</span></label>
+                                            <textarea class="summernote form-control @error('description') is-invalid @enderror" name="description">{{ old('description', $blog->description) }}</textarea>
                                             @error('description')
                                                 <span class="text-danger small">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
 
-                                    <div class="form-group mt-3">
-                                        <button class="submit btn btn-primary px-5" type="submit">Update Blog</button>
+                                    <div class="col-xl-6 bg-light-50">
+                                        <div class="d-flex align-items-center mb-4">
+                                            <span class="avatar avatar-md brround bg-info-transparent text-info me-2"><i class="fe fe-globe"></i></span>
+                                            <h5 class="mb-0 fw-bold text-info">German (DE) Content</h5>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="title_de" class="form-label fw-semibold">Title (DE):</label>
+                                            <input type="text" class="form-control" name="title_de" placeholder="German title" value="{{ old('title_de', $blog->title_de) }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="subtitle_de" class="form-label fw-semibold">Subtitle (DE):</label>
+                                            <input type="text" class="form-control" name="subtitle_de" placeholder="German subtitle" value="{{ old('subtitle_de', $blog->subtitle_de) }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="description_de" class="form-label fw-semibold">Description (DE):</label>
+                                            <textarea class="summernote form-control" name="description_de">{{ old('description_de', $blog->description_de) }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 mt-5 pt-4 border-top">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="image" class="form-label fw-bold">Feature Image:</label>
+                                                    <div class="d-flex align-items-center p-3 shadow-sm border bg-white br-7">
+                                                        <div class="flex-grow-1">
+                                                            <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror" onchange="previewImage(this)">
+                                                            <small class="text-muted d-block mt-2"><i class="fe fe-info me-1"></i>Accepted: JPG, PNG, WebP (Max: 2MB)</small>
+                                                        </div>
+                                                        <div class="ms-4 text-center">
+                                                            <img id="image-preview"
+                                                                 src="{{ $blog->image ? asset($blog->image) : asset('backend/images/default.png') }}"
+                                                                 alt="Preview"
+                                                                 style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 3px solid #f1f1f1; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                                            <p class="small text-muted mt-1 mb-0">Current Image</p>
+                                                        </div>
+                                                    </div>
+                                                    @error('image')
+                                                        <span class="text-danger small">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="form-group mt-5 text-center">
+                                                    <button class="btn btn-primary btn-lg px-8 shadow-primary" type="submit">
+                                                        <i class="fe fe-check-circle me-2"></i> Update Blog Content
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -128,7 +134,7 @@
     $(document).ready(function() {
         // Summernote Initialize
         $('.summernote').summernote({
-            placeholder: 'Update your description...',
+            placeholder: 'Update content here...',
             tabsize: 2,
             height: 300,
             toolbar: [
@@ -154,4 +160,21 @@
         }
     }
 </script>
+
+<style>
+    .bg-light-50 {
+        background-color: #f8f9fa;
+        border-radius: 0 10px 10px 0;
+    }
+    .shadow-primary {
+        box-shadow: 0 4px 14px 0 rgba(13, 110, 253, 0.39) !important;
+    }
+    .br-7 {
+        border-radius: 7px;
+    }
+    .px-8 {
+        padding-left: 3rem !important;
+        padding-right: 3rem !important;
+    }
+</style>
 @endpush

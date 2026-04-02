@@ -9,101 +9,102 @@ use Exception;
 
 class BlogController extends Controller
 {
-public function index(Request $request)
-{
-    $query = Blog::where('status', 'active');
+    public function index(Request $request)
+    {
+        try {
+            // শুধুমাত্র একটিভ ব্লগগুলো নিব
+            $blogs = Blog::where('status', 'active')->latest()->get();
 
-    if ($request->filled('type')) {
-        $query->where('type', $request->type);
-    } else {
-        $query->where('type', 'english');
+            // ফ্রন্টএন্ড থেকে আসা ল্যাঙ্গুয়েজ টাইপ (Default: english)
+            $lang = $request->get('type', 'english');
+
+            $formattedBlogs = $blogs->map(function ($blog) use ($lang) {
+                // চেক করছি টাইপ কি জার্মান (de) কিনা
+                $isDe = ($lang == 'de' || $lang == 'german');
+
+                return [
+                    'id'               => $blog->id,
+                    'type'             => ucfirst($lang),
+                    // টাইপ অনুযায়ী টাইটেল, সাবটাইটেল এবং ডেসক্রিপশন সেট করা হচ্ছে
+                    'title'            => $isDe ? ($blog->title_de ?? $blog->title) : $blog->title,
+                    'subtitle'         => $isDe ? ($blog->subtitle_de ?? $blog->subtitle) : $blog->subtitle,
+                    'image_url'        => $blog->image ? asset($blog->image) : null,
+                    'description_html' => $isDe ? ($blog->description_de ?? $blog->description) : $blog->description,
+                    'description_raw'  => strip_tags($isDe ? ($blog->description_de ?? $blog->description) : $blog->description),
+                    'created_date'     => $blog->created_at->format('d M, Y'),
+                ];
+            });
+
+            return response()->json([
+                'status'  => 'success',
+                'message' => $formattedBlogs->isEmpty() ? 'No blogs found' : 'Data retrieved successfully',
+                'count'   => $formattedBlogs->count(),
+                'data'    => $formattedBlogs
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 
-    $blogs = $query->latest()->get();
+    public function suggestions(Request $request)
+    {
+        try {
+            $lang = $request->get('type', 'english');
+            $isDe = ($lang == 'de' || $lang == 'german');
 
-    $formattedBlogs = $blogs->map(function ($blog) {
-        return [
-            'id'               => $blog->id,
-            'type'             => ucfirst($blog->type),
-            'title'            => $blog->title,
-            'subtitle'         => $blog->subtitle ?? '',
-            'image_url'        => $blog->image ? asset($blog->image) : null,
-            'description_html' => $blog->description,
-            'description_raw'  => strip_tags($blog->description),
-            'created_date'     => $blog->created_at->format('d M, Y'),
-        ];
-    });
+            $suggestedBlogs = Blog::where('status', 'active')->latest()->take(4)->get();
 
-    return response()->json([
-        'status'  => 'success',
-        'message' => $formattedBlogs->isEmpty() ? 'No blogs found' : 'Data retrieved successfully',
-        'count'   => $formattedBlogs->count(),
-        'data'    => $formattedBlogs
-    ], 200);
-}
+            $formattedSuggestions = $suggestedBlogs->map(function ($item) use ($isDe) {
+                return [
+                    'id'               => $item->id,
+                    'title'            => $isDe ? ($item->title_de ?? $item->title) : $item->title,
+                    'subtitle'         => $isDe ? ($item->subtitle_de ?? $item->subtitle) : $item->subtitle,
+                    'image_url'        => $item->image ? asset($item->image) : null,
+                    'description_raw'  => strip_tags($isDe ? ($item->description_de ?? $item->description) : $item->description),
+                    'created_date'     => $item->created_at->format('d M, Y'),
+                ];
+            });
 
-public function suggestions()
-{
-    try {
+            return response()->json([
+                'status'  => 'success',
+                'count'   => $formattedSuggestions->count(),
+                'data'    => $formattedSuggestions
+            ], 200);
 
-
-        // suggation
-        $suggestedBlogs = Blog::where('status', 'active')    // rome this blog is visible
-            ->latest()
-            ->take(4)                       // 4 blog
-            ->get();
-
-
-        $formattedSuggestions = $suggestedBlogs->map(function ($item) {
-            return [
-                'id'               => $item->id,
-                'type'             => ucfirst($item->type),
-                'title'            => $item->title,
-                'subtitle'         => $item->subtitle ?? '',
-                'image_url'        => $item->image ? asset($item->image) : null,
-                'description_raw'  => strip_tags($item->description),
-                'created_date'     => $item->created_at->format('d M, Y'),
-            ];
-        });
-
-        return response()->json([
-            'status'  => 'success',
-            'count'   => $formattedSuggestions->count(),
-            'data'    => $formattedSuggestions
-        ], 200);
-
-    } catch (Exception $e) {
-        return response()->json([
-            'status'  => 'error',
-            'message' => $e->getMessage()
-        ], 500);
+        } catch (Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
-}
 
-
-
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $blog = Blog::find($id);
 
             if (!$blog) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Blog not found'
-                ], 404);
+                return response()->json(['status' => 'error', 'message' => 'Blog not found'], 404);
             }
+
+            $lang = $request->get('type', 'english');
+            $isDe = ($lang == 'de' || $lang == 'german');
+
+            $data = [
+                'id'               => $blog->id,
+                'title'            => $isDe ? ($blog->title_de ?? $blog->title) : $blog->title,
+                'subtitle'         => $isDe ? ($blog->subtitle_de ?? $blog->subtitle) : $blog->subtitle,
+                'image_url'        => $blog->image ? asset($blog->image) : null,
+                'description_html' => $isDe ? ($blog->description_de ?? $blog->description) : $blog->description,
+                'created_at'       => $blog->created_at->format('d M, Y'),
+            ];
 
             return response()->json([
                 'status' => 'success',
-                'data' => $blog
+                'data' => $data
             ], 200);
 
         } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ], 500);
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 }

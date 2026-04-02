@@ -13,25 +13,27 @@ class PostController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // শুধুমাত্র প্রয়োজনীয় কলামগুলো সিলেক্ট করা হয়েছে
-            $data = Post::latest()->select(['id', 'title', 'team', 'location', 'status', 'type', 'thumbnail', 'created_at']);
+            // ডাটাবেস থেকে সব ডাটা নেয়া হচ্ছে
+            $data = Post::latest();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('thumbnail', function ($post) {
                     $img = ($post->thumbnail && file_exists(public_path($post->thumbnail)))
                         ? asset($post->thumbnail)
-                        : asset('default/logo.png'); // default ইমেজ পাথ চেক করে নিন
+                        : asset('default/logo.png');
                     return '<img src="' . $img . '" width="60" class="rounded border shadow-sm">';
+                })
+                ->addColumn('title_combined', function ($post) {
+                    // ডাটাসোর্স থেকে ইংলিশ এবং জার্মান দুই টাইটেলই টেবিলে দেখা যাবে
+                    $en = '<strong>EN:</strong> ' . $post->title;
+                    $de = '<br><span class="text-info"><strong>DE:</strong> ' . ($post->title_de ?? 'N/A') . '</span>';
+                    return $en . $de;
                 })
                 ->addColumn('status', function ($post) {
                     $class = $post->status === 'active' ? 'btn-success' : 'btn-danger';
                     return '<button class="status-btn btn btn-sm ' . $class . '" data-id="' . $post->id . '">'
                            . ucfirst($post->status) . '</button>';
-                })
-                ->addColumn('type', function ($post) {
-                    $badge = $post->type === 'en' ? 'bg-primary' : ($post->type === 'de' ? 'bg-warning' : 'bg-info');
-                    return '<span class="badge ' . $badge . '">' . strtoupper($post->type) . '</span>';
                 })
                 ->addColumn('created_at', function ($post) {
                     return $post->created_at ? $post->created_at->format('d M, Y') : 'N/A';
@@ -44,7 +46,7 @@ class PostController extends Controller
                             <button class="btn btn-sm btn-danger-light delete-btn" data-id="'.$post->id.'" title="Delete"><i class="fe fe-trash-2"></i></button>
                         </div>';
                 })
-                ->rawColumns(['thumbnail', 'status', 'type', 'action'])
+                ->rawColumns(['thumbnail', 'title_combined', 'status', 'action'])
                 ->make(true);
         }
 
@@ -60,26 +62,28 @@ class PostController extends Controller
     {
         $request->validate([
             'title'         => 'required|string|max:255',
+            'title_de'      => 'nullable|string|max:255',
+            'content'       => 'required|string',
+            'content_de'    => 'nullable|string',
             'team'          => 'nullable|string|max:255',
             'location'      => 'nullable|string|max:255',
-            'content'       => 'required|string',
             'thumbnail'     => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
             'picture'       => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
             'linkedin_link' => 'nullable|url|max:255',
             'status'        => 'nullable|in:active,inactive',
-            'type'          => 'nullable|in:en,de,others',
         ]);
 
         try {
             $post = new Post();
             $post->title         = $request->title;
+            $post->title_de      = $request->title_de; // জার্মান টাইটেল
             $post->slug          = Str::slug($request->title);
+            $post->content       = $request->content;
+            $post->content_de    = $request->content_de; // জার্মান কন্টেন্ট
             $post->team          = $request->team;
             $post->location      = $request->location;
-            $post->content       = $request->content;
             $post->linkedin_link = $request->linkedin_link;
             $post->status        = $request->status ?? 'active';
-            $post->type          = $request->type ?? 'en';
 
             if ($request->hasFile('thumbnail')) {
                 $file = $request->file('thumbnail');
@@ -118,22 +122,23 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title'         => 'required|string|max:255',
-            'content'       => 'required|string',
-            'thumbnail'     => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
-            'picture'       => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'title'      => 'required|string|max:255',
+            'content'    => 'required|string',
+            'thumbnail'  => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'picture'    => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
         ]);
 
         try {
             $post = Post::findOrFail($id);
             $post->title         = $request->title;
+            $post->title_de      = $request->title_de; // আপডেট জার্মান টাইটেল
             $post->slug          = Str::slug($request->title);
+            $post->content       = $request->content;
+            $post->content_de    = $request->content_de; // আপডেট জার্মান কন্টেন্ট
             $post->team          = $request->team;
             $post->location      = $request->location;
-            $post->content       = $request->content;
             $post->linkedin_link = $request->linkedin_link;
             $post->status        = $request->status ?? $post->status;
-            $post->type          = $request->type ?? $post->type;
 
             if ($request->hasFile('thumbnail')) {
                 if ($post->thumbnail && file_exists(public_path($post->thumbnail))) {
@@ -173,7 +178,7 @@ class PostController extends Controller
         }
         $post->delete();
 
-      session()->put('t-success', 'Post Deleted successfully');
+        return response()->json(['status' => 'success', 'message' => 'Post Deleted successfully']);
     }
 
     public function status($id)
@@ -182,6 +187,6 @@ class PostController extends Controller
         $post->status = $post->status === 'active' ? 'inactive' : 'active';
         $post->save();
 
-         session()->put('t-success', 'Post status change successfully');
+        return response()->json(['status' => 'success', 'message' => 'Post status changed successfully']);
     }
 }
