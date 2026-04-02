@@ -60,7 +60,9 @@
                                 <h3 class="card-title">Section 1: Hero Video</h3>
                             </div>
                             <div class="card-body">
+                                <label class="form-label">Main Title</label>
                                 <input type="text" name="sec1_title" class="form-control mb-2" placeholder="Title" value="{{ $data->metadata['sec1_title'] ?? '' }}">
+                                <label class="form-label">Sub Title</label>
                                 <input type="text" name="sec1_sub_title" class="form-control mb-2" placeholder="Sub Title" value="{{ $data->metadata['sec1_sub_title'] ?? '' }}">
                             <x-form.text name="sec1_url_title" label="URL Title" :value="$data->metadata['sec1_url_title'] ?? ''" />
                                 <label class="form-label mt-2">Video File</label>
@@ -154,7 +156,9 @@
                         <button type="button" class="btn btn-sm btn-primary" onclick="addSec4()">+ Add Feature</button>
                     </div>
                     <div class="card-body">
+                         <label class="form-label">Main Title</label>
                         <input type="text" name="sec4_title" class="form-control mb-3 w-75" placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
+                         <label class="form-label">Description</label>
                         <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75" placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
                         <div class="col-md-4">

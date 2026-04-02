@@ -24,11 +24,13 @@
                                     <h3 class="card-title">Section 1: Hero Video</h3>
                                 </div>
                                 <div class="card-body">
+                                     <label class="form-label">Main Title</label>
                                     <input type="text" name="sec1_title" class="form-control mb-2" placeholder="Title"
                                         value="{{ $data->metadata['sec1_title'] ?? '' }}">
+                                         <label class="form-label">Sub Title</label>
                                     <input type="text" name="sec1_sub_title" class="form-control mb-2"
                                         placeholder="Sub Title" value="{{ $data->metadata['sec1_sub_title'] ?? '' }}">
-
+                                      <x-form.text name="sec1_url_title" label="URL Title" :value="$data->metadata['sec1_url_title'] ?? ''" />
                                     <label class="form-label mt-2">Video File</label>
                                     <input type="file" name="sec1_video" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev')">

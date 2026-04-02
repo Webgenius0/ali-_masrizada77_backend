@@ -71,8 +71,10 @@
                                     <h3 class="card-title">Section 1: Hero Video</h3>
                                 </div>
                                 <div class="card-body">
+                                      <label class="form-label">Main Title</label>
                                     <input type="text" name="sec1_title" class="form-control mb-2" placeholder="Title"
                                         value="{{ $data->metadata['sec1_title'] ?? '' }}">
+                                          <label class="form-label">Sub Title</label>
                                     <input type="text" name="sec1_sub_title" class="form-control mb-2"
                                         placeholder="Sub Title" value="{{ $data->metadata['sec1_sub_title'] ?? '' }}">
                                     <x-form.text name="sec1_url_title" label="URL Title" :value="$data->metadata['sec1_url_title'] ?? ''" />

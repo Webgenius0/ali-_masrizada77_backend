@@ -36,6 +36,7 @@ class FastFoodAndTermninalController extends Controller
                     'title' => $metadata['sec1_title'] ?? '',
                     'sub_title' => $metadata['sec1_sub_title'] ?? '',
                     'video_url' => isset($metadata['sec1_video']) ? asset($metadata['sec1_video']) : null,
+                     'label' => $metadata['sec1_url_title'] ?? null,
                 ],
                 'spotlight_section' => [
                     'title' => $metadata['sec2_title'] ?? '',
