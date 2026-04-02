@@ -209,7 +209,7 @@
                                 placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
                             <label class="form-label">Description</label>
                             <input type="text" name="sec4_sub_title" class="form-control mb-3 w-50"
-                                placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
+                                placeholder="Section Sub Description" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
                                 <div class="col-md-4">
                                     <label class="form-label">Sub Title</label>

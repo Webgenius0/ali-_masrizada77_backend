@@ -32,9 +32,10 @@ class FinancialServicesController extends Controller
                 'hero_section' => [
                     'title' => $metadata['sec1_title'] ?? '',
                     'sub_title' => $metadata['sec1_sub_title'] ?? '',
-                    'video_url_1' => isset($metadata['sec1_video_1']) ? asset($metadata['sec1_video_1']) : null,
-                    'video_url_2' => isset($metadata['sec1_video_2']) ? asset($metadata['sec1_video_2']) : null,
-                    'video_url_3' => isset($metadata['sec1_video_3']) ? asset($metadata['sec1_video_3']) : null,
+                       'label' => $metadata['sec1_url_title'] ?? null,
+                    'video_url' => isset($metadata['sec1_video_1']) ? asset($metadata['sec1_video_1']) : null,
+                    // 'video_url_2' => isset($metadata['sec1_video_2']) ? asset($metadata['sec1_video_2']) : null,
+                    // 'video_url_3' => isset($metadata['sec1_video_3']) ? asset($metadata['sec1_video_3']) : null,
                 ],
                 'case_study_section' => [
                     'title'       => $metadata['sec2_title'] ?? '',
@@ -64,6 +65,8 @@ class FinancialServicesController extends Controller
                 'operational_ai_patient' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
+                    'sub_description'=> $metadata['sec4_sub_desc'] ?? '',
+                    'url_title'=> $metadata['sec4_url_title'] ?? '',
                     'features' => collect($metadata['sec4_items'] ?? [])->map(function ($item) {
                         return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,

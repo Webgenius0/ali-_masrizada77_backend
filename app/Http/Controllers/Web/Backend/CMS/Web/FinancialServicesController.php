@@ -93,6 +93,7 @@ class FinancialServicesController extends Controller
                 'sec1_video_1'   => $metadata_files['sec1_video_1'],
                 'sec1_video_2'   => $metadata_files['sec1_video_2'],
                 'sec1_video_3'   => $metadata_files['sec1_video_3'],
+                'sec1_url_title'=>$request->sec1_url_title,
 
                 // Section 2
                 'sec2_title'     => $request->sec2_title,
@@ -113,6 +114,8 @@ class FinancialServicesController extends Controller
                 'sec4_title'     => $request->sec4_title,
                 'sec4_sub_title' => $request->sec4_sub_title,
                 'sec4_items'     => $sec4_items,
+                'sec4_sub_desc'=>$request->sec4_sub_desc,
+                'sec4_url_title'=>$request->sec4_url_title,
 
                 // Section 5
                 'sec5_title'     => $request->sec5_title,

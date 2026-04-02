@@ -35,6 +35,7 @@ class GovermentController extends Controller
                 'hero_section' => [
                     'title' => $metadata['sec1_title'] ?? '',
                     'sub_title' => $metadata['sec1_sub_title'] ?? '',
+                     'label' => $metadata['sec1_url_title'] ?? null,
                     'video_url' => isset($metadata['sec1_video']) ? asset($metadata['sec1_video']) : null,
                 ],
                 'spotlight_section' => [
@@ -63,6 +64,8 @@ class GovermentController extends Controller
                 'operational_ai_patient' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
+                    'sub_description'=> $metadata['sec4_sub_desc'] ?? '',
+                    'url_title'=> $metadata['sec4_url_title'] ?? '',
                     'features' => collect($metadata['sec4_items'] ?? [])->map(function($item) {
                         return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,

@@ -24,11 +24,13 @@
                                     <h3 class="card-title">Section 1: Hero Video</h3>
                                 </div>
                                 <div class="card-body">
+                                    <label class="form-label">Main Title</label>
                                     <input type="text" name="sec1_title" class="form-control mb-2" placeholder="Title"
                                         value="{{ $data->metadata['sec1_title'] ?? '' }}">
+                                    <label class="form-label">Sub Title</label>
                                     <input type="text" name="sec1_sub_title" class="form-control mb-2"
                                         placeholder="Sub Title" value="{{ $data->metadata['sec1_sub_title'] ?? '' }}">
-
+                                    <x-form.text name="sec1_url_title" label="URL Title" :value="$data->metadata['sec1_url_title'] ?? ''" />
                                     <label class="form-label mt-2">Video File 1</label>
                                     <input type="file" name="sec1_video_1" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev_1')">
@@ -37,7 +39,7 @@
                                         <source src="{{ asset($data->metadata['sec1_video_1'] ?? '') }}" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="card-body">
+                                {{-- <div class="card-body">
                                     <label class="form-label mt-2">Video File 2</label>
                                     <input type="file" name="sec1_video_2" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev_2')">
@@ -54,7 +56,7 @@
                                         class="{{ isset($data->metadata['sec1_video_3']) ? '' : 'd-none' }}">
                                         <source src="{{ asset($data->metadata['sec1_video_3'] ?? '') }}" type="video/mp4">
                                     </video>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -100,8 +102,8 @@
                                         @if (isset($data->metadata['sec2_image']) && $data->metadata['sec2_image'])
                                             <div class="existing-image-preview">
                                                 <p class="text-muted small">Current Image:</p>
-                                                <img src="{{ asset($data->metadata['sec2_image']) }}"
-                                                    alt="Section 2 Image" class="img-thumbnail"
+                                                <img src="{{ asset($data->metadata['sec2_image']) }}" alt="Section 2 Image"
+                                                    class="img-thumbnail"
                                                     style="max-height: 200px; width: auto; border: 2px solid #007bff;">
                                             </div>
                                         @else
@@ -186,13 +188,25 @@
                                 Feature</button>
                         </div>
                         <div class="card-body">
+                            <label class="form-label">Section Title</label>
                             <input type="text" name="sec4_title" class="form-control mb-3 w-75"
                                 placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
+                            <label class="form-label">Description</label>
                             <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75"
-                                placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
+                                placeholder="Section Sub Description"
+                                value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
+                            <div class="col-md-4">
+                                <label class="form-label">Sub Title</label>
+                                <input type="text" name="sec4_sub_desc" class="form-control"
+                                    value="{{ $data->metadata['sec4_sub_desc'] ?? '' }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Url Title</label>
+                                <input type="text" name="sec4_url_title" class="form-control"
+                                    value="{{ $data->metadata['sec4_url_title'] ?? '' }}">
+                            </div>
 
-
-                            <div id="sec4-wrapper" class="row">
+                            <div id="sec4-wrapper" class="row mt-5">
                                 @foreach ($data->metadata['sec4_items'] ?? [] as $key => $item)
                                     <div class="col-md-4 mb-3 item-box">
                                         <div class="border ">
