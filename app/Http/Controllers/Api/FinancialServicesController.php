@@ -30,12 +30,25 @@ class FinancialServicesController extends Controller
             $metadata = $cms->metadata;
             $data = [
                 'hero_section' => [
-                    'title' => $metadata['sec1_title'] ?? '',
+                    'title'     => $metadata['sec1_title'] ?? '',
                     'sub_title' => $metadata['sec1_sub_title'] ?? '',
-                       'label' => $metadata['sec1_url_title'] ?? null,
-                    'video_url' => isset($metadata['sec1_video_1']) ? asset($metadata['sec1_video_1']) : null,
-                    // 'video_url_2' => isset($metadata['sec1_video_2']) ? asset($metadata['sec1_video_2']) : null,
-                    // 'video_url_3' => isset($metadata['sec1_video_3']) ? asset($metadata['sec1_video_3']) : null,
+                    'label'     => $metadata['sec1_url_title'] ?? null,
+
+                    // ভিডিওগুলোকে একটি অ্যারে অফ অবজেক্ট হিসেবে রাখা হলো
+                    'videos'    => [
+                        [
+                            'title' => $metadata['sec1_video1_title'] ?? null,
+                            'url'   => isset($metadata['sec1_video_1']) ? asset($metadata['sec1_video_1']) : null,
+                        ],
+                        [
+                            'title' => $metadata['sec1_video2_title'] ?? null,
+                            'url'   => isset($metadata['sec1_video_2']) ? asset($metadata['sec1_video_2']) : null,
+                        ],
+                        [
+                            'title' => $metadata['sec1_video3_title'] ?? null,
+                            'url'   => isset($metadata['sec1_video_3']) ? asset($metadata['sec1_video_3']) : null,
+                        ],
+                    ],
                 ],
                 'case_study_section' => [
                     'title'       => $metadata['sec2_title'] ?? '',
@@ -45,7 +58,7 @@ class FinancialServicesController extends Controller
                     'image_url'   => isset($metadata['sec2_image']) ? asset($metadata['sec2_image']) : null,
                     'statistics'  => collect($metadata['sec2_stats'] ?? [])->map(function ($stat) {
                         return [
-                            'percentage' => $stat['val'] ?? '',
+                            'percentage' => isset($stat['val']) ? (float)$stat['val'] : 0,
                             'label'      => $stat['title'] ?? '',
                         ];
                     }),
@@ -65,8 +78,8 @@ class FinancialServicesController extends Controller
                 'operational_ai_patient' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
-                    'sub_description'=> $metadata['sec4_sub_desc'] ?? '',
-                    'url_title'=> $metadata['sec4_url_title'] ?? '',
+                    'sub_description' => $metadata['sec4_sub_desc'] ?? '',
+                    'url_title' => $metadata['sec4_url_title'] ?? '',
                     'features' => collect($metadata['sec4_items'] ?? [])->map(function ($item) {
                         return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,

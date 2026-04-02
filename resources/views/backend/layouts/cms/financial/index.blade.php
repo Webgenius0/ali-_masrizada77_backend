@@ -31,6 +31,9 @@
                                     <input type="text" name="sec1_sub_title" class="form-control mb-2"
                                         placeholder="Sub Title" value="{{ $data->metadata['sec1_sub_title'] ?? '' }}">
                                     <x-form.text name="sec1_url_title" label="URL Title" :value="$data->metadata['sec1_url_title'] ?? ''" />
+
+
+                                    <x-form.text name="sec1_video1_title" label="Video 1 Title" :value="$data->metadata['sec1_video1_title'] ?? ''" />
                                     <label class="form-label mt-2">Video File 1</label>
                                     <input type="file" name="sec1_video_1" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev_1')">
@@ -40,6 +43,7 @@
                                     </video>
                                 </div>
                                 <div class="card-body">
+                                    <x-form.text name="sec1_video2_title" label="Video 2 Title" :value="$data->metadata['sec1_video2_title'] ?? ''" />
                                     <label class="form-label mt-2">Video File 2</label>
                                     <input type="file" name="sec1_video_2" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev_2')">
@@ -49,6 +53,7 @@
                                     </video>
                                 </div>
                                 <div class="card-body">
+                                    <x-form.text name="sec1_video3_title" label="Video 3 Title" :value="$data->metadata['sec1_video3_title'] ?? ''" />
                                     <label class="form-label mt-2">Video File 3</label>
                                     <input type="file" name="sec1_video_3" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev_3')">
@@ -83,11 +88,15 @@
                                     <div class="row">
                                         @for ($i = 0; $i < 3; $i++)
                                             <div class="col-4">
-                                                <input type="text" name="sec2_stats[{{ $i }}][val]"
-                                                    class="form-control mb-1" placeholder="75%"
+                                                <label class="small text-muted mb-0">Value (Number)</label>
+                                                <input type="number" step="any"
+                                                    name="sec2_stats[{{ $i }}][val]" class="form-control mb-1"
+                                                    placeholder="e.g. 75"
                                                     value="{{ $data->metadata['sec2_stats'][$i]['val'] ?? '' }}">
+
+                                                <label class="small text-muted mb-0">Label</label>
                                                 <input type="text" name="sec2_stats[{{ $i }}][title]"
-                                                    class="form-control" placeholder="e.g. Patient Satisfaction"
+                                                    class="form-control" placeholder="e.g. Satisfaction"
                                                     value="{{ $data->metadata['sec2_stats'][$i]['title'] ?? '' }}">
                                             </div>
                                         @endfor
@@ -102,8 +111,8 @@
                                         @if (isset($data->metadata['sec2_image']) && $data->metadata['sec2_image'])
                                             <div class="existing-image-preview">
                                                 <p class="text-muted small">Current Image:</p>
-                                                <img src="{{ asset($data->metadata['sec2_image']) }}" alt="Section 2 Image"
-                                                    class="img-thumbnail"
+                                                <img src="{{ asset($data->metadata['sec2_image']) }}"
+                                                    alt="Section 2 Image" class="img-thumbnail"
                                                     style="max-height: 200px; width: auto; border: 2px solid #007bff;">
                                             </div>
                                         @else
