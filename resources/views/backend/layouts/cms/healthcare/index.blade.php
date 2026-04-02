@@ -17,7 +17,6 @@
                 <input type="hidden" name="type" value="{{ $type }}">
 
                 <div class="row">
-                    <!-- Section 1: Hero Video -->
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header bg-primary text-white">
@@ -36,7 +35,6 @@
                         </div>
                     </div>
 
-                    <!-- Section 2: Spotlight & Stats -->
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header bg-dark text-white">
@@ -65,7 +63,6 @@
                     </div>
                 </div>
 
-                <!-- Section 3: Smarter Communication -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title">Section 3: Smarter Communication</h3>
@@ -110,7 +107,6 @@
                     </div>
                 </div>
 
-                <!-- Section 4: Modern Patient Operations -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title">Section 4: Modern Patient Operations</h3>
@@ -118,13 +114,12 @@
                     </div>
                     <div class="card-body">
                         <input type="text" name="sec4_title" class="form-control mb-3 w-75" placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
-                         <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75" placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
-
+                        <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75" placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
                         <div id="sec4-wrapper" class="row">
                             @foreach($data->metadata['sec4_items'] ?? [] as $key => $item)
                             <div class="col-md-4 mb-3 item-box">
-                                <div class="border">
+                                <div class="border p-2">
                                     <input type="file" name="sec4_icon_{{$key}}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_{{$key}}')">
                                     <div class="text-center mb-2">
                                         <img id="sec4_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" width="50" height="50">
@@ -139,7 +134,6 @@
                 </div>
 
                 <div class="row">
-                    <!-- Section 5 -->
                     <div class="col-md-6">
                         <div class="card mb-4">
                             <div class="card-header bg-secondary text-white">
@@ -158,7 +152,6 @@
                         </div>
                     </div>
 
-                    <!-- Section 6: FAQ -->
                     <div class="col-md-6">
                         <div class="card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
@@ -193,34 +186,39 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // Image preview
+    // Improved Image preview function
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById(previewId).src = e.target.result;
+                const img = document.getElementById(previewId);
+                if(img) {
+                    img.src = e.target.result;
+                }
             }
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // Video preview
+    // Video preview function
     function previewVideo(input, previewId) {
         if (input.files && input.files[0]) {
             const file = input.files[0];
             const blobUrl = URL.createObjectURL(file);
             const video = document.getElementById(previewId);
-            video.querySelector('source').src = blobUrl;
-            video.classList.remove('d-none');
-            video.load();
-            // video.play();  // optional – usually better not to auto-play
+            const source = video.querySelector('source');
+            if(source) {
+                source.src = blobUrl;
+                video.classList.remove('d-none');
+                video.load();
+            }
         }
     }
 
     // Add Section 3 item
     function addSec3() {
         const wrapper = document.getElementById('sec3-wrapper');
-        const index = wrapper.querySelectorAll('.item-box').length;
+        const index = Date.now(); // Using timestamp to ensure unique ID for preview
         const html = `
             <div class="row mb-3 border p-3 item-box align-items-center position-relative">
                 <div class="col-md-3">
@@ -243,10 +241,10 @@
     // Add Section 4 feature
     function addSec4() {
         const wrapper = document.getElementById('sec4-wrapper');
-        const index = wrapper.querySelectorAll('.item-box').length;
+        const index = Date.now();
         const html = `
             <div class="col-md-4 mb-3 item-box">
-                <div class="border ">
+                <div class="border p-2">
                     <input type="file" name="sec4_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_${index}')">
                     <div class="text-center mb-2">
                         <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="50" height="50">
@@ -261,7 +259,7 @@
     // Add FAQ
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
-        const index = wrapper.querySelectorAll('.item-box').length;
+        const index = Date.now();
         const html = `
             <div class="border p-3 mb-3 item-box position-relative">
                 <input type="text" name="sec6_faqs[${index}][q]" class="form-control mb-2" placeholder="Question">
@@ -271,38 +269,24 @@
         wrapper.insertAdjacentHTML('beforeend', html);
     }
 
-    // Remove item with confirmation
+    // Global Event Listener for Remove Item
     document.addEventListener('click', function(e) {
-        if (!e.target.classList.contains('remove-item')) return;
-
-        e.preventDefault();
-        const item = e.target.closest('.item-box');
-
-        Swal.fire({
-            title: 'Remove this item?',
-            text: "You won't be able to undo this action",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, remove it',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                item.style.opacity = '0';
-                setTimeout(() => {
+        if (e.target.classList.contains('remove-item')) {
+            const item = e.target.closest('.item-box');
+            Swal.fire({
+                title: 'Remove this item?',
+                text: "You won't be able to undo this action",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, remove it'
+            }).then((result) => {
+                if (result.isConfirmed) {
                     item.remove();
-                    Swal.fire({
-                        title: 'Removed!',
-                        text: 'Item has been removed.',
-                        icon: 'success',
-                        timer: 500,
-                        showConfirmButton: false
-                    });
-                }, 300);
-            }
-        });
+                }
+            });
+        }
     });
 </script>
-
 @endsection
