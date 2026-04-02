@@ -62,7 +62,7 @@
                             <div class="card-body">
                                 <input type="text" name="sec1_title" class="form-control mb-2" placeholder="Title" value="{{ $data->metadata['sec1_title'] ?? '' }}">
                                 <input type="text" name="sec1_sub_title" class="form-control mb-2" placeholder="Sub Title" value="{{ $data->metadata['sec1_sub_title'] ?? '' }}">
-
+                            <x-form.text name="sec1_url_title" label="URL Title" :value="$data->metadata['sec1_url_title'] ?? ''" />
                                 <label class="form-label mt-2">Video File</label>
                                 <input type="file" name="sec1_video" class="form-control mb-2" accept="video/mp4" onchange="previewVideo(this, 'sec1_prev')">
                                 <video id="sec1_prev" width="100%" height="180" controls class="{{ isset($data->metadata['sec1_video']) ? '' : 'd-none' }}">
@@ -157,7 +157,18 @@
                         <input type="text" name="sec4_title" class="form-control mb-3 w-75" placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
                         <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75" placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
-                        <div id="sec4-wrapper" class="row">
+                        <div class="col-md-4">
+                                    <label class="form-label">Sub Title</label>
+                                    <input type="text" name="sec4_sub_desc" class="form-control"
+                                        value="{{ $data->metadata['sec4_sub_desc'] ?? '' }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Url Title</label>
+                                    <input type="text" name="sec4_url_title" class="form-control"
+                                        value="{{ $data->metadata['sec4_url_title'] ?? '' }}">
+                                </div>
+
+                        <div id="sec4-wrapper" class="row mt-5">
                             @foreach($data->metadata['sec4_items'] ?? [] as $key => $item)
                             <div class="col-md-4 mb-3 item-box">
                                 <div class="border p-2">

@@ -78,7 +78,8 @@ class EnergyandUtilitsController extends Controller
                 'sec4_title' => $request->sec4_title, 'sec4_sub_title' => $request->sec4_sub_title, 'sec4_items' => $sec4_items,
                 'sec5_title' => $request->sec5_title, 'sec5_desc' => $request->sec5_desc, 'sec5_video' => $metadata_files['sec5_video'],
                 'sec6_title' => $request->sec6_title, 'sec6_desc' => $request->sec6_desc, 'sec6_faqs' => $request->sec6_faqs,
-                'sec6_sub_title' => $request->sec6_sub_title,
+                'sec6_sub_title' => $request->sec6_sub_title, 'sec1_url_title'=>$request->sec1_url_title,'sec4_sub_desc'=>$request->sec4_sub_desc,
+                'sec4_url_title'=>$request->sec4_url_title,
             ];
 
             CMS::updateOrCreate(

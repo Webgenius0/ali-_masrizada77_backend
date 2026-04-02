@@ -32,6 +32,7 @@ class EnergyandUtilityController extends Controller
                 'hero_section' => [
                     'title' => $metadata['sec1_title'] ?? '',
                     'sub_title' => $metadata['sec1_sub_title'] ?? '',
+                     'label' => $metadata['sec1_url_title'] ?? null,
                     'video_url' => isset($metadata['sec1_video']) ? asset($metadata['sec1_video']) : null,
                 ],
                 'spotlight_section' => [
@@ -61,6 +62,8 @@ class EnergyandUtilityController extends Controller
                 'operations_ai_patient' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
+                    'sub_description'=> $metadata['sec4_sub_desc'] ?? '',
+                    'url_title'=> $metadata['sec4_url_title'] ?? '',
                     // values() ব্যবহার করা হয়েছে আইডি রিমুভ করার জন্য
                     'features' => collect($metadata['sec4_items'] ?? [])->values()->map(function($item) {
                         return [
