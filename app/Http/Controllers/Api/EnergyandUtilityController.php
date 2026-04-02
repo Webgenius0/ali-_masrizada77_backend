@@ -81,7 +81,7 @@ class EnergyandUtilityController extends Controller
                     'faqs' => collect($metadata['sec6_faqs'] ?? [])->values()->map(function($faq) {
                         return [
                             'title' => $faq['q'] ?? '',
-                            'discription' => $faq['a'] ?? '',
+                            'description' => $faq['a'] ?? '',
                         ];
                     })->toArray(),
                 ],

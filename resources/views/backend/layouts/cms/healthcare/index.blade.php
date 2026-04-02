@@ -147,6 +147,18 @@
                                     <input type="text" name="sec3_desc" class="form-control"
                                         value="{{ $data->metadata['sec3_desc'] ?? '' }}">
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Sub Title</label>
+                                    <input type="text" name="sec3_sub_title" class="form-control"
+                                        value="{{ $data->metadata['sec3_sub_title'] ?? '' }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Url Title</label>
+                                    <input type="text" name="sec3_url_title" class="form-control"
+                                        value="{{ $data->metadata['sec3_url_title'] ?? '' }}">
+                                </div>
+
                                 <div class="col-md-4 text-center">
                                     <label class="form-label d-block text-start">Side Image</label>
                                     <input type="file" name="sec3_image" class="form-control mb-2" accept="image/*"

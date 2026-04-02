@@ -52,6 +52,8 @@ class HealthcareApiController extends Controller
                 'communication_section' => [
                     'title' => $metadata['sec3_title'] ?? '',
                     'description' => $metadata['sec3_desc'] ?? '',
+                    'sub_description'=> $metadata['sec3_sub_title'] ?? '',
+                    'url_title'=> $metadata['sec3_url_title'] ?? '',
                     'side_image' => isset($metadata['sec3_image']) ? asset($metadata['sec3_image']) : null,
                     'features' => collect($metadata['sec3_items'] ?? [])->map(function ($item) {
                         return [
