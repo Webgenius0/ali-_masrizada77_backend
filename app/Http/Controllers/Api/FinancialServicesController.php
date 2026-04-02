@@ -84,8 +84,8 @@ class FinancialServicesController extends Controller
                     'sub_title' => $metadata['sec6_sub_title'] ?? '',
                     'faqs' => collect($metadata['sec6_faqs'] ?? [])->map(function ($faq) {
                         return [
-                            'question' => $faq['q'] ?? '',
-                            'answer' => $faq['a'] ?? '',
+                            'title' => $faq['q'] ?? '',
+                            'description' => $faq['a'] ?? '',
                         ];
                     }),
                 ],
