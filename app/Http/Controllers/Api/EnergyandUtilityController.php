@@ -12,7 +12,6 @@ class EnergyandUtilityController extends Controller
     public function getHealthcareContent(Request $request)
     {
         try {
-            // ল্যাঙ্গুয়েজ টাইপ (ডিফল্ট ইংরেজি)
             $type = $request->query('type', 'english');
 
             $cms = CMS::where('page', 'energyandutilitis')
@@ -23,13 +22,12 @@ class EnergyandUtilityController extends Controller
             if (!$cms) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'No content found for ' . $type
+                    'message' => 'No content found'
                 ], 404);
             }
 
             $metadata = $cms->metadata;
 
-            // ডাটা ট্রান্সফর্ম
             $data = [
                 'hero_section' => [
                     'title' => $metadata['sec1_title'] ?? '',
@@ -40,35 +38,36 @@ class EnergyandUtilityController extends Controller
                     'title' => $metadata['sec2_title'] ?? '',
                     'sub_title' => $metadata['sec2_sub_title'] ?? '',
                     'video_url' => isset($metadata['sec2_video']) ? asset($metadata['sec2_video']) : null,
-                    'statistics' => collect($metadata['sec2_stats'] ?? [])->map(function($stat) {
+                    'statistics' => collect($metadata['sec2_stats'] ?? [])->values()->map(function($stat) {
                         return [
                             'percentage' => $stat['val'] ?? '',
                             'label' => $stat['title'] ?? '',
                         ];
-                    })->values()->all(), // values() নিশ্চিত করে এটি একটি ক্লিন অ্যারে হবে
+                    })->toArray(),
                 ],
                 'better_cx' => [
                     'title' => $metadata['sec3_title'] ?? '',
                     'description' => $metadata['sec3_desc'] ?? '',
                     'side_image' => isset($metadata['sec3_image']) ? asset($metadata['sec3_image']) : null,
-                    'features' => collect($metadata['sec3_items'] ?? [])->mapWithKeys(function($item, $key) {
-                        // আপনার স্যাম্পল অনুযায়ী কী (ID) গুলো বজায় রাখার জন্য mapWithKeys ব্যবহার করা হয়েছে
-                        return [$key => [
+                    // values() ব্যবহার করা হয়েছে আইডি রিমুভ করার জন্য
+                    'features' => collect($metadata['sec3_items'] ?? [])->values()->map(function($item) {
+                        return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,
                             'title' => $item['title'] ?? '',
                             'description' => $item['desc'] ?? '',
-                        ]];
-                    })->all(),
+                        ];
+                    })->toArray(),
                 ],
                 'operations_ai_patient' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
-                    'features' => collect($metadata['sec4_items'] ?? [])->mapWithKeys(function($item, $key) {
-                        return [$key => [
+                    // values() ব্যবহার করা হয়েছে আইডি রিমুভ করার জন্য
+                    'features' => collect($metadata['sec4_items'] ?? [])->values()->map(function($item) {
+                        return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,
                             'title' => $item['title'] ?? '',
-                        ]];
-                    })->all(),
+                        ];
+                    })->toArray(),
                 ],
                 'design_update_regulated' => [
                     'title' => $metadata['sec5_title'] ?? '',
@@ -78,12 +77,13 @@ class EnergyandUtilityController extends Controller
                 'faq_section' => [
                     'title' => $metadata['sec6_title'] ?? '',
                     'sub_title' => $metadata['sec6_sub_title'] ?? '',
-                    'faqs' => collect($metadata['sec6_faqs'] ?? [])->mapWithKeys(function($faq, $key) {
-                        return [$key => [
-                            'question' => $faq['q'] ?? '',
-                            'answer' => $faq['a'] ?? '',
-                        ]];
-                    })->all(),
+                    // values() ব্যবহার করা হয়েছে আইডি রিমুভ করার জন্য
+                    'faqs' => collect($metadata['sec6_faqs'] ?? [])->values()->map(function($faq) {
+                        return [
+                            'title' => $faq['q'] ?? '',
+                            'discription' => $faq['a'] ?? '',
+                        ];
+                    })->toArray(),
                 ],
             ];
 
@@ -91,7 +91,7 @@ class EnergyandUtilityController extends Controller
                 'success' => true,
                 'status_code' => 200,
                 'data' => $data
-            ], 200);
+            ]);
 
         } catch (Exception $e) {
             return response()->json([
