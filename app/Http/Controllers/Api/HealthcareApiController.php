@@ -52,8 +52,7 @@ class HealthcareApiController extends Controller
                 'communication_section' => [
                     'title' => $metadata['sec3_title'] ?? '',
                     'description' => $metadata['sec3_desc'] ?? '',
-                    'sub_description'=> $metadata['sec3_sub_title'] ?? '',
-                    'url_title'=> $metadata['sec3_url_title'] ?? '',
+
                     'side_image' => isset($metadata['sec3_image']) ? asset($metadata['sec3_image']) : null,
                     'features' => collect($metadata['sec3_items'] ?? [])->map(function ($item) {
                         return [
@@ -66,6 +65,8 @@ class HealthcareApiController extends Controller
                 'operations_section' => [
                     'title' => $metadata['sec4_title'] ?? '',
                     'sub_title' => $metadata['sec4_sub_title'] ?? '',
+                    'sub_description'=> $metadata['sec4_sub_desc'] ?? '',
+                    'url_title'=> $metadata['sec4_url_title'] ?? '',
                     'features' => collect($metadata['sec4_items'] ?? [])->map(function ($item) {
                         return [
                             'icon_url' => isset($item['icon']) ? asset($item['icon']) : null,

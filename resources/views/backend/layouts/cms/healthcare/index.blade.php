@@ -148,16 +148,6 @@
                                         value="{{ $data->metadata['sec3_desc'] ?? '' }}">
                                 </div>
 
-                                <div class="col-md-4">
-                                    <label class="form-label">Sub Title</label>
-                                    <input type="text" name="sec3_sub_title" class="form-control"
-                                        value="{{ $data->metadata['sec3_sub_title'] ?? '' }}">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Url Title</label>
-                                    <input type="text" name="sec3_url_title" class="form-control"
-                                        value="{{ $data->metadata['sec3_url_title'] ?? '' }}">
-                                </div>
 
                                 <div class="col-md-4 text-center">
                                     <label class="form-label d-block text-start">Side Image</label>
@@ -212,12 +202,24 @@
                             <button type="button" class="btn btn-sm btn-primary" onclick="addSec4()">+ Add Feature</button>
                         </div>
                         <div class="card-body">
+                            <label class="form-label">Main Title</label>
                             <input type="text" name="sec4_title" class="form-control mb-3 w-50"
                                 placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
+                            <label class="form-label">Description</label>
                             <input type="text" name="sec4_sub_title" class="form-control mb-3 w-50"
                                 placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
-                            <div id="sec4-wrapper" class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label">Sub Title</label>
+                                    <input type="text" name="sec4_sub_desc" class="form-control"
+                                        value="{{ $data->metadata['sec4_sub_desc'] ?? '' }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Url Title</label>
+                                    <input type="text" name="sec4_url_title" class="form-control"
+                                        value="{{ $data->metadata['sec4_url_title'] ?? '' }}">
+                                </div>
+                            <div id="sec4-wrapper" class="row mt-5">
                                 @foreach ($data->metadata['sec4_items'] ?? [] as $key => $item)
                                     <div class="col-md-4 mb-3 item-box">
                                         <div class="border p-3 text-center ">
