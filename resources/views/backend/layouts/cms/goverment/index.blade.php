@@ -4,7 +4,7 @@
         <div class="side-app">
             <div class="main-container container-fluid">
                 <div class="page-header">
-                    <h1 class="page-title">Goverment</h1>
+                    <h1 class="page-title">Government</h1>
                     <div class="ms-auto">
                         <a href="?type=english"
                             class="btn {{ $type == 'english' ? 'btn-primary' : 'btn-outline-primary' }}">English</a>
@@ -17,7 +17,6 @@
                     <input type="hidden" name="type" value="{{ $type }}">
 
                     <div class="row">
-                        <!-- Section 1: Hero Video -->
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header bg-primary text-white">
@@ -43,7 +42,6 @@
                             </div>
                         </div>
 
-                        <!-- Section 2: Spotlight & Stats -->
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header bg-dark text-white">
@@ -80,12 +78,10 @@
                         </div>
                     </div>
 
-                    <!-- Section 3: Smarter Communication -->
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h3 class="card-title">Section 3: Smarter Patient for Communication
-                                <button type="button" class="btn btn-sm btn-primary" onclick="addSec3()">+ Add
-                                    Item</button>
+                            <h3 class="card-title">Section 3: Smarter Patient for Communication</h3>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="addSec3()">+ Add Item</button>
                         </div>
                         <div class="card-body">
                             <div class="row mb-4 pb-3 border-bottom">
@@ -105,7 +101,8 @@
                                         onchange="previewImage(this, 'sec3_img_prev')">
                                     <img id="sec3_img_prev"
                                         src="{{ asset($data->metadata['sec3_image'] ?? 'backend/images/no-image.png') }}"
-                                        class="img-thumbnail" style="max-width:140px;">
+                                        class="img-thumbnail bg-dark p-2 shadow-sm"
+                                        style="max-width:140px; height: auto; border: 1px solid #444;">
                                 </div>
                             </div>
 
@@ -118,7 +115,7 @@
                                                 onchange="previewImage(this, 'sec3_icon_prev_{{ $key }}')">
                                             <img id="sec3_icon_prev_{{ $key }}"
                                                 src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}"
-                                                width="60" height="60" class="mx-auto d-block">
+                                                width="60" height="60" class="mx-auto d-block bg-dark p-2 rounded border">
                                         </div>
                                         <div class="col-md-3">
                                             <input type="text" name="sec3_items[{{ $key }}][title]"
@@ -139,42 +136,44 @@
                         </div>
                     </div>
 
-                    <!-- Section 4: Modern Patient Operations -->
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">Section 4: Operations AI Patient </h3>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="addSec4()">+ Add
-                                Feature</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="addSec4()">+ Add Feature</button>
                         </div>
                         <div class="card-body">
                              <label class="form-label">Section Title</label>
                             <input type="text" name="sec4_title" class="form-control mb-3 w-75"
                                 placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
-                                <label class="form-label">Section Sub Description</label>
+
+                            <label class="form-label">Section Sub Description</label>
                             <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75"
                                 placeholder="Section Sub Description" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
-                            <div class="col-md-4">
-                                <label class="form-label">Sub Title</label>
-                                <input type="text" name="sec4_sub_desc" class="form-control"
-                                    value="{{ $data->metadata['sec4_sub_desc'] ?? '' }}">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label">Sub Title</label>
+                                    <input type="text" name="sec4_sub_desc" class="form-control"
+                                        value="{{ $data->metadata['sec4_sub_desc'] ?? '' }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Url Title</label>
+                                    <input type="text" name="sec4_url_title" class="form-control"
+                                        value="{{ $data->metadata['sec4_url_title'] ?? '' }}">
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Url Title</label>
-                                <input type="text" name="sec4_url_title" class="form-control"
-                                    value="{{ $data->metadata['sec4_url_title'] ?? '' }}">
-                            </div>
+
                             <div id="sec4-wrapper" class="row mt-5">
                                 @foreach ($data->metadata['sec4_items'] ?? [] as $key => $item)
                                     <div class="col-md-4 mb-3 item-box">
-                                        <div class="border ">
+                                        <div class="border p-3">
                                             <input type="file" name="sec4_icon_{{ $key }}"
                                                 class="form-control mb-2" accept="image/*"
                                                 onchange="previewImage(this, 'sec4_icon_prev_{{ $key }}')">
                                             <div class="text-center mb-2">
                                                 <img id="sec4_icon_prev_{{ $key }}"
                                                     src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}"
-                                                    width="50" height="50">
+                                                    width="60" height="60" class=" p-2  border shadow-sm">
                                             </div>
                                             <input type="text" name="sec4_items[{{ $key }}][title]"
                                                 class="form-control mb-2" placeholder="Feature Title"
@@ -189,7 +188,6 @@
                     </div>
 
                     <div class="row">
-                        <!-- Section 5 -->
                         <div class="col-md-6">
                             <div class="card mb-4">
                                 <div class="card-header bg-secondary text-white">
@@ -211,13 +209,11 @@
                             </div>
                         </div>
 
-                        <!-- Section 6: FAQ -->
                         <div class="col-md-6">
                             <div class="card mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h3 class="card-title">Section 6: FAQ Section</h3>
-                                    <button type="button" class="btn btn-sm btn-primary" onclick="addFaq()">+ Add
-                                        FAQ</button>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addFaq()">+ Add FAQ</button>
                                 </div>
                                 <div class="card-body">
                                     <input type="text" name="sec6_title" class="form-control mb-3"
@@ -234,8 +230,7 @@
                                                     class="form-control mb-2" placeholder="Question"
                                                     value="{{ $faq['q'] ?? '' }}">
                                                 <textarea name="sec6_faqs[{{ $key }}][a]" class="form-control mb-2" rows="3" placeholder="Answer">{{ $faq['a'] ?? '' }}</textarea>
-                                                <button type="button" class="btn btn-danger btn-sm remove-item">Remove
-                                                    FAQ</button>
+                                                <button type="button" class="btn btn-danger btn-sm remove-item">Remove FAQ</button>
                                             </div>
                                         @endforeach
                                     </div>
@@ -254,7 +249,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Image preview
         function previewImage(input, previewId) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -265,7 +259,6 @@
             }
         }
 
-        // Video preview
         function previewVideo(input, previewId) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -274,11 +267,9 @@
                 video.querySelector('source').src = blobUrl;
                 video.classList.remove('d-none');
                 video.load();
-                // video.play();  // optional – usually better not to auto-play
             }
         }
 
-        // Add Section 3 item
         function addSec3() {
             const wrapper = document.getElementById('sec3-wrapper');
             const index = wrapper.querySelectorAll('.item-box').length;
@@ -286,7 +277,7 @@
             <div class="row mb-3 border p-3 item-box align-items-center position-relative">
                 <div class="col-md-3">
                     <input type="file" name="sec3_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_icon_prev_${index}')">
-                    <img id="sec3_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="60" height="60" class="mx-auto d-block">
+                    <img id="sec3_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="60" height="60" class="mx-auto d-block bg-dark p-2 rounded border">
                 </div>
                 <div class="col-md-3">
                     <input type="text" name="sec3_items[${index}][title]" class="form-control mb-2" placeholder="Title">
@@ -301,16 +292,15 @@
             wrapper.insertAdjacentHTML('beforeend', html);
         }
 
-        // Add Section 4 feature
         function addSec4() {
             const wrapper = document.getElementById('sec4-wrapper');
             const index = wrapper.querySelectorAll('.item-box').length;
             const html = `
             <div class="col-md-4 mb-3 item-box">
-                <div class="border">
+                <div class="border p-3">
                     <input type="file" name="sec4_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_${index}')">
                     <div class="text-center mb-2">
-                        <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="50" height="50">
+                        <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="60" height="60" class=" p-2  border">
                     </div>
                     <input type="text" name="sec4_items[${index}][title]" class="form-control mb-2" placeholder="Feature Title">
                     <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
@@ -319,7 +309,6 @@
             wrapper.insertAdjacentHTML('beforeend', html);
         }
 
-        // Add FAQ
         function addFaq() {
             const wrapper = document.getElementById('faq-wrapper');
             const index = wrapper.querySelectorAll('.item-box').length;
@@ -332,13 +321,10 @@
             wrapper.insertAdjacentHTML('beforeend', html);
         }
 
-        // Remove item with confirmation
         document.addEventListener('click', function(e) {
             if (!e.target.classList.contains('remove-item')) return;
-
             e.preventDefault();
             const item = e.target.closest('.item-box');
-
             Swal.fire({
                 title: 'Remove this item?',
                 text: "You won't be able to undo this action",

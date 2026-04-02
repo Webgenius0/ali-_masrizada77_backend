@@ -39,7 +39,7 @@
                                         <source src="{{ asset($data->metadata['sec1_video_1'] ?? '') }}" type="video/mp4">
                                     </video>
                                 </div>
-                                {{-- <div class="card-body">
+                                <div class="card-body">
                                     <label class="form-label mt-2">Video File 2</label>
                                     <input type="file" name="sec1_video_2" class="form-control mb-2" accept="video/mp4"
                                         onchange="previewVideo(this, 'sec1_prev_2')">
@@ -56,7 +56,7 @@
                                         class="{{ isset($data->metadata['sec1_video_3']) ? '' : 'd-none' }}">
                                         <source src="{{ asset($data->metadata['sec1_video_3'] ?? '') }}" type="video/mp4">
                                     </video>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
 
