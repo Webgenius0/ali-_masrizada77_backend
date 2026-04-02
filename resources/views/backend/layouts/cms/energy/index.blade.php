@@ -1,6 +1,43 @@
 @extends('backend.app')
 @section('content')
 
+{{-- স্বচ্ছ পিএনজি ইমেজ দেখার জন্য কাস্টম ডিজাইন --}}
+<style>
+    .image-preview-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin: 10px auto;
+        border: 2px solid #3e4b5b;
+        border-radius: 8px;
+        overflow: hidden;
+        /* ডার্ক চেকারবোর্ড ব্যাকগ্রাউন্ড - সাদা আইকন দেখার জন্য */
+        background-color: #2c3e50;
+        background-image: linear-gradient(45deg, #34495e 25%, transparent 25%),
+                          linear-gradient(-45deg, #34495e 25%, transparent 25%),
+                          linear-gradient(45deg, transparent 75%, #34495e 75%),
+                          linear-gradient(-45deg, transparent 75%, #34495e 75%);
+        background-size: 16px 16px;
+        background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .image-preview-wrapper img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        filter: drop-shadow(0px 0px 2px rgba(0,0,0,0.5));
+    }
+
+    .side-image-preview-wrapper {
+        width: 150px;
+        height: 150px;
+        margin: 10px 0;
+    }
+</style>
+
 <div class="app-content main-content mt-0">
     <div class="side-app">
         <div class="main-container container-fluid">
@@ -17,7 +54,6 @@
                 <input type="hidden" name="type" value="{{ $type }}">
 
                 <div class="row">
-                    <!-- Section 1: Hero Video -->
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header bg-primary text-white">
@@ -36,7 +72,6 @@
                         </div>
                     </div>
 
-                    <!-- Section 2: Spotlight & Stats -->
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header bg-dark text-white">
@@ -65,7 +100,6 @@
                     </div>
                 </div>
 
-                <!-- Section 3: Smarter Communication -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title">Section 3: Better CX</h3>
@@ -84,7 +118,9 @@
                             <div class="col-md-4">
                                 <label class="form-label">Side Image</label>
                                 <input type="file" name="sec3_image" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_img_prev')">
-                                <img id="sec3_img_prev" src="{{ asset($data->metadata['sec3_image'] ?? 'backend/images/no-image.png') }}" class="img-thumbnail" style="max-width:140px;">
+                                <div class="image-preview-wrapper side-image-preview-wrapper">
+                                    <img id="sec3_img_prev" src="{{ asset($data->metadata['sec3_image'] ?? 'backend/images/no-image.png') }}" alt="Preview">
+                                </div>
                             </div>
                         </div>
 
@@ -93,7 +129,9 @@
                             <div class="row mb-3 border p-3 item-box align-items-center position-relative">
                                 <div class="col-md-3">
                                     <input type="file" name="sec3_icon_{{$key}}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_icon_prev_{{$key}}')">
-                                    <img id="sec3_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" width="60" height="60" class="mx-auto d-block">
+                                    <div class="image-preview-wrapper">
+                                        <img id="sec3_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" alt="Icon">
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" name="sec3_items[{{$key}}][title]" class="form-control mb-2" placeholder="Title" value="{{ $item['title'] ?? '' }}">
@@ -110,7 +148,6 @@
                     </div>
                 </div>
 
-                <!-- Section 4: Modern Patient Operations -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title">Section 4: Operations AI Patient </h3>
@@ -118,16 +155,15 @@
                     </div>
                     <div class="card-body">
                         <input type="text" name="sec4_title" class="form-control mb-3 w-75" placeholder="Section Title" value="{{ $data->metadata['sec4_title'] ?? '' }}">
-                         <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75" placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
-
+                        <input type="text" name="sec4_sub_title" class="form-control mb-3 w-75" placeholder="Section Sub Title" value="{{ $data->metadata['sec4_sub_title'] ?? '' }}">
 
                         <div id="sec4-wrapper" class="row">
                             @foreach($data->metadata['sec4_items'] ?? [] as $key => $item)
                             <div class="col-md-4 mb-3 item-box">
-                                <div class="border ">
+                                <div class="border p-2">
                                     <input type="file" name="sec4_icon_{{$key}}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_{{$key}}')">
-                                    <div class="text-center mb-2">
-                                        <img id="sec4_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" width="50" height="50">
+                                    <div class="image-preview-wrapper">
+                                        <img id="sec4_icon_prev_{{$key}}" src="{{ asset($item['icon'] ?? 'backend/images/no-image.png') }}" alt="Icon">
                                     </div>
                                     <input type="text" name="sec4_items[{{$key}}][title]" class="form-control mb-2" placeholder="Feature Title" value="{{ $item['title'] ?? '' }}">
                                     <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
@@ -139,7 +175,6 @@
                 </div>
 
                 <div class="row">
-                    <!-- Section 5 -->
                     <div class="col-md-6">
                         <div class="card mb-4">
                             <div class="card-header bg-secondary text-white">
@@ -158,7 +193,6 @@
                         </div>
                     </div>
 
-                    <!-- Section 6: FAQ -->
                     <div class="col-md-6">
                         <div class="card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
@@ -184,7 +218,7 @@
                 </div>
 
                 <div class="card-footer text-end py-4">
-                    <button type="submit" class="btn btn-success btn-lg px-5">UPDATE HEALTHCARE PAGE</button>
+                    <button type="submit" class="btn btn-success btn-lg px-5">UPDATE ENERGY PAGE</button>
                 </div>
             </form>
         </div>
@@ -193,7 +227,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // Image preview
+    // Image preview with fix
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -213,19 +247,20 @@
             video.querySelector('source').src = blobUrl;
             video.classList.remove('d-none');
             video.load();
-            // video.play();  // optional – usually better not to auto-play
         }
     }
 
     // Add Section 3 item
     function addSec3() {
         const wrapper = document.getElementById('sec3-wrapper');
-        const index = wrapper.querySelectorAll('.item-box').length;
+        const index = Date.now();
         const html = `
             <div class="row mb-3 border p-3 item-box align-items-center position-relative">
                 <div class="col-md-3">
                     <input type="file" name="sec3_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec3_icon_prev_${index}')">
-                    <img id="sec3_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="60" height="60" class="mx-auto d-block">
+                    <div class="image-preview-wrapper">
+                        <img id="sec3_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" alt="Icon">
+                    </div>
                 </div>
                 <div class="col-md-3">
                     <input type="text" name="sec3_items[${index}][title]" class="form-control mb-2" placeholder="Title">
@@ -243,13 +278,13 @@
     // Add Section 4 feature
     function addSec4() {
         const wrapper = document.getElementById('sec4-wrapper');
-        const index = wrapper.querySelectorAll('.item-box').length;
+        const index = Date.now();
         const html = `
             <div class="col-md-4 mb-3 item-box">
-                <div class="border">
+                <div class="border p-2">
                     <input type="file" name="sec4_icon_${index}" class="form-control mb-2" accept="image/*" onchange="previewImage(this, 'sec4_icon_prev_${index}')">
-                    <div class="text-center mb-2">
-                        <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" width="50" height="50">
+                    <div class="image-preview-wrapper">
+                        <img id="sec4_icon_prev_${index}" src="{{ asset('backend/images/no-image.png') }}" alt="Icon">
                     </div>
                     <input type="text" name="sec4_items[${index}][title]" class="form-control mb-2" placeholder="Feature Title">
                     <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
@@ -261,7 +296,7 @@
     // Add FAQ
     function addFaq() {
         const wrapper = document.getElementById('faq-wrapper');
-        const index = wrapper.querySelectorAll('.item-box').length;
+        const index = Date.now();
         const html = `
             <div class="border p-3 mb-3 item-box position-relative">
                 <input type="text" name="sec6_faqs[${index}][q]" class="form-control mb-2" placeholder="Question">
@@ -274,7 +309,6 @@
     // Remove item with confirmation
     document.addEventListener('click', function(e) {
         if (!e.target.classList.contains('remove-item')) return;
-
         e.preventDefault();
         const item = e.target.closest('.item-box');
 
@@ -285,24 +319,13 @@
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, remove it',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: 'Yes, remove it'
         }).then((result) => {
             if (result.isConfirmed) {
                 item.style.opacity = '0';
-                setTimeout(() => {
-                    item.remove();
-                    Swal.fire({
-                        title: 'Removed!',
-                        text: 'Item has been removed.',
-                        icon: 'success',
-                        timer: 500,
-                        showConfirmButton: false
-                    });
-                }, 300);
+                setTimeout(() => { item.remove(); }, 300);
             }
         });
     });
 </script>
-
 @endsection
