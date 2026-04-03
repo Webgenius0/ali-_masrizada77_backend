@@ -66,7 +66,7 @@ public function index(Request $request)
             $lang = $request->get('type', 'english');
             $isDe = ($lang == 'de' || $lang == 'german');
 
-            $suggestedBlogs = Blog::where('status', 'active')->latest()->take(4)->get();
+            $suggestedBlogs = Blog::where('status', 'active')->latest()->take(3)->get();
 
             $formattedSuggestions = $suggestedBlogs->map(function ($item) use ($isDe) {
                 return [
