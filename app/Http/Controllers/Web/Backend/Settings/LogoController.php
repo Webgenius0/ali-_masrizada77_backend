@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 
 class LogoController extends Controller
 {
@@ -49,6 +50,8 @@ class LogoController extends Controller
             Setting::updateOrCreate(['id' => 1],
                 $validatedData
             );
+
+            Cache::forget('settings');
 
             return back()->with('t-success', 'Updated successfully');
         } catch (Exception $e) {

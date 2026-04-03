@@ -46,11 +46,11 @@ class JobApplicationController extends Controller
 
             JobApplication::create($data);
 
-            Mail::to('rayhan259606@gmail.com')->send(new AdminJobMail($data));
+            Mail::to(config('mail.from.address'))->send(new AdminJobMail($data));
             Mail::to($request->email)->send(new UserConfirmMail($data));
 
             return response()->json(['status' => true, 'message' => 'Application submitted successfully!'], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['status' => false, 'message' => 'Something went wrong.'], 500);
         }
     }

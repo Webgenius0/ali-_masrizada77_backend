@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 
 class SignatureController extends Controller {
     public function __construct()
@@ -40,6 +41,8 @@ class SignatureController extends Controller {
             $settings = Setting::latest('id')->first();
             $settings->signature = $base64Image;
             $settings->save();
+
+            Cache::forget('settings');
 
             return back()->with('t-success', 'Updated successfully');
         } catch (Exception) {
