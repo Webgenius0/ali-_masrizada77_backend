@@ -273,7 +273,7 @@
                                     Settings</a></li>
                             <li><a href="{{ route('admin.setting.mail.index') }}" class="slide-item">Mail Settings</a>
                             </li>
-                            <li><a href="{{ route('admin.setting.stripe.index') }}" class="slide-item">Stripe
+                            {{-- <li><a href="{{ route('admin.setting.stripe.index') }}" class="slide-item">Stripe
                                     Settings</a></li>
                             <li><a href="{{ route('admin.setting.firebase.index') }}" class="slide-item">Firebase
                                     Settings</a></li>
@@ -286,8 +286,8 @@
                             <li><a href="{{ route('admin.setting.signature.index') }}" class="slide-item">Signature
                                     Settings</a></li>
                             <li><a href="{{ route('admin.setting.other.index') }}" class="slide-item">Other Settings</a>
-                            </li>
-                            <li><a href="{{ route('plugins.index') }}" class='slide-item'>Manage Plugins</a></li>
+                            </li> --}}
+                            {{-- <li><a href="{{ route('plugins.index') }}" class='slide-item'>Manage Plugins</a></li> --}}
                         </ul>
                     </li>
                 @endrole
@@ -325,13 +325,13 @@
                             <span class="side-menu__label">Social Link</span>
                         </a>
                     </li>
-                    <li class="slide">
+                    {{-- <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.faq.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.faq.index') }}">
                             <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
                             <span class="side-menu__label">FAQ</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.cms.home.get-in-touch.*') ? 'has-link active' : '' }}"
