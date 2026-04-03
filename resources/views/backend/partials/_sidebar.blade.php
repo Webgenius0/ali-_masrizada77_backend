@@ -104,6 +104,14 @@
                         <span class="side-menu__label">Course</span>
                     </a>
                 </li> --}}
+
+                                <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('admin.cms.home.trust_heading*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.cms.home.trust_heading.index') }}">
+                        <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
+                        <span class="side-menu__label"> Trust Heding Content</span>
+                    </a>
+                </li>
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.blog_heading.index') }}">
@@ -538,7 +546,15 @@
                                 </a>
                             </li>
                         </ul>
+                        <ul class="slide-menu">
 
+                            <li>
+                                <a href="{{ route('admin.cms.home.trust.index') }}"
+                                    class="sub-slide-item {{ request()->routeIs('admin.cms.home.trust.index') ? 'active' : '' }}">
+                                    Trust Pge
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     {{-- <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.menu.*') ? 'has-link active' : '' }}"

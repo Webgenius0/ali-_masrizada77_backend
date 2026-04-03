@@ -74,6 +74,7 @@ public function index(Request $request)
                     'title'            => $isDe ? ($item->title_de ?? $item->title) : $item->title,
                     'subtitle'         => $isDe ? ($item->subtitle_de ?? $item->subtitle) : $item->subtitle,
                     'image_url'        => $item->image ? asset($item->image) : null,
+                     'description_html' => $isDe ? ($item->description_de ?? $item->description) : $item->description,
                     'description_raw'  => strip_tags($isDe ? ($item->description_de ?? $item->description) : $item->description),
                     'created_date'     => $item->created_at->format('d M, Y'),
                 ];

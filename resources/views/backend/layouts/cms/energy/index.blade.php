@@ -90,13 +90,21 @@
                                 </video>
 
                                 <div class="row">
-                                    @for($i = 0; $i < 3; $i++)
-                                    <div class="col-4">
-                                        <input type="text" name="sec2_stats[{{$i}}][val]" class="form-control mb-1" placeholder="75%" value="{{ $data->metadata['sec2_stats'][$i]['val'] ?? '' }}">
-                                        <input type="text" name="sec2_stats[{{$i}}][title]" class="form-control" placeholder="e.g. Patient Satisfaction" value="{{ $data->metadata['sec2_stats'][$i]['title'] ?? '' }}">
+                                        @for ($i = 0; $i < 3; $i++)
+                                            <div class="col-4">
+                                                <label class="small text-muted mb-0">Value (Number)</label>
+                                                <input type="number" step="any"
+                                                    name="sec2_stats[{{ $i }}][val]" class="form-control mb-1"
+                                                    placeholder="e.g. 75"
+                                                    value="{{ $data->metadata['sec2_stats'][$i]['val'] ?? '' }}">
+
+                                                <label class="small text-muted mb-0">Label</label>
+                                                <input type="text" name="sec2_stats[{{ $i }}][title]"
+                                                    class="form-control" placeholder="e.g. Satisfaction"
+                                                    value="{{ $data->metadata['sec2_stats'][$i]['title'] ?? '' }}">
+                                            </div>
+                                        @endfor
                                     </div>
-                                    @endfor
-                                </div>
                             </div>
                         </div>
                     </div>

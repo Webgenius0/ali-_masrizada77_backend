@@ -41,8 +41,8 @@ class EnergyandUtilityController extends Controller
                     'video_url' => isset($metadata['sec2_video']) ? asset($metadata['sec2_video']) : null,
                     'statistics' => collect($metadata['sec2_stats'] ?? [])->values()->map(function($stat) {
                         return [
-                            'percentage' => $stat['val'] ?? '',
-                            'label' => $stat['title'] ?? '',
+                            'percentage' => isset($stat['val']) ? (float)$stat['val'] : 0,
+                            'label'      => $stat['title'] ?? '',
                         ];
                     })->toArray(),
                 ],

@@ -62,14 +62,18 @@
                                         <source src="{{ asset($data->metadata['sec2_video'] ?? '') }}" type="video/mp4">
                                     </video>
 
-                                    <div class="row">
+                                <div class="row">
                                         @for ($i = 0; $i < 3; $i++)
                                             <div class="col-4">
-                                                <input type="text" name="sec2_stats[{{ $i }}][val]"
-                                                    class="form-control mb-1" placeholder="75%"
+                                                <label class="small text-muted mb-0">Value (Number)</label>
+                                                <input type="number" step="any"
+                                                    name="sec2_stats[{{ $i }}][val]" class="form-control mb-1"
+                                                    placeholder="e.g. 75"
                                                     value="{{ $data->metadata['sec2_stats'][$i]['val'] ?? '' }}">
+
+                                                <label class="small text-muted mb-0">Label</label>
                                                 <input type="text" name="sec2_stats[{{ $i }}][title]"
-                                                    class="form-control" placeholder="e.g. Patient Satisfaction"
+                                                    class="form-control" placeholder="e.g. Satisfaction"
                                                     value="{{ $data->metadata['sec2_stats'][$i]['title'] ?? '' }}">
                                             </div>
                                         @endfor

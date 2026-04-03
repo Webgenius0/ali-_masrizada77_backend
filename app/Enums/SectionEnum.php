@@ -16,6 +16,7 @@ enum SectionEnum: string
     //common sections
     case FOOTER = 'footer';
     case HEADER = 'header';
+    case TRUST = 'trust';
 
 
 

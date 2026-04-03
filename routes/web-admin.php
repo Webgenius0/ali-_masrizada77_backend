@@ -60,6 +60,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\Drive_ThruAIController;
 use App\Http\Controllers\Web\Backend\CMS\Web\InfrastructureController;
 use App\Http\Controllers\Web\Backend\CMS\Web\PartnerController;
 use App\Http\Controllers\Web\Backend\AboutusController;
+use App\Http\Controllers\Web\Backend\CMS\Web\TrustController;
 use App\Http\Controllers\Web\Backend\CMS\Web\GetinTouchController;
 use App\Http\Controllers\Web\Backend\CMS\Web\ApplyJobController;
 use App\Http\Controllers\ElevenLabsController;
@@ -70,6 +71,7 @@ use App\Http\Controllers\Web\Backend\CMS\Web\FastFoodAndTerminalController;
 use App\Http\Controllers\Web\Backend\CMS\Web\FinancialServicesController;
 use App\Http\Controllers\Web\Backend\JobApplicationController;
 use App\Http\Controllers\Web\Backend\Hedding_BlogController;
+use App\Http\Controllers\Web\Backend\HeddingTrustController;
 use App\Http\Controllers\Web\Backend\CarrerPageController;
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
@@ -410,6 +412,20 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
             Route::get('/', [ApplyJobController::class, 'index'])->name('index');
             Route::post('/content', [ApplyJobController::class, 'update'])->name('update');
         });
+
+        //Trust page
+        Route::prefix('home/trust')->name('home.trust.')->group(function () {
+            Route::get('/', [TrustController::class, 'index'])->name('index');
+            Route::post('/content', [TrustController::class, 'content'])->name('content');
+        });
+
+
+            //Trust Heding content
+        Route::prefix('home/trust_heading')->name('home.trust_heading.')->group(function () {
+            Route::get('/', [HeddingTrustController::class, 'index'])->name('index');
+            Route::post('/content', [HeddingTrustController::class, 'update'])->name('update');
+        });
+
 
         // checking ai voices syttemm
         Route::prefix('home/test')->name('home.test.')->group(function () {

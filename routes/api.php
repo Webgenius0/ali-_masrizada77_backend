@@ -45,6 +45,7 @@ use App\Http\Controllers\Api\Hedding_blogController;
 use App\Http\Controllers\Api\Get_A_FreeController;
 use App\Http\Controllers\Api\CareerController;
 use App\Http\Controllers\Api\LogoController;
+use App\Http\Controllers\Api\TrustApiController;
 
 
 
@@ -139,6 +140,9 @@ Route::get('/financial-content', [FinancialServicesController::class, 'getFinanc
 
 //career page API
 Route::get('/career-page', [CareerController::class, 'getCareerData']);
+
+//Trust page API
+Route::get('/trust-content', [TrustApiController::class, 'getFullTrustContent']);
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

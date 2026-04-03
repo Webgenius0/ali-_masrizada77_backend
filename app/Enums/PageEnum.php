@@ -14,5 +14,6 @@ enum PageEnum: string
     case Infrastructure='infrastructure';
     case Partner='partner';
     case CarrerPage='carrerpage';
+    case Trust = 'trust';
     case COMMON = 'common';
 }
