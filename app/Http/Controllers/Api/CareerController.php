@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CMS;
-use App\Models\POST;
+use App\Models\Post;
 use App\Enums\PageEnum;
 use App\Enums\SectionEnum;
 use Illuminate\Http\Request;
