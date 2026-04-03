@@ -16,9 +16,9 @@ class CareerController extends Controller
             $type = $request->query('type', 'english');
 
             $careerData = CMS::where('page', PageEnum::CarrerPage)
-                            ->where('section', SectionEnum::INTRO)
-                            ->where('type', $type)
-                            ->first();
+                ->where('section', SectionEnum::INTRO)
+                ->where('type', $type)
+                ->first();
 
             if (!$careerData) {
                 return response()->json([
@@ -43,15 +43,16 @@ class CareerController extends Controller
                     'counter_title' => $m['stat_emp_title'] ?? '',
                     'stats' => [
                         [
-                            'count' => $m['stat_emp'] ?? '',
+
+                            'count' => isset($m['stat_emp']) ? (int) filter_var($m['stat_emp'], FILTER_SANITIZE_NUMBER_INT) : 0,
                             'label' => $m['stat_emp_desc'] ?? '',
                         ],
                         [
-                            'count' => $m['stat_hours'] ?? '',
+                            'count' => isset($m['stat_hours']) ? (int) filter_var($m['stat_hours'], FILTER_SANITIZE_NUMBER_INT) : 0,
                             'label' => $m['stat_hours_desc'] ?? '',
                         ],
                         [
-                            'count' => $m['stat_offices'] ?? '',
+                            'count' => isset($m['stat_offices']) ? (int) filter_var($m['stat_offices'], FILTER_SANITIZE_NUMBER_INT) : 0,
                             'label' => $m['stat_offices_desc'] ?? '',
                         ]
                     ]
@@ -68,7 +69,6 @@ class CareerController extends Controller
                 'message' => 'Career data retrieved successfully',
                 'data'    => $formattedData
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

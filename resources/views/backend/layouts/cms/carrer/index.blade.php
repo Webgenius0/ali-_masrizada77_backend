@@ -40,38 +40,85 @@
                 </div>
 
                 {{-- Section 2: Stats & Interaction (Image 2 reference) --}}
-                <div class="card shadow mb-4">
-                    <div class="card-header bg-dark text-white"><h5>2. Customer Interactions & Stats</h5></div>
-                    <div class="card-body">
-                        <div class="row border-bottom pb-4 mb-4">
-                            <div class="col-md-8">
-                                <x-form.text name="stats_title" label="Interaction Heading" :value="$data->metadata['stats_title'] ?? ''" />
-                                <textarea name="stats_desc" class="form-control mt-2" placeholder="Long description...">{{ $data->metadata['stats_desc'] ?? '' }}</textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <x-form.file name="stats_image" label="Right Image" />
-                                <img src="{{ asset($data->metadata['stats_image'] ?? 'backend/images/no-image.png') }}" class="preview-img mt-2 border w-100" style="height:100px; object-fit:cover;">
-                            </div>
-                        </div>
-                        <div class="row text-center mb-3">
-                            <div class="col-md-12">
-                                <input type="text" name="stat_emp_title" class="form-control fw-bold" placeholder="Write Title " value="{{ $data->metadata['stat_emp_title'] ?? '' }}">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" name="stat_emp" class="form-control fw-bold" placeholder="250+" value="{{ $data->metadata['stat_emp'] ?? '' }}">
-                                <input type="text" name="stat_emp_desc" class="form-control mt-1 small" placeholder="Label (e.g. Employees)" value="{{ $data->metadata['stat_emp_desc'] ?? '' }}">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" name="stat_hours" class="form-control fw-bold" placeholder="50k+" value="{{ $data->metadata['stat_hours'] ?? '' }}">
-                                <input type="text" name="stat_hours_desc" class="form-control mt-1 small" placeholder="Label (e.g. Hours)" value="{{ $data->metadata['stat_hours_desc'] ?? '' }}">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" name="stat_offices" class="form-control fw-bold" placeholder="20+" value="{{ $data->metadata['stat_offices'] ?? '' }}">
-                                <input type="text" name="stat_offices_desc" class="form-control mt-1 small" placeholder="Label (e.g. Offices)" value="{{ $data->metadata['stat_offices_desc'] ?? '' }}">
-                            </div>
+{{-- Section 2: Stats & Interaction --}}
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-dark text-white d-flex align-items-center">
+        <i class="fas fa-chart-line me-2"></i>
+        <h5 class="mb-0">2. Customer Interactions & Stats</h5>
+    </div>
+    <div class="card-body">
+        <div class="row border-bottom pb-4 mb-4 align-items-end">
+            <div class="col-md-8">
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold text-muted">Interaction Heading</label>
+                    <x-form.text name="stats_title" :value="$data->metadata['stats_title'] ?? ''" placeholder="Enter heading..." />
+                </div>
+                <div class="form-group">
+                    <label class="form-label fw-bold text-muted">Long Description</label>
+                    <textarea name="stats_desc" class="form-control" rows="4" placeholder="Write detailed description here...">{{ $data->metadata['stats_desc'] ?? '' }}</textarea>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label fw-bold text-muted">Section Image</label>
+                    <x-form.file name="stats_image" />
+                    <div class="mt-2 position-relative">
+                        <img src="{{ asset($data->metadata['stats_image'] ?? 'backend/images/no-image.png') }}"
+                             class="img-thumbnail w-100 shadow-sm"
+                             style="height:145px; object-fit:cover; border-radius: 8px;">
+                        <small class="text-center d-block mt-1 text-muted">Image Preview</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-light p-3  shadow-sm">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label fw-bold text-primary">Statistics Counter Title</label>
+                    <input type="text" name="stat_emp_title" class="form-control fw-bold border-primary-subtle"
+                           placeholder="e.g. Our Global Impact" value="{{ $data->metadata['stat_emp_title'] ?? '' }}">
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-2">
+                            <label class="small fw-bold text-muted mb-1">Total Employees</label>
+                            <input type="number" name="stat_emp" class="form-control form-control-lg fw-bold text-primary"
+                                   placeholder="250" value="{{ $data->metadata['stat_emp'] ?? '' }}">
+                            <input type="text" name="stat_emp_desc" class="form-control form-control-sm mt-2 border-0 bg-light"
+                                   placeholder="Label (e.g. Happy Employees)" value="{{ $data->metadata['stat_emp_desc'] ?? '' }}">
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-2">
+                            <label class="small fw-bold text-muted mb-1">Working Hours</label>
+                            <input type="number" name="stat_hours" class="form-control form-control-lg fw-bold text-success"
+                                   placeholder="500" value="{{ $data->metadata['stat_hours'] ?? '' }}">
+                            <input type="text" name="stat_hours_desc" class="form-control form-control-sm mt-2 border-0 bg-light"
+                                   placeholder="Label (e.g. Hours Worked)" value="{{ $data->metadata['stat_hours_desc'] ?? '' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-2">
+                            <label class="small fw-bold text-muted mb-1">Global Offices</label>
+                            <input type="number" name="stat_offices" class="form-control form-control-lg fw-bold text-info"
+                                   placeholder="20" value="{{ $data->metadata['stat_offices'] ?? '' }}">
+                            <input type="text" name="stat_offices_desc" class="form-control form-control-sm mt-2 border-0 bg-light"
+                                   placeholder="Label (e.g. Worldwide Offices)" value="{{ $data->metadata['stat_offices_desc'] ?? '' }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                 {{-- Section 3: Benefits Accordion (Image 3 reference) --}}
                 <div class="card shadow mb-4">
