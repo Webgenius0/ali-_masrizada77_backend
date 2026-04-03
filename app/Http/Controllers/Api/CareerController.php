@@ -29,31 +29,37 @@ class CareerController extends Controller
 
             $m = $careerData->metadata;
 
-            // --- সেকশন অনুযায়ী ডেটা আলাদা করা ---
+            // --- সেকশন অনুযায়ী ডেটা আলাদা করা ---
             $formattedData = [
                 'hero_section' => [
                     'title'       => $m['hero_title'] ?? '',
                     'description' => $m['hero_desc'] ?? '',
+                    'label'       => $m['hero_btn_text'] ?? '', // বানান সংশোধন: lable -> label
                     'image'       => isset($m['hero_image']) ? asset($m['hero_image']) : null,
                 ],
+                'job_section' => [
+                    'title' => $m['job_heading'] ?? '', // নতুন যোগ করা জব হেডিং
+                ],
                 'stats_section' => [
-                    'title'       => $m['stats_title'] ?? '',
-                    'description' => $m['stats_desc'] ?? '',
-                    'main_image'  => isset($m['stats_image']) ? asset($m['stats_image']) : null,
+                    'title'         => $m['stats_title'] ?? '',
+                    'description'   => $m['stats_desc'] ?? '',
+                    'main_image'    => isset($m['stats_image']) ? asset($m['stats_image']) : null,
                     'counter_title' => $m['stat_emp_title'] ?? '',
                     'stats' => [
                         [
-
-                            'count' => isset($m['stat_emp']) ? (int) filter_var($m['stat_emp'], FILTER_SANITIZE_NUMBER_INT) : 0,
-                            'label' => $m['stat_emp_desc'] ?? '',
+                            'label'       => $m['stat_emp_label'] ?? 'Total Employees',
+                            'count'       => isset($m['stat_emp']) ? (int) filter_var($m['stat_emp'], FILTER_SANITIZE_NUMBER_INT) : 0,
+                            'description' => $m['stat_emp_desc'] ?? '',
                         ],
                         [
-                            'count' => isset($m['stat_hours']) ? (int) filter_var($m['stat_hours'], FILTER_SANITIZE_NUMBER_INT) : 0,
-                            'label' => $m['stat_hours_desc'] ?? '',
+                            'label'       => $m['stat_hours_label'] ?? 'Working Hours',
+                            'count'       => isset($m['stat_hours']) ? (int) filter_var($m['stat_hours'], FILTER_SANITIZE_NUMBER_INT) : 0,
+                            'description' => $m['stat_hours_desc'] ?? '',
                         ],
                         [
-                            'count' => isset($m['stat_offices']) ? (int) filter_var($m['stat_offices'], FILTER_SANITIZE_NUMBER_INT) : 0,
-                            'label' => $m['stat_offices_desc'] ?? '',
+                            'label'       => $m['stat_offices_label'] ?? 'Global Offices',
+                            'count'       => isset($m['stat_offices']) ? (int) filter_var($m['stat_offices'], FILTER_SANITIZE_NUMBER_INT) : 0,
+                            'description' => $m['stat_offices_desc'] ?? '',
                         ]
                     ]
                 ],
@@ -69,6 +75,7 @@ class CareerController extends Controller
                 'message' => 'Career data retrieved successfully',
                 'data'    => $formattedData
             ], 200);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

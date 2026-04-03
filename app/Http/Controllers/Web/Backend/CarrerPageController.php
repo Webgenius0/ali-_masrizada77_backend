@@ -39,7 +39,7 @@ class CarrerPageController extends Controller
         return view('backend.layouts.cms.carrer.index', compact('data', 'type'));
     }
 
-    public function content(Request $request)
+public function content(Request $request)
     {
         try {
             $type = $request->get('type', 'english');
@@ -50,7 +50,7 @@ class CarrerPageController extends Controller
 
             $oldMetadata = $section->metadata ?? [];
 
-            // --- ১. ইমেজ হ্যান্ডলিং (Hero, Stats, Partner) ---
+            // --- ১. ইমেজ হ্যান্ডলিং (Hero, Stats) ---
             $hero_image = $oldMetadata['hero_image'] ?? null;
             if ($request->hasFile('hero_image')) {
                 if ($hero_image && file_exists(public_path($hero_image))) @unlink(public_path($hero_image));
@@ -63,30 +63,40 @@ class CarrerPageController extends Controller
                 $stats_image = Helper::fileUpload($request->file('stats_image'), $this->uploadPath, 'stats_' . time());
             }
 
-            // --- ২. মেটাডাটা প্রিপারেশন (সব ডাটা স্টোর) ---
+            // --- ২. মেটাডাটা প্রিপারেশন ---
             $metadata = [
-                // Image 1: Hero Section
-                'hero_title'     => $request->hero_title,
-                'hero_desc'      => $request->hero_desc,
-                'hero_btn_text'  => $request->hero_btn_text,
-                'hero_image'     => $hero_image,
+                // Section 1: Hero
+                'hero_title'        => $request->hero_title,
+                'hero_desc'         => $request->hero_desc,
+                'hero_btn_text'     => $request->hero_btn_text,
+                'hero_image'        => $hero_image,
 
-                // Image 2: Stats Section
-                'stats_title'    => $request->stats_title,
-                'stats_desc'     => $request->stats_desc,
-                'stats_image'    => $stats_image,
-                'stat_emp_title' => $request->stat_emp_title,
-                'stat_emp'       => $request->stat_emp,
-                'stat_emp_desc'  => $request->stat_emp_desc,
-                'stat_hours'     => $request->stat_hours,
-                'stat_hours_desc'=> $request->stat_hours_desc,
-                'stat_offices'   => $request->stat_offices,
-                'stat_offices_desc'=> $request->stat_offices_desc,
+                // Section 2: Job Role
+                'job_heading'       => $request->job_heading,
 
-                // Image 3: Benefits Section (Accordion)
-                'benefits_title' => $request->benefits_title,
-                'benefits_footer'=> $request->benefits_footer,
-                'benefits_list'  => $request->benefits_list, // JSON Array
+                // Section 3: Stats & Interaction
+                'stats_title'       => $request->stats_title,
+                'stats_desc'        => $request->stats_desc,
+                'stats_image'       => $stats_image,
+                'stat_emp_title'    => $request->stat_emp_title,
+
+                // ডাইনামিক লেবেল (যেগুলো আপনি ইনপুট হিসেবে চাচ্ছেন)
+                'stat_emp_label'    => $request->stat_emp_label,
+                'stat_hours_label'  => $request->stat_hours_label,
+                'stat_offices_label'=> $request->stat_offices_label,
+
+                // ভ্যালু এবং ডেসক্রিপশন
+                'stat_emp'          => $request->stat_emp,
+                'stat_emp_desc'     => $request->stat_emp_desc,
+                'stat_hours'        => $request->stat_hours,
+                'stat_hours_desc'   => $request->stat_hours_desc,
+                'stat_offices'      => $request->stat_offices,
+                'stat_offices_desc' => $request->stat_offices_desc,
+
+                // Section 4: Benefits
+                'benefits_title'    => $request->benefits_title,
+                'benefits_footer'   => $request->benefits_footer,
+                'benefits_list'     => $request->benefits_list, // Blade থেকে আসা অ্যারে
             ];
 
             $finalData = [
