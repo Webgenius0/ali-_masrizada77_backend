@@ -219,6 +219,13 @@
                     </a>
                 </li>
                 <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('admin.documentation.request.*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.documentation.request.index') }}">
+                        <i class="fa-solid fa-file-shield side-menu__icon"></i>
+                        <span class="side-menu__label">Doc Requests</span>
+                    </a>
+                </li>
+                <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('acmin.subscriber.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.subscriber.index') }}">
                         <i class="fa-solid fa-people-group side-menu__icon"></i>
@@ -308,7 +315,7 @@
                     <li>
                         <h3>CMS</h3>
                     </li>
-                    <li class="slide">
+                    {{-- <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.page.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.page.index') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -317,7 +324,7 @@
                             </svg>
                             <span class="side-menu__label">Dynamic Page</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.social.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.social.index') }}">
@@ -337,7 +344,7 @@
                         <a class="side-menu__item {{ request()->routeIs('admin.cms.home.get-in-touch.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.cms.home.get-in-touch.index') }}">
                             <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
-                            <span class="side-menu__label"> Get in Touch 1</span>
+                            <span class="side-menu__label">Get in Touch & Demo </span>
                         </a>
                     </li>
 
@@ -345,7 +352,7 @@
                         <a class="side-menu__item {{ request()->routeIs('admin.cms.home.applyjob.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.cms.home.applyjob.index') }}">
                             <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
-                            <span class="side-menu__label"> Apply Job Content</span>
+                            <span class="side-menu__label">Trust Page Document REQ</span>
                         </a>
                     </li>
 

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
@@ -18,10 +19,11 @@ class SettingController extends Controller
         View::share('crud', 'general_settings');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $setting = Setting::latest('id')->first();
-        return view('backend.layouts.settings.general_settings', compact('setting'));
+        $type = $request->get('type', 'english');
+        $setting = Setting::where('type', $type)->first();
+        return view('backend.layouts.settings.general_settings', compact('setting', 'type'));
     }
 
     /**
@@ -33,6 +35,7 @@ class SettingController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
+            'type'           => 'required|in:english,de,others',
             'name'           => 'nullable|string|max:50',
             'title'          => 'nullable|string|max:255',
             'description'    => 'nullable|string|max:500',
@@ -47,7 +50,10 @@ class SettingController extends Controller
         ]);
 
         try {
-            $setting = Setting::first();
+            $setting = Setting::where('id', 1)->first(); // Default fallback or check by type
+            
+            // If updating a specific type, we should fetch that specific one
+            $setting = Setting::where('type', $request->type)->first();
 
             if ($request->hasFile('favicon')) {
                 if ($setting && $setting->favicon && file_exists(public_path($setting->favicon))) {
@@ -63,7 +69,7 @@ class SettingController extends Controller
                 $validatedData['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'settings', time() . '_' . getFileName($request->file('thumbnail')));
             }
 
-            Setting::updateOrCreate(['id' => 1], $validatedData);
+            Setting::updateOrCreate(['type' => $request->type], $validatedData);
             
             Cache::forget('settings');
 

@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Frontend\PostController;
 use App\Http\Controllers\Api\Frontend\SubcategoryController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\Frontend\SettingsController;
+use App\Http\Controllers\Api\Frontend\DocumentationRequestController;
 use App\Http\Controllers\Api\Frontend\SocialLinksController;
 use App\Http\Controllers\Api\Frontend\SubscriberController;
 use App\Http\Controllers\Api\PrayerTimesController;
@@ -168,6 +169,9 @@ Route::post('/job-apply', [JobApplicationController::class, 'store']);
 //blog hedding content
 Route::get('/blog-hedding', [Hedding_blogController::class, 'getBlogContent']);
 
+//document request
+Route::post('/documentation-request', [DocumentationRequestController::class, 'store']);
+
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 // ------------------------------------------------------rayhan    ------------------------------------- end --------------------------
@@ -292,5 +296,7 @@ Route::prefix('prayer-times')->group(function () {
     Route::get('/today', [PrayerTimesController::class, 'today']);
     Route::get('/methods', [PrayerTimesController::class, 'methods']);
 });
+
+
 
 Route::post('contact/store',[ContactController::class, 'store'])->name('contact.store');

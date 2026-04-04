@@ -245,6 +245,12 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
         Route::delete('/delete/{id}', 'destroy')->name('destroy'); // নতুন ডিলিট রাউট
     });
 
+    Route::controller(\App\Http\Controllers\Web\Backend\DocumentationRequestController::class)->prefix('documentation-request')->name('documentation.request.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+    });
+
     Route::controller(TransactionController::class)->prefix('transaction')->name('transaction.')->group(function () {
         Route::get('/{user_id?}', 'index')->name('index');
         Route::get('/show/{id}', 'show')->name('show');

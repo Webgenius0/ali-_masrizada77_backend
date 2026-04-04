@@ -28,9 +28,11 @@
                 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
                     <div class="card box-shadow-0">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title mb-0">Show</h3>
+                            <h3 class="card-title mb-0">{{ ucfirst($type) }} Settings</h3>
                             <div class="card-options">
-                                <a href="javascript:window.history.back()" class="btn btn-sm btn-primary">Back</a>
+                                <a href="{{ route('admin.setting.general.index', ['type' => 'english']) }}" class="btn btn-sm {{ $type == 'english' ? 'btn-primary' : 'btn-outline-primary' }} me-2">English</a>
+                                <a href="{{ route('admin.setting.general.index', ['type' => 'de']) }}" class="btn btn-sm {{ $type == 'de' ? 'btn-primary' : 'btn-outline-primary' }} me-2">German</a>
+                                {{-- <a href="{{ route('admin.setting.general.index', ['type' => 'others']) }}" class="btn btn-sm {{ $type == 'others' ? 'btn-primary' : 'btn-outline-primary' }}">Others</a> --}}
                             </div>
                         </div>
                         <div class="card-body">
@@ -38,9 +40,11 @@
                                 @csrf
                                 @method('PATCH')
 
+                                <input type="hidden" name="type" value="{{ $type }}">
+
                                 <div class="row mb-4">
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="username" class="form-label">Name:</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="name" placeholder="Name" id="username"
@@ -48,7 +52,7 @@
                                         @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label for="title" class="form-label">Title:</label>
@@ -59,7 +63,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="description" class="form-label">Description:</label>
                                         <textarea class="form-control @error('description') is-invalid @enderror"
@@ -68,7 +72,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-
+{{--
                                     <div class="form-group">
                                         <label for="keywords" class="form-label">Keywords:</label>
                                         <textarea class="form-control @error('keywords') is-invalid @enderror"
@@ -76,9 +80,9 @@
                                         @error('keywords')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
-                                    
-                                    <div class="form-group">
+                                    </div> --}}
+
+                                    {{-- <div class="form-group">
                                         <label for="author" class="form-label">Author:</label>
                                         <input type="text" class="form-control @error('author') is-invalid @enderror"
                                             name="author" placeholder="Author" id="author"
@@ -86,9 +90,9 @@
                                         @error('author')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="phone" class="form-label">Phone:</label>
                                         <input type="text" class="form-control @error('phone') is-invalid @enderror"
                                             name="phone" placeholder="Phone" id="phone"
@@ -96,9 +100,9 @@
                                         @error('phone')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="email" class="form-label">Email:</label>
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                             name="email" placeholder="Email" id="email"
@@ -106,7 +110,7 @@
                                         @error('email')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label for="address" class="form-label">Address:</label>
@@ -128,7 +132,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="thumbnail" class="form-label">Thumbnail:</label>
@@ -136,7 +140,7 @@
                                                     data-default-file="{{ !empty($setting->thumbnail) && file_exists(public_path($setting->thumbnail)) ? asset($setting->thumbnail) : asset('default/logo.png') }}"
                                                     name="thumbnail" id="thumbnail">
                                                     <p class="textTransform">Image Size Less than 5MB and Image Type must be jpeg,jpg,png.</p>
-                                                @error('favicon')
+                                                @error('thumbnail')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -153,7 +157,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <button class="submit btn btn-primary" type="submit">Update</button>
