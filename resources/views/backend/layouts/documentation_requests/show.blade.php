@@ -39,7 +39,7 @@
                                 <div class="col-md-6">
                                     <h5 class="mb-3 border-bottom pb-2">Request Information</h5>
                                     <p><strong>Document Type:</strong> {{ $request->document_type }}</p>
-                                    <p><strong>Status:</strong> 
+                                    <p><strong>Status:</strong>
                                         <span class="badge bg-{{ $request->status == 'pending' ? 'warning' : ($request->status == 'reviewed' ? 'info' : 'success') }}">
                                             {{ ucfirst($request->status) }}
                                         </span>
@@ -50,12 +50,12 @@
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="mb-3 border-bottom pb-2">Message</h5>
-                                    <div class="p-4 bg-light border rounded">
+                                    <div class="p-4 bg-light border ">
                                         {{ $request->message }}
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row mt-5">
                                 <div class="col-12">
                                     <form action="{{ route('admin.documentation.request.destroy', $request->id) }}" method="POST" id="delete-form">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\Backend\BookingController;
 use App\Http\Controllers\Web\Backend\BrandController;
 use App\Http\Controllers\Web\Backend\CategoryController;
 use App\Http\Controllers\Web\Backend\ChatController;
+use App\Http\Controllers\Web\Backend\DocumentationRequestController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Home\HomeAboutController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Home\HomeExampleController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Home\HomeIntroController;
@@ -244,8 +245,8 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
         Route::get('/status/{id}', 'status')->name('status');
         Route::delete('/delete/{id}', 'destroy')->name('destroy'); // নতুন ডিলিট রাউট
     });
-
-    Route::controller(\App\Http\Controllers\Web\Backend\DocumentationRequestController::class)->prefix('documentation-request')->name('documentation.request.')->group(function () {
+//document request show
+    Route::controller(DocumentationRequestController::class)->prefix('documentation-request')->name('documentation.request.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/show/{id}', 'show')->name('show');
         Route::delete('/delete/{id}', 'destroy')->name('destroy');
