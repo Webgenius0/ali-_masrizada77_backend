@@ -151,7 +151,7 @@
                 </div>
 
                 {{-- Data Protection --}}
-                <div class="card shadow-sm mb-4">
+                {{-- <div class="card shadow-sm mb-4">
                     <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                         <h3 class="card-title">3. How We Protect Your Data</h3>
                         <button type="button" class="btn btn-sm btn-white" onclick="addProtection()">+ Add Protection Card</button>
@@ -194,7 +194,7 @@
                             @endforeach
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="card-footer text-center py-4 bg-light shadow-sm">
                     <button type="submit" class="btn btn-success btn-lg px-5">SAVE TRUST PAGE CONTENT</button>
