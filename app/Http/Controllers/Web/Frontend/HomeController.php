@@ -17,14 +17,14 @@ use App\Traits\CMSData;
 class HomeController extends Controller
 {
     use CMSData;
-    
+
     public $theme;
 
     public function __construct()
     {
         $this->theme = env('THEME');
     }
-    
+
     public function index()
     {
         //CMS Data
@@ -39,8 +39,8 @@ class HomeController extends Controller
         $socials = Cache::rememberForever(CacheEnum::CMS_SOCIAL_LINKS, function () {
             return SocialLink::where('status', 'active')->get();
         });
-        
-        $posts = Post::with(['category', 'subcategory', 'user', 'images'])->where('status', 'active')->latest()->limit(3)->get();
+
+        $posts = Post::where('status', 'active')->latest()->limit(3)->get();
 
         $types = Type::where('status', 'active')->get();
         $projects = Project::where('status', 'active')->get();
@@ -57,7 +57,7 @@ class HomeController extends Controller
             'home' => $cmsData->where('page', PageEnum::HOME)->where('status', 'active')->get(),
             'common' => $cmsData->where('page', PageEnum::COMMON)->where('status', 'active')->get(),
         ];
-        
+
         $post = Post::where('slug', base64_decode($slug))->where('status', 'active')->firstOrFail();
         return view('frontend.default.layouts.post', compact('cms', 'post'));
     }
