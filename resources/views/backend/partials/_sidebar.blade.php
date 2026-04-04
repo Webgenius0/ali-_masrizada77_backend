@@ -332,6 +332,13 @@
                             <span class="side-menu__label">Social Link</span>
                         </a>
                     </li>
+                    <li class="slide">
+                        <a class="side-menu__item {{ request()->routeIs('admin.footer.*') ? 'has-link active' : '' }}"
+                            href="{{ route('admin.footer.index') }}">
+                            <i class="fa-solid fa-shoe-prints side-menu__icon"></i>
+                            <span class="side-menu__label">Footer Management</span>
+                        </a>
+                    </li>
                     {{-- <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.faq.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.faq.index') }}">

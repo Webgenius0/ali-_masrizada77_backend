@@ -47,6 +47,9 @@ use App\Http\Controllers\Api\Get_A_FreeController;
 use App\Http\Controllers\Api\CareerController;
 use App\Http\Controllers\Api\LogoController;
 use App\Http\Controllers\Api\TrustApiController;
+use App\Http\Controllers\Api\FooterController as FooterApiController;
+
+Route::get('/footer-content', [FooterApiController::class, 'getFooterContent']);
 
 
 
