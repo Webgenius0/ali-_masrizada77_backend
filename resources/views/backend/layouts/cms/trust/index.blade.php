@@ -73,12 +73,12 @@
                                             <input type="text" name="hero_btn_text" class="form-control" value="{{ $data->metadata['hero_btn_text'] ?? '' }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Button URL</label>
                                             <input type="text" name="hero_btn_url" class="form-control" value="{{ $data->metadata['hero_btn_url'] ?? '' }}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-md-4 text-center">
@@ -123,7 +123,7 @@
                                         <div class="col-md-3">
                                             <label class="small fw-bold">Title</label>
                                             <input type="text" name="standards_items[{{ $key }}][title]" class="form-control mb-2" value="{{ $item['title'] ?? '' }}">
-                                            
+
                                             <label class="small fw-bold">Badge (e.g. Public)</label>
                                             <input type="text" name="standards_items[{{ $key }}][badge]" class="form-control mb-2" value="{{ $item['badge'] ?? '' }}">
 
