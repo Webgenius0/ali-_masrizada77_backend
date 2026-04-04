@@ -392,28 +392,28 @@
                                     <li>
                                         <a href="{{ route('admin.cms.home.intro.index') }}"
                                             class="sub-slide-item {{ request()->routeIs('admin.cms.home.intro.index') ? 'active' : '' }}">
-                                            Intro Section
+                                           Main Home Page Intro Section
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="{{ route('admin.cms.home.cms.index', ['slug' => 'category-1']) }}"
                                             class="sub-slide-item {{ request()->fullUrlIs(route('admin.cms.home.cms.index', ['slug' => 'category-1']) . '*') ? 'active' : '' }}">
-                                            Category One
+                                           Conversational AI - Voci
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="{{ route('admin.cms.home.cms.index', ['slug' => 'category-2']) }}"
                                             class="sub-slide-item {{ request()->fullUrlIs(route('admin.cms.home.cms.index', ['slug' => 'category-2']) . '*') ? 'active' : '' }}">
-                                            Category Two
+                                        Email & Text AI
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="{{ route('admin.cms.home.cms.index', ['slug' => 'category-3']) }}"
                                             class="sub-slide-item {{ request()->fullUrlIs(route('admin.cms.home.cms.index', ['slug' => 'category-3']) . '*') ? 'active' : '' }}">
-                                            Category Three
+                                            Drive Thru AI
                                         </a>
                                     </li>
                                 </ul>
