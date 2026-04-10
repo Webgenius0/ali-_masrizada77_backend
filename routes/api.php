@@ -48,6 +48,7 @@ use App\Http\Controllers\Api\CareerController;
 use App\Http\Controllers\Api\LogoController;
 use App\Http\Controllers\Api\TrustApiController;
 use App\Http\Controllers\Api\FooterController as FooterApiController;
+use App\Http\Controllers\Api\AnnouncementApiController;
 
 Route::get('/footer-content', [FooterApiController::class, 'getFooterContent']);
 
@@ -174,6 +175,8 @@ Route::get('/blog-hedding', [Hedding_blogController::class, 'getBlogContent']);
 
 //document request
 Route::post('/documentation-request', [DocumentationRequestController::class, 'store']);
+
+Route::get('/award-announcement', [AnnouncementApiController::class, 'getAnnouncement']);
 
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

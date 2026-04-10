@@ -16,4 +16,5 @@ enum PageEnum: string
     case CarrerPage='carrerpage';
     case Trust = 'trust';
     case COMMON = 'common';
+    case ANNOUNCEMENT = 'announcement';
 }

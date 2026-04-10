@@ -17,8 +17,5 @@ enum SectionEnum: string
     case FOOTER = 'footer';
     case HEADER = 'header';
     case TRUST = 'trust';
-
-
-
-
+    case ANNOUNCEMENT = 'announcement';
 }

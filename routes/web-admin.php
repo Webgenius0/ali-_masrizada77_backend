@@ -75,6 +75,7 @@ use App\Http\Controllers\Web\Backend\JobApplicationController;
 use App\Http\Controllers\Web\Backend\Hedding_BlogController;
 use App\Http\Controllers\Web\Backend\HeddingTrustController;
 use App\Http\Controllers\Web\Backend\CarrerPageController;
+use App\Http\Controllers\Web\Backend\CMS\Web\AnnouncementController;
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
 
@@ -435,6 +436,12 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
         Route::prefix('home/trust')->name('home.trust.')->group(function () {
             Route::get('/', [TrustController::class, 'index'])->name('index');
             Route::post('/content', [TrustController::class, 'content'])->name('content');
+        });
+
+        //Award Announcement
+        Route::prefix('home/announcement')->name('home.announcement.')->group(function () {
+            Route::get('/', [AnnouncementController::class, 'index'])->name('index');
+            Route::post('/update', [AnnouncementController::class, 'update'])->name('update');
         });
 
 
