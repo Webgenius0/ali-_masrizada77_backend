@@ -52,7 +52,7 @@ use App\Http\Controllers\Web\Backend\QuizController;
 use App\Http\Controllers\Web\Backend\ReportController;
 use App\Http\Controllers\Web\Backend\VariantController;
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\web\backend\cms\LegalCMSController;
+use App\Http\Controllers\Web\Backend\CMS\LegalCMSController;
 use App\Http\Controllers\Web\Backend\CmsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\Home\HomeCmsController;
 use App\Http\Controllers\Web\Backend\CMS\Web\NVPlatformOverviewController;
