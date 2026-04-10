@@ -48,7 +48,7 @@
                                 <x-form.text name="sec1_url_link" label="URL Link" :value="$data->metadata['sec1_url_link'] ?? ''" />
                             </div>
                             <div class="col-md-6">
-                                @for($i=1; $i<=3; $i++)
+                                @for($i=1; $i<=1; $i++)
                                     <x-form.file name="sec1_img{{$i}}" label="Hero Image {{$i}}" />
                                     @php $imgField = 'image'.$i; @endphp
                                     @if(!empty($data->$imgField))
