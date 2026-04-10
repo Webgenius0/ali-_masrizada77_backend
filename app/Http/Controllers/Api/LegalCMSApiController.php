@@ -15,8 +15,10 @@ class LegalCMSApiController extends Controller
     public function getPrivacyPolicy()
     {
         try {
+            $type = request('type', 'english');
             $data = CMS::where('page', 'legal')
                        ->where('section', 'privacy_policy')
+                       ->where('type', $type)
                        ->first();
 
             if (!$data) {
@@ -29,7 +31,6 @@ class LegalCMSApiController extends Controller
             return response()->json([
                 'success' => true,
                 'data'    => [
-
                     'description' => $data->description,
                     'updated_at'  => $data->updated_at->format('Y-m-d H:i:s'),
                 ]
@@ -47,8 +48,10 @@ class LegalCMSApiController extends Controller
     public function getTermsConditions()
     {
         try {
+            $type = request('type', 'english');
             $data = CMS::where('page', 'legal')
                        ->where('section', 'terms_conditions')
+                       ->where('type', $type)
                        ->first();
 
             if (!$data) {

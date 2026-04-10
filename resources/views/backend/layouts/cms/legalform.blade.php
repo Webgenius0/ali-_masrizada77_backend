@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         .editor-bg { background-color: #f0f2f5; padding: 40px 0; min-height: 100vh; }
-        .word-page { 
-            background: #fff; max-width: 1200px; margin: 0 auto; padding: 60px 80px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,.1); border: 1px solid #ddd; 
+        .word-page {
+            background: #ffffff; max-width: 1200px; margin: 0 auto; padding: 60px 80px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.1); border: 1px solid #ddd;
         }
         .ck-editor__editable_inline { min-height: 500px !important; font-family: 'Times New Roman'; font-size: 18px; }
     </style>
@@ -31,13 +31,28 @@
                     <input type="hidden" name="section" value="{{ $section }}">
 
                     <div class="word-page">
-                        {{-- <div class="mb-4">
-                            <label class="form-label">Document Heading</label>
-                            <input type="text" name="title" class="form-control" value="{{ $data->title ?? '' }}">
-                        </div> --}}
-                        <div class="mb-4 ">
-                            <label class="form-label">Body Content</label>
-                            <textarea name="description" id="description-editor">{{ $data->description ?? '' }}</textarea>
+                        <ul class="nav nav-tabs mb-4" id="languageTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="english-tab" data-bs-toggle="tab" data-bs-target="#english" type="button" role="tab">English</button>
+                            </li>
+                            <li class="nav-item  ml-3" role="presentation">
+                                <button class="nav-link" id="german-tab" data-bs-toggle="tab" data-bs-target="#german" type="button" role="tab">German (DE)</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="languageTabContent">
+                            <div class="tab-pane fade show active" id="english" role="tabpanel">
+                                <div class="mb-4">
+                                    <label class="form-label">Body Content (English)</label>
+                                    <textarea name="description_en" id="description-editor-en">{{ $data_en->description ?? '' }}</textarea>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="german" role="tabpanel">
+                                <div class="mb-4">
+                                    <label class="form-label">Body Content (German)</label>
+                                    <textarea name="description_de" id="description-editor-de">{{ $data_de->description ?? '' }}</textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -58,33 +73,39 @@
         toastr.success("{{ Session::get('success') }}");
     @endif
 
-    let myEditor;
+    let editorEn, editorDe;
 
-    // CKEditor Init
-    ClassicEditor.create(document.querySelector('#description-editor')).then(editor => {
-        myEditor = editor;
+    // CKEditor Init English
+    ClassicEditor.create(document.querySelector('#description-editor-en')).then(editor => {
+        editorEn = editor;
+    }).catch(error => { console.error(error); });
+
+    // CKEditor Init German
+    ClassicEditor.create(document.querySelector('#description-editor-de')).then(editor => {
+        editorDe = editor;
     }).catch(error => { console.error(error); });
 
     // Save Button Click
     document.getElementById('saveBtn').addEventListener('click', function() {
-        // const title = document.querySelector('input[name="title"]').value;
-        const description = myEditor.getData();
+        const descriptionEn = editorEn.getData();
+        const descriptionDe = editorDe.getData();
 
-        if ( !description) {
-            toastr.error('Please fill all fields'); // Toastr error use kora hoyeche
+        if (!descriptionEn || !descriptionDe) {
+            toastr.error('Please fill both English and German fields');
             return;
         }
 
         Swal.fire({
             title: 'Are you sure?',
-            text: "This document will be published!",
+            text: "This document will be published in both languages!",
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Yes, Save it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 let formData = new FormData(document.getElementById('legalForm'));
-                formData.set('description', description);
+                formData.set('description_en', descriptionEn);
+                formData.set('description_de', descriptionDe);
 
                 // Loading handle করার জন্য
                 Swal.fire({
@@ -103,7 +124,6 @@
                         Swal.close(); // Loading close kora
                         if (resp.success) {
                             toastr.success(resp.message); // Toastr message
-                            // Success hole ekti SweetAlert o dekhaite paren
                             Swal.fire('Saved!', resp.message, 'success');
                         } else {
                             toastr.error('Failed to update');
@@ -118,4 +138,28 @@
         });
     });
 </script>
+<style>
+/* Default tab color */
+.nav-tabs .nav-link {
+    color: #555;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+}
+
+/* Active tab color */
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #0781b9; /* blue */
+    border-color: #5597df;
+}
+
+/* Hover effect */
+.nav-tabs .nav-link:hover {
+    color: #fff;
+    background-color: #0056b3;
+}
+.nav-item + .nav-item {
+    margin-left: 12px;
+}
+</style>
 @endpush
