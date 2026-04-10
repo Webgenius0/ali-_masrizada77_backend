@@ -32,9 +32,9 @@
                                 <div class="col-md-4 text-center">
                                     <label class="fw-bold d-block mb-2">Thumbnail</label>
                                     @if($post->thumbnail)
-                                        <img src="{{ asset($post->thumbnail) }}" class="img-fluid rounded border p-1" style="max-height: 200px;">
+                                        <img src="{{ asset($post->thumbnail) }}" class="img-fluid  border p-1" style="max-height: 200px;">
                                     @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center rounded border" style="height: 150px;">No Image</div>
+                                        <div class="bg-light d-flex align-items-center justify-content-center  border" style="height: 150px;">No Image</div>
                                     @endif
                                 </div>
                                 <div class="col-md-8">
@@ -84,14 +84,14 @@
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab_en">
                                             <h4 class="fw-bold mb-3">{{ $post->title }}</h4>
-                                            <div class="p-4 border rounded bg-white overflow-auto" style="min-height: 200px;">
+                                            <div class="p-4 border  bg-white overflow-auto" style="min-height: 200px;">
                                                 {!! $post->content ?? '<p class="text-muted">No English content available.</p>' !!}
                                             </div>
                                         </div>
 
                                         <div class="tab-pane" id="tab_de">
                                             <h4 class="fw-bold mb-3 text-info">{{ $post->title_de ?? 'No German Title' }}</h4>
-                                            <div class="p-4 border rounded bg-white overflow-auto" style="min-height: 200px;">
+                                            <div class="p-4 border  bg-white overflow-auto" style="min-height: 200px;">
                                                 {!! $post->content_de ?? '<p class="text-muted">No German content available.</p>' !!}
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@
                             @if($post->picture)
                                 <div class="mt-5 border-top pt-4 text-center">
                                     <h5 class="fw-bold mb-3">Main Content Image:</h5>
-                                    <img src="{{ asset($post->picture) }}" class="img-fluid rounded shadow-sm border" style="max-height: 500px;">
+                                    <img src="{{ asset($post->picture) }}" class="img-fluid  shadow-sm border" style="max-height: 500px;">
                                 </div>
                             @endif
 
