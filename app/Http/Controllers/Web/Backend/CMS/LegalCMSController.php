@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web\backend\cms;
+namespace App\Http\Controllers\Web\Backend\CMS;
 
 use App\Http\Controllers\Controller;
 use App\Models\CMS;
@@ -36,7 +36,7 @@ public function store(Request $request)
 
     if ($request->ajax()) {
         return response()->json([
-            'success' => true, 
+            'success' => true,
             'message' => 'Legal document updated successfully!'
         ]);
     }

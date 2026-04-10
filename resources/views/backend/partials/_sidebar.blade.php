@@ -43,7 +43,7 @@
                     <a class="side-menu__item {{ request()->routeIs('admin.cms.legal.form') && request('section') == 'terms_conditions' ? 'has-link active' : '' }}"
                         href="{{ route('admin.cms.legal.form', 'terms_conditions') }}">
                         <i class="fa-solid fa-file-lines side-menu__icon"></i>
-                        <span class="side-menu__label">Terms & Conditions</span>
+                        <span class="side-menu__label">Legal Disclosure</span>
                     </a>
                 </li>
 
