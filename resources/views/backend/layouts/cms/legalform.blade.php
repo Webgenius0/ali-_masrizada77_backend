@@ -43,11 +43,27 @@
                         <div class="tab-content" id="languageTabContent">
                             <div class="tab-pane fade show active" id="english" role="tabpanel">
                                 <div class="mb-4">
+                                    <label class="form-label">Title (English)</label>
+                                    <input type="text" name="title_en" class="form-control" value="{{ $data_en->title ?? '' }}" placeholder="Enter English Title">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Sub Title (English)</label>
+                                    <input type="text" name="sub_title_en" class="form-control" value="{{ $data_en->sub_title ?? '' }}" placeholder="Enter English Sub Title">
+                                </div>
+                                <div class="mb-4">
                                     <label class="form-label">Body Content (English)</label>
                                     <textarea name="description_en" id="description-editor-en">{{ $data_en->description ?? '' }}</textarea>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="german" role="tabpanel">
+                                <div class="mb-4">
+                                    <label class="form-label">Title (German)</label>
+                                    <input type="text" name="title_de" class="form-control" value="{{ $data_de->title ?? '' }}" placeholder="Enter German Title">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Sub Title (German)</label>
+                                    <input type="text" name="sub_title_de" class="form-control" value="{{ $data_de->sub_title ?? '' }}" placeholder="Enter German Sub Title">
+                                </div>
                                 <div class="mb-4">
                                     <label class="form-label">Body Content (German)</label>
                                     <textarea name="description_de" id="description-editor-de">{{ $data_de->description ?? '' }}</textarea>
@@ -106,6 +122,10 @@
                 let formData = new FormData(document.getElementById('legalForm'));
                 formData.set('description_en', descriptionEn);
                 formData.set('description_de', descriptionDe);
+                formData.set('title_en', $('input[name="title_en"]').val());
+                formData.set('sub_title_en', $('input[name="sub_title_en"]').val());
+                formData.set('title_de', $('input[name="title_de"]').val());
+                formData.set('sub_title_de', $('input[name="sub_title_de"]').val());
 
                 // Loading handle করার জন্য
                 Swal.fire({

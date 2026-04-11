@@ -31,6 +31,8 @@ class LegalCMSApiController extends Controller
             return response()->json([
                 'success' => true,
                 'data'    => [
+                    'title'       => $data->title,
+                    'sub_title'   => $data->sub_title,
                     'description' => $data->description,
                     'updated_at'  => $data->updated_at->format('Y-m-d H:i:s'),
                 ]
@@ -64,6 +66,8 @@ class LegalCMSApiController extends Controller
             return response()->json([
                 'success' => true,
                 'data'    => [
+                    'title'       => $data->title,
+                    'sub_title'   => $data->sub_title,
                     'description' => $data->description,
                     'updated_at'  => $data->updated_at->format('Y-m-d H:i:s'),
                 ]
