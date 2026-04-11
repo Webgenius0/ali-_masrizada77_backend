@@ -77,6 +77,7 @@ use App\Http\Controllers\Web\Backend\HeddingTrustController;
 use App\Http\Controllers\Web\Backend\CarrerPageController;
 use App\Http\Controllers\Web\Backend\CMS\Web\AnnouncementController;
 use App\Http\Controllers\Web\Backend\CMS\Web\TrustFormController;
+use App\Http\Controllers\Web\Backend\CMS\Web\JobPositionController;
 
 
 Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard')->middleware(['role:admin|staff']);
@@ -444,6 +445,12 @@ Route::prefix('home/getalljob')->name('home.getalljob.')->group(function () {
         Route::prefix('home/trust-form-options')->name('home.trust_form.')->group(function () {
             Route::get('/', [TrustFormController::class, 'index'])->name('index');
             Route::post('/update', [TrustFormController::class, 'update'])->name('update');
+        });
+
+        //Job Positions Options
+        Route::prefix('home/job-position-options')->name('job_position.')->group(function () {
+            Route::get('/', [JobPositionController::class, 'index'])->name('index');
+            Route::post('/update', [JobPositionController::class, 'update'])->name('update');
         });
 
 

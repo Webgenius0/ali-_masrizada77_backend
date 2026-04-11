@@ -23,6 +23,9 @@ class JobApplicationController extends Controller
                     // First name এবং Last name জোড়া দিয়ে ফুল নেম দেখানো হচ্ছে
                     return trim($row->first_name . ' ' . $row->last_name);
                 })
+                ->addColumn('position', function($row) {
+                    return $row->position ?? 'N/A';
+                })
                 ->addColumn('date', function($row) {
                     return $row->created_at->format('d M, Y');
                 })

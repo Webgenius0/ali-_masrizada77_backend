@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobApplication;
+use App\Models\CMS;
 use App\Mail\AdminJobMail;
 use App\Mail\UserConfirmMail;
 use Illuminate\Http\Request;
@@ -13,6 +14,25 @@ use Exception;
 
 class JobApplicationController extends Controller
 {
+    public function getPositions(Request $request)
+    {
+        try {
+            $type = $request->query('type', 'english');
+            $data = CMS::where('slug', 'job_position_options')
+                       ->where('type', $type)
+                       ->first();
+
+            $options = $data->metadata['options'] ?? [];
+
+            return response()->json([
+                'success' => true,
+                'data'    => $options
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -20,6 +40,7 @@ class JobApplicationController extends Controller
             'email'        => 'required|email|max:100',
             'country'      => 'required|string',
             'phone_number' => 'required|string|max:20',
+            'position'     => 'required|string',
             'why_novavoca' => 'required|string',
         ]);
 
@@ -38,6 +59,7 @@ class JobApplicationController extends Controller
                 'email'      => $request->email,
                 'country'    => $request->country,
                 'phone_number' => $request->phone_number,
+                'position'     => $request->position,
 
                 'most_recent_employer'  => $request->why_novavoca ?? 'N/A',
                 'most_recent_job_title' => 'N/A',

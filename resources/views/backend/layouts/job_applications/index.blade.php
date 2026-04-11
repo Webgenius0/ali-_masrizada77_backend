@@ -32,6 +32,7 @@
                                             <th class="wd-15p border-bottom-0">Name</th>
                                             <th class="wd-20p border-bottom-0">Email</th>
                                             <th class="wd-15p border-bottom-0">Phone</th>
+                                            <th class="wd-15p border-bottom-0">Position</th>
                                             <th class="wd-10p border-bottom-0">Date</th>
                                             <th class="wd-15p border-bottom-0">Action</th>
                                         </tr>
@@ -65,6 +66,7 @@
                 {data: 'name', name: 'name'}, // কন্ট্রোলারের addColumn('name') থেকে আসছে
                 {data: 'email', name: 'email'},
                 {data: 'phone_number', name: 'phone_number'},
+                {data: 'position', name: 'position'},
                 {data: 'date', name: 'date'}, // কন্ট্রোলারের addColumn('date') থেকে সরাসরি তারিখ আসছে
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]

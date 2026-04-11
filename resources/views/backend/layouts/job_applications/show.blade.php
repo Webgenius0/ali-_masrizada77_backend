@@ -39,6 +39,7 @@
                                     <p><strong>Email:</strong> {{ $application->email }}</p>
                                     <p><strong>Phone:</strong> {{ $application->phone_number }}</p>
                                     <p><strong>Country:</strong> {{ $application->country }}</p>
+                                    <p><strong>Applying For:</strong> <span class="badge bg-primary-transparent text-primary fw-bold">{{ $application->position ?? 'N/A' }}</span></p>
                                 </div>
 
                                 <div class="col-md-6 mb-4 border-start">

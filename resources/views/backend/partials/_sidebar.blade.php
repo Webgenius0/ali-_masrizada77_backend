@@ -219,6 +219,13 @@
                     </a>
                 </li>
                 <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('admin.cms.job_position.*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.cms.job_position.index') }}">
+                        <i class="fa-solid fa-list-check side-menu__icon"></i>
+                        <span class="side-menu__label">Job Position Options</span>
+                    </a>
+                </li>
+                <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.contact.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.contact.index') }}">
                         <i class="fa-solid fa-address-card side-menu__icon"></i>

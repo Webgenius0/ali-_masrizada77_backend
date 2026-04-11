@@ -175,6 +175,7 @@ Route::post('/getfree-demo-submit', [Get_A_FreeController::class, 'GetFreeDemo']
 Route::get('/get-Applyjob-content', [ApplyJobController::class, 'getApplyjobSidebar']);
 
 //apply job
+Route::get('/job-positions', [JobApplicationController::class, 'getPositions']);
 Route::post('/job-apply', [JobApplicationController::class, 'store']);
 
 //blog hedding content
