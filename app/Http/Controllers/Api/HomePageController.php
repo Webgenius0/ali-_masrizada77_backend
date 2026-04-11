@@ -29,6 +29,23 @@ class HomePageController extends Controller
                 ], 404);
             }
 
+
+        $award = CMS::where('page', PageEnum::ANNOUNCEMENT)
+            ->where('section', SectionEnum::ANNOUNCEMENT)
+            ->where('type', $type)
+            ->where('status', 'active')
+            ->first();
+
+        if (!$award) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No announcement found.',
+            ], 404);
+        }
+
+
+
+
             $meta = $data->metadata ?? [];
 
             // ─── Fetch slug category data (category-1, category-2, category-3) ───
@@ -61,6 +78,12 @@ class HomePageController extends Controller
             return response()->json([
                 'status'   => 'success',
                 'language' => $type,
+
+                'Award' => [
+                'text' => $data->title,
+                'link_text' => $data->btn_text,
+                'link_url' => $data->btn_link,
+            ],
                 'data'     => [
                     'headr_main_content' => [
                         'header_text' => $meta['header_text'],
