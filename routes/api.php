@@ -50,6 +50,7 @@ use App\Http\Controllers\Api\TrustApiController;
 use App\Http\Controllers\Api\FooterController as FooterApiController;
 use App\Http\Controllers\Api\AnnouncementApiController;
 use App\Http\Controllers\Api\TrustFormApiController;
+use App\Http\Controllers\Api\HeddingTrustController;
 
 
 Route::get('/footer-content', [FooterApiController::class, 'getFooterContent']);
@@ -178,10 +179,12 @@ Route::post('/job-apply', [JobApplicationController::class, 'store']);
 
 //blog hedding content
 Route::get('/blog-hedding', [Hedding_blogController::class, 'getBlogContent']);
+//trust heding content
+Route::get('/trust-heading', [HeddingTrustController::class, 'getTrustContent']);
 
 //document request
 Route::post('/documentation-request', [DocumentationRequestController::class, 'store']);
-
+//award data
 Route::get('/award-announcement', [AnnouncementApiController::class, 'getAnnouncement']);
 
 

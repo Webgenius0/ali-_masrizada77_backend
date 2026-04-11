@@ -58,13 +58,13 @@
                                         @enderror
                                     </div>
 
-                                    {{-- <div class="form-group col-md-6">
+                                    <div class="form-group col-md-6">
                                         <label for="url" class="form-label">URL:</label>
                                         <input type="text" name="url" id="url" class="form-control @error('url') is-invalid @enderror" placeholder="e.g. /platform-overview" value="{{ old('url', $footer->url) }}">
                                         @error('url')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div> --}}
+                                    </div>
 
                                     {{-- <div class="form-group col-md-6">
                                         <label for="order" class="form-label">Display Order:</label>
