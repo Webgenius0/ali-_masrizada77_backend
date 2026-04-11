@@ -49,6 +49,8 @@ use App\Http\Controllers\Api\LogoController;
 use App\Http\Controllers\Api\TrustApiController;
 use App\Http\Controllers\Api\FooterController as FooterApiController;
 use App\Http\Controllers\Api\AnnouncementApiController;
+use App\Http\Controllers\Api\TrustFormApiController;
+
 
 Route::get('/footer-content', [FooterApiController::class, 'getFooterContent']);
 
@@ -148,6 +150,10 @@ Route::get('/career-page', [CareerController::class, 'getCareerData']);
 
 //Trust page API
 Route::get('/trust-content', [TrustApiController::class, 'getFullTrustContent']);
+
+// Trust Form Options API
+Route::get('/trust-form-options', [TrustFormApiController::class, 'getOptions']);
+
 
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 

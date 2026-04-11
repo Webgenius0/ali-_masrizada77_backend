@@ -105,13 +105,13 @@
                     </a>
                 </li> --}}
 
-                                <li class="slide">
+                 {{-- <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.cms.home.trust_heading*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.cms.home.trust_heading.index') }}">
                         <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
                         <span class="side-menu__label"> Trust Heding Content</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.blog_heading.index') }}">
@@ -369,6 +369,15 @@
                             <span class="side-menu__label">Trust Page Document REQ</span>
                         </a>
                     </li>
+
+                    <li class="slide">
+                        <a class="side-menu__item {{ request()->routeIs('admin.cms.home.trust_form.*') ? 'has-link active' : '' }}"
+                            href="{{ route('admin.cms.home.trust_form.index') }}">
+                            <i class="fa-solid fa-list-check side-menu__icon"></i>
+                            <span class="side-menu__label">Trust Form Options</span>
+                        </a>
+                    </li>
+
 
 
                     <li class="slide">

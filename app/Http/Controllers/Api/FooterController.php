@@ -16,8 +16,8 @@ class FooterController extends Controller
         $footers = Footer::where('type', $type)
             ->where('status', 'active')
             ->orderBy('order')
-            ->get();
-            // ->groupBy('category');
+            ->get()
+            ->groupBy('category');
 
         return response()->json([
             'status' => 'success',
