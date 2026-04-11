@@ -80,9 +80,9 @@ class HomePageController extends Controller
                 'language' => $type,
 
                 'Award' => [
-                'text' => $data->title,
-                'link_text' => $data->btn_text,
-                'link_url' => $data->btn_link,
+                'text' => $award->title,
+                'link_text' => $award->btn_text,
+                'link_url' => $award->btn_link,
             ],
                 'data'     => [
                     'headr_main_content' => [
