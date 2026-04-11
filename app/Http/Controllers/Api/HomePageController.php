@@ -30,18 +30,18 @@ class HomePageController extends Controller
             }
 
 
-        $award = CMS::where('page', PageEnum::ANNOUNCEMENT)
-            ->where('section', SectionEnum::ANNOUNCEMENT)
-            ->where('type', $type)
-            ->where('status', 'active')
-            ->first();
+            $award = CMS::where('page', PageEnum::ANNOUNCEMENT)
+                ->where('section', SectionEnum::ANNOUNCEMENT)
+                ->where('type', $type)
+                ->where('status', 'active')
+                ->first();
 
-        if (!$award) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No announcement found.',
-            ], 404);
-        }
+            if (!$award) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No announcement found.',
+                ], 404);
+            }
 
 
 
@@ -79,12 +79,13 @@ class HomePageController extends Controller
                 'status'   => 'success',
                 'language' => $type,
 
-                'Award' => [
-                'text' => $award->title,
-                'link_text' => $award->btn_text,
-                'link_url' => $award->btn_link,
-            ],
+
                 'data'     => [
+                    'award' => [
+                        'text' => $award->title,
+                        'link_text' => $award->btn_text,
+                        'link_url' => $award->btn_link,
+                    ],
                     'headr_main_content' => [
                         'header_text' => $meta['header_text'],
                         'logo_img1' => isset($meta['logo_img1']) ? asset($meta['logo_img1']) : null,
