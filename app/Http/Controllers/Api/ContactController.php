@@ -7,6 +7,8 @@ use App\Models\Contact;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
 
 class ContactController extends Controller
 {
@@ -40,6 +42,14 @@ class ContactController extends Controller
             $contact->subject     = $request->subject ?? 'Expert Consultation Request'; // Default Subject
             $contact->message     = $request->message;
             $contact->save();
+
+// Admin ke mail send
+Mail::to(config('mail.from.address'))
+    ->send(new ContactMail($contact));
+
+// Client ke confirmation mail (optional)
+Mail::to($contact->email)
+    ->send(new ContactMail($contact));
 
             return response()->json([
                 'success' => true,

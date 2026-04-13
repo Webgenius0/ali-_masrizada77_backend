@@ -48,7 +48,7 @@ class ContactController extends Controller
                     return '<div class="btn-group btn-group-sm" role="group">
                                 <button type="button" class="btn btn-info text-white view-message"
                                     data-name="'          . $data->name                     . '"
-                                    data-business-type="' . ($data->business_type ?? 'N/A') . '"
+
                                     data-subject="'       . $data->subject                  . '"
                                     data-message="'       . $data->message                  . '"
                                     title="View Message">
@@ -59,7 +59,7 @@ class ContactController extends Controller
                                 </button>
                             </div>';
                 })
-                ->rawColumns(['info', 'company_info', 'business_type', 'status', 'action'])
+                ->rawColumns(['info', 'company_info', 'status', 'action'])
                 ->make(true);
         }
 
