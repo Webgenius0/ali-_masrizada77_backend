@@ -47,6 +47,14 @@ class EnergyandUtilitsController extends Controller
                 }
             }
 
+            // --- Remove sec2_video if requested ---
+            if ($request->has('remove_sec2_video') && $request->remove_sec2_video == 1) {
+                if ($metadata_files['sec2_video'] && file_exists(public_path($metadata_files['sec2_video']))) {
+                    @unlink(public_path($metadata_files['sec2_video']));
+                }
+                $metadata_files['sec2_video'] = null;
+            }
+
             // --- সেকশন ৩: Multiple Add (Icon+Title+Desc) ---
             $sec3_items = $request->sec3_items ?? [];
             foreach ($sec3_items as $key => $item) {

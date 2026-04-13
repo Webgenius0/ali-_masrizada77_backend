@@ -89,6 +89,15 @@
                                     <source src="{{ asset($data->metadata['sec2_video'] ?? '') }}" type="video/mp4">
                                 </video>
 
+                                @if(isset($data->metadata['sec2_video']))
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" name="remove_sec2_video" value="1" id="removeSec2Video">
+                                        <label class="form-check-label text-danger fw-bold" for="removeSec2Video">
+                                            Remove current video
+                                        </label>
+                                    </div>
+                                @endif
+
                                 <div class="row">
                                         @for ($i = 0; $i < 3; $i++)
                                             <div class="col-4">
