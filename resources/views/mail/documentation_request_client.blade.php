@@ -14,5 +14,9 @@
     <hr>
     <p>Best regards,<br>
     The Dignity Draw team</p>
+            <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+            <p>{{config('app.name')}} Inc</p>
+            <p>{{settings('address')}}</p>
+        </div>
 </body>
 </html>

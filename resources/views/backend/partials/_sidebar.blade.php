@@ -417,40 +417,6 @@
                 @endrole
 
 
-                @can('dev')
-                    <li class="{{ env('APP_ENV') == 'production' ? 'd-none' : '' }}">
-                        <h3>Dev Tools</h3>
-                    </li>
-                    <li class="slide">
-                        <a class="side-menu__item {{ Request::routeIs('admin.curd.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.curd.index') }}">
-                            <i class="fa-solid fa-database side-menu__icon"></i>
-                            <span class="side-menu__label">CURD</span>
-                        </a>
-                    </li>
-                    <li class="slide">
-                        <a class="side-menu__item {{ Request::routeIs('ajax.gallery.*') ? 'has-link active' : '' }}"
-                            href="{{ route('ajax.gallery.index') }}">
-                            <i class="fa-solid fa-image side-menu__icon"></i>
-                            <span class="side-menu__label">Image Gallery</span>
-                        </a>
-                    </li>
-                    <li class="slide">
-                        <a class="side-menu__item {{ Request::routeIs('admin.file-manager.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.file-manager') }}">
-                            <i class="fa-solid fa-folder side-menu__icon"></i>
-                            <span class="side-menu__label">File Manager</span>
-                        </a>
-                    </li>
-                    <li class="slide {{ env('APP_ENV') == 'production' ? 'd-none' : '' }}">
-                        <a class="side-menu__item {{ Request::routeIs('admin.livewire.crud.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.livewire.crud.index') }}">
-                            <i class="fa-solid fa-image side-menu__icon"></i>
-                            <span class="side-menu__label">Livewire</span>
-                        </a>
-                    </li>
-                @endcan
-
                 <li class="slide">
                     <hr />
                 </li>
