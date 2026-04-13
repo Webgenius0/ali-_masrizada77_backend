@@ -6,12 +6,15 @@
 <div class="sticky">
     <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
     <div class="app-sidebar" style="overflow: scroll">
-        <div class="side-header">
-            <a class="header-brand1" href="{{ route('admin.dashboard') }}">
-                <img src="{{ asset(settings('logo') ?? 'default/logo.svg') }}" id="header-brand-logo" alt="logo"
-                    width="{{ settings('logo_width') ?? 67 }}" height="{{ settings('logo_height') ?? 67 }}">
-            </a>
+<div class="side-header">
+    <a class="header-brand1" href="{{ route('admin.dashboard') }}">
+        <div class="logo-wrapper">
+            <img src="{{ asset(settings('logo') ?? 'default/logo.svg') }}"
+                 id="header-brand-logo"
+                 alt="logo">
         </div>
+    </a>
+</div>
         <div class="main-sidemenu">
             <input class="form-control form-control-dark w-100 border-0" id="menuSearching" type="text"
                 placeholder="Search" aria-label="Search">
@@ -473,3 +476,22 @@
         }
     });
 </script>
+
+<style>
+    .logo-wrapper, .side-header{
+    width: 150px;
+    height: 80px;
+    background: #8f8d8d; /* fallback background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-radius: 8px; optional */
+    overflow: hidden;
+}
+
+#header-brand-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+</style>
