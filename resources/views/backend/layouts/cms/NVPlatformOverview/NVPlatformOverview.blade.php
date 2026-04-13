@@ -72,7 +72,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6 border-end">
+                            {{-- <div class="col-md-6 border-end">
                                 @for($i=0; $i<3; $i++)
                                     <div class="mb-4 p-2 border-bottom">
                                         <label class="badge badge-info mb-2">Left Item {{ $i+1 }}</label>
@@ -80,7 +80,7 @@
                                         <x-form.text name="sec2_left[{{$i}}][desc]" label="Description" :value="$data->metadata['sec2_left'][$i]['desc'] ?? ''" />
                                     </div>
                                 @endfor
-                            </div>
+                            </div> --}}
                             <div class="col-md-6">
                                 <x-form.text name="sec2_right_title" label="Right Side Title" :value="$data->metadata['sec2_right_title'] ?? ''" />
                                 <x-form.text name="sec2_right_desc" label="Right Side Description" :value="$data->metadata['sec2_right_desc'] ?? ''" />

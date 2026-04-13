@@ -43,28 +43,6 @@
                             <textarea name="contact_desc" class="form-control" rows="3">{{ $data->metadata['contact_desc'] ?? '' }}</textarea>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Support Email</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fe fe-mail"></i></span>
-                                        <input type="email" name="contact_email" class="form-control"
-                                               value="{{ $data->metadata['contact_email'] ?? 'Support@TheDignityDraw.org' }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Contact Phone</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fe fe-phone"></i></span>
-                                        <input type="text" name="contact_phone" class="form-control"
-                                               value="{{ $data->metadata['contact_phone'] ?? '408-858-9300' }}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="card-footer text-end">
                         <button type="submit" class="btn btn-primary">Update {{ strtoupper(request('type') ?? 'english') }} Content</button>

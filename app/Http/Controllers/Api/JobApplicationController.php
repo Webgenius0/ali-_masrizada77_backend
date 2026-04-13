@@ -38,8 +38,8 @@ class JobApplicationController extends Controller
         $validator = Validator::make($request->all(), [
             'full_name'    => 'required|string|max:100',
             'email'        => 'required|email|max:100',
-            'country'      => 'required|string',
-            'phone_number' => 'required|string|max:20',
+            'country'      => 'nullable|string',
+            'phone_number' => 'nullable|string|max:20',
             'position'     => 'required|string',
             'why_novavoca' => 'required|string',
         ]);
@@ -57,8 +57,8 @@ class JobApplicationController extends Controller
                 'first_name' => $firstName,
                 'last_name'  => $lastName,
                 'email'      => $request->email,
-                'country'    => $request->country,
-                'phone_number' => $request->phone_number,
+                'country'    => $request->country ?? 'N/A',
+                'phone_number' => $request->phone_number ?? 'N/A',
                 'position'     => $request->position,
 
                 'most_recent_employer'  => $request->why_novavoca ?? 'N/A',

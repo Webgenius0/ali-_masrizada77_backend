@@ -37,8 +37,8 @@
                                     <p><strong>First Name:</strong> {{ $application->first_name }}</p>
                                     <p><strong>Last Name:</strong> {{ $application->last_name }}</p>
                                     <p><strong>Email:</strong> {{ $application->email }}</p>
-                                    <p><strong>Phone:</strong> {{ $application->phone_number }}</p>
-                                    <p><strong>Country:</strong> {{ $application->country }}</p>
+                                    {{-- <p><strong>Phone:</strong> {{ $application->phone_number }}</p> --}}
+                                    {{-- <p><strong>Country:</strong> {{ $application->country }}</p> --}}
                                     <p><strong>Applying For:</strong> <span class="badge bg-primary-transparent text-primary fw-bold">{{ $application->position ?? 'N/A' }}</span></p>
                                 </div>
 

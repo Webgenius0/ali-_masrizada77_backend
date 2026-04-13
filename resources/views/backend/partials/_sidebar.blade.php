@@ -50,60 +50,10 @@
 
                 </li>
 
-
-
-                {{--
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.report.*') ? 'has-link active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-chart-simple side-menu__icon"></i>
-                        <span class="side-menu__label">Reports</span><i class="angle fa fa-angle-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li><a href="{{ route('admin.report.users') }}" class="slide-item">User</a></li>
-                        <li><a href="#" class="slide-item">Orders</a></li>
-                    </ul>
-                </li> --}}
                 <li>
                     <h3>Basic</h3>
                 </li>
-                {{-- @role('admin')
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.brand.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.brand.index') }}">
-                            <i class="fa-brands fa-slack side-menu__icon"></i>
-                            <span class="side-menu__label">Brand</span>
-                        </a>
-                    </li>
-                @endrole
-                @role('admin')
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.category.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.category.index') }}">
-                            <i class="fa-solid fa-list  side-menu__icon"></i>
-                            <span class="side-menu__label">Category</span>
-                        </a>
-                    </li>
-                @endrole
-                @role('admin')
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.subcategory.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.subcategory.index') }}">
-                            <i class="fa-solid fa-list-check side-menu__icon"></i>
-                            <span class="side-menu__label">Sub Category</span>
-                        </a>
-                    </li>
-                @endrole
-                <li>
-                    <h3>Product</h3>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.course.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.course.index') }}">
-                        <i class="fa-solid fa-graduation-cap side-menu__icon"></i>
-                        <span class="side-menu__label">Course</span>
-                    </a>
-                </li> --}}
+
 
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.cms.home.announcement*') ? 'has-link active' : '' }}"
@@ -129,13 +79,13 @@
                 </li>
 
 
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.cms.home.get-in-touch.*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.cms.home.get-in-touch.index') }}">
                         <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
                         <span class="side-menu__label">Get in Touch & Demo </span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.blog_heading*') ? 'has-link active' : '' }}"
@@ -161,70 +111,7 @@
                         <span class="side-menu__label">Job Post</span>
                     </a>
                 </li>
-                {{-- <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.quiz.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.quiz.index') }}">
-                        <i class="fa-solid fa-feather side-menu__icon"></i>
-                        <span class="side-menu__label">Quiz</span>
-                    </a>
-                </li>
-                <li>
-                    <h3>Ecommerce</h3>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.product.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.product.index') }}">
-                        <i class="fa-solid fa-shop side-menu__icon"></i>
-                        <span class="side-menu__label">Product</span>
-                    </a>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.attribute.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.attribute.index') }}">
-                        <i class="fa-solid fa-eye side-menu__icon"></i>
-                        <span class="side-menu__label">Attribute</span>
-                    </a>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.order.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.order.index') }}">
-                        <i class="fa-solid fa-truck side-menu__icon"></i>
-                        <span class="side-menu__label">Order</span>
-                    </a>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.booking.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.booking.index') }}">
-                        <i class="fa-solid fa-book side-menu__icon"></i>
-                        <span class="side-menu__label">Booking</span>
-                    </a>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.transaction.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.transaction.index') }}">
-                        <i class="fa-solid fa-money-bill-transfer side-menu__icon"></i>
-                        <span class="side-menu__label">Transaction</span>
-                    </a>
-                </li>
-                <li>
-                    <h3>Portfolio</h3>
-                </li>
-                @role('admin')
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.type.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.type.index') }}">
-                            <i class="fa-solid fa-list side-menu__icon"></i>
-                            <span class="side-menu__label">Type</span>
-                        </a>
-                    </li>
-                @endrole
-                <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.project.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.project.index') }}">
-                        <i class="fa-solid fa-file side-menu__icon"></i>
-                        <span class="side-menu__label">Project</span>
-                    </a>
-                </li> --}}
+
                 <li>
                     <h3>Components</h3>
                 </li>
@@ -265,33 +152,6 @@
                         <span class="side-menu__label">Subscriber</span>
                     </a>
                 </li>
-                {{-- <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('admin.chat.*') ? 'has-link active' : '' }}"
-                        href="{{ route('admin.chat.index') }}">
-                        <i class="fa-brands fa-rocketchat side-menu__icon"></i>
-                        <span class="side-menu__label">Chat</span>
-                    </a>
-                </li>
-                @role('admin')
-                    <li class="sliden {{ env('ACCESS') === false ? 'd-none' : '' }}">
-                        <a class="side-menu__item {{ request()->routeIs('admin.users.*') ? 'has-link active' : '' }}"
-                            data-bs-toggle="slide" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 512 512"
-                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="32">
-                                <rect width="416" height="416" rx="48" ry="48" />
-                                <path d="m192 256 128 0" />
-                            </svg>
-                            <span class="side-menu__label">User Access</span><i class="angle fa fa-angle-right"></i>
-                        </a>
-
-                        <ul class="slide-menu">
-                            <li><a href="{{ route('admin.users.index') }}" class="slide-item">User</a></li>
-                            <li><a href="{{ route('admin.roles.index') }}" class="slide-item">Roll</a></li>
-                            <li><a href="{{ route('admin.permissions.index') }}" class="slide-item">Permission</a></li>
-                        </ul>
-                    </li>
-                @endrole --}}
                 @role('admin')
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}"
@@ -313,51 +173,15 @@
                                     Settings</a></li>
                             <li><a href="{{ route('admin.setting.mail.index') }}" class="slide-item">Mail Settings</a>
                             </li>
-                            {{-- <li><a href="{{ route('admin.setting.stripe.index') }}" class="slide-item">Stripe
-                                    Settings</a></li>
-                            <li><a href="{{ route('admin.setting.firebase.index') }}" class="slide-item">Firebase
-                                    Settings</a></li>
-                            <li><a href="{{ route('admin.setting.social.index') }}" class="slide-item">Social
-                                    Settings</a></li>
-                            <li><a href="{{ route('admin.setting.google.map.index') }}" class="slide-item">Google Map
-                                    Settings</a></li>
-                            <li><a href="{{ route('admin.setting.captcha.index') }}" class="slide-item">Captcha
-                                    Settings</a></li>
-                            <li><a href="{{ route('admin.setting.signature.index') }}" class="slide-item">Signature
-                                    Settings</a></li>
-                            <li><a href="{{ route('admin.setting.other.index') }}" class="slide-item">Other Settings</a>
-                            </li> --}}
-                            {{-- <li><a href="{{ route('plugins.index') }}" class='slide-item'>Manage Plugins</a></li> --}}
                         </ul>
                     </li>
                 @endrole
-                {{-- @role('admin')
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.template.*') ? 'has-link active' : '' }}"
-                            data-bs-toggle="slide" href="#">
-                            <i class="fa-solid fa-synagogue side-menu__icon"></i>
-                            <span class="side-menu__label">Template</span><i class="angle fa fa-angle-right"></i>
-                        </a>
-                        <ul class="slide-menu">
-                            <li><a href="{{ route('admin.template.email.index') }}" class="slide-item">Email Template</a>
-                            </li>
-                        </ul>
-                    </li>
-                @endrole --}}
+
                 @role('admin')
                     <li>
                         <h3>CMS</h3>
                     </li>
-                    {{-- <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.page.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.page.index') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                class="side-menu__icon" viewBox="0 0 16 16">
-                                <path d="M15 14l-5-5-5 5v-3l10 -10z" />
-                            </svg>
-                            <span class="side-menu__label">Dynamic Page</span>
-                        </a>
-                    </li> --}}
+
                     <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.social.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.social.index') }}">
@@ -405,18 +229,7 @@
                             </svg>
                             <span class="side-menu__label">CMS</span><i class="angle fa fa-angle-right"></i>
                         </a>
-                        {{-- <ul class="slide-menu">
-                        <li class="sub-slide">
-                            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
-                                    class="sub-side-menu__label">Home Page</span><i
-                                    class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a href="{{ route('admin.cms.home.example.index') }}" class="sub-slide-item">Example Section</a></li>
-                                <li><a href="{{ route('admin.cms.home.intro.index') }}" class="sub-slide-item">Intro Section</a></li>
-                                <li><a href="{{ route('admin.cms.home.about.index') }}" class="sub-slide-item">About Section</a></li>
-                            </ul>
-                        </li>
-                    </ul> --}}
+
                         <ul class="slide-menu">
                             <li class="sub-slide {{ request()->routeIs('admin.cms.home.*') ? 'is-expanded' : '' }}">
                                 <a class="sub-side-menu__item {{ request()->routeIs('admin.cms.home.*') ? 'active' : '' }}"
@@ -534,7 +347,7 @@
                             </li>
                         </ul>
 
-                        <ul class="slide-menu">
+                        {{-- <ul class="slide-menu">
                             <li class="slide">
                                 <a href="{{ route('admin.cms.home.test.index') }}"
                                     class="sub-slide-item {{ request()->routeIs('admin.cms.home.test.index') ? 'active' : '' }}">
@@ -542,7 +355,7 @@
                                 </a>
                             </li>
 
-                        </ul>
+                        </ul> --}}
 
                         <ul class="slide-menu">
 
@@ -600,42 +413,9 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.menu.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.menu.index') }}">
-                            <i class="fa-solid fa-bars-staggered side-menu__icon"></i>
-                            <span class="side-menu__label">Menu</span>
-                        </a>
-                    </li> --}}
-                    {{-- <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}"
-                            data-bs-toggle="slide" href="#">
-                            <i class="fa-solid fa-plug side-menu__icon"></i>
-                            <span class="side-menu__label">Plugins</span><i class="angle fa fa-angle-right"></i>
-                        </a>
-                        <ul class="slide-menu">
-                            @php
-                                App\Helpers\Plugins::getPluginsList();
-                            @endphp
-                        </ul>
-                    </li> --}}
+
                 @endrole
-                {{-- @role('admin')
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.location.*') ? 'has-link active' : '' }}"
-                            data-bs-toggle="slide" href="#">
-                            <i class="fa-solid fa-earth-americas side-menu__icon"></i>
-                            <span class="side-menu__label">Location</span><i class="angle fa fa-angle-right"></i>
-                        </a>
-                        <ul class="slide-menu">
-                            <li><a href="{{ route('admin.location.country.index') }}" class="slide-item">Country</a>
-                            </li>
-                            <li><a href="#" class="slide-item">State</a></li>
-                            <li><a href="#" class="slide-item">City</a></li>
-                            <li><a href="#" class="slide-item">Area</a></li>
-                        </ul>
-                    </li>
-                @endrole --}}
+
 
                 @can('dev')
                     <li class="{{ env('APP_ENV') == 'production' ? 'd-none' : '' }}">
