@@ -40,8 +40,8 @@
                                 <div class="col-md-8">
                                     <table class="table table-bordered mt-4">
                                         <tr>
-                                            <th width="150" class="bg-light">Team</th>
-                                            <td>{{ $post->team ?? 'N/A' }}</td>
+                                            {{-- <th width="150" class="bg-light">Team</th>
+                                            <td>{{ $post->team ?? 'N/A' }}</td> --}}
                                             <th width="150" class="bg-light">Status</th>
                                             <td>
                                                 <span class="badge {{ $post->status === 'active' ? 'bg-success' : 'bg-danger' }}">

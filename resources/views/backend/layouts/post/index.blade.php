@@ -35,7 +35,7 @@
                                             <th class="text-center">#</th>
                                             <th>Thumbnail</th>
                                             <th>Title (EN / DE)</th> {{-- কলামের নাম পরিবর্তন করা হয়েছে --}}
-                                            <th>Team</th>
+                                            {{-- <th>Team</th> --}}
                                             <th>Location</th>
                                             <th>Status</th>
                                             <th>Created At</th>
@@ -70,7 +70,7 @@ $(document).ready(function() {
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
             { data: 'thumbnail', name: 'thumbnail', orderable: false },
             { data: 'title_combined', name: 'title' }, {{-- কন্ট্রোলার থেকে পাঠানো টাইটেল কলাম --}}
-            { data: 'team', name: 'team' },
+            // { data: 'team', name: 'team' },
             { data: 'location', name: 'location' },
             { data: 'status', name: 'status', orderable: false },
             { data: 'created_at', name: 'created_at' },

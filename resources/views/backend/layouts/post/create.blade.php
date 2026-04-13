@@ -45,11 +45,11 @@
                                         @error('title_de') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
 
-                                    <div class="col-md-6 mb-3">
+                                    {{-- <div class="col-md-6 mb-3">
                                         <label class="form-label">Team</label>
                                         <input type="text" name="team" class="form-control @error('team') is-invalid @enderror" value="{{ old('team') }}">
                                         @error('team') <span class="text-danger">{{ $message }}</span> @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Location</label>
