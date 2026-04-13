@@ -52,7 +52,7 @@
 
 
 
-{{--
+                {{--
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.report.*') ? 'has-link active' : '' }}"
                         data-bs-toggle="slide" href="#">
@@ -105,11 +105,18 @@
                     </a>
                 </li> --}}
 
-                 <li class="slide">
+                <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.cms.home.trust_heading*') ? 'has-link active' : '' }}"
                         href="{{ route('admin.cms.home.trust_heading.index') }}">
                         <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
                         <span class="side-menu__label"> Trust Heding Content</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('admin.cms.home.trust_form.*') ? 'has-link active' : '' }}"
+                        href="{{ route('admin.cms.home.trust_form.index') }}">
+                        <i class="fa-solid fa-list-check side-menu__icon"></i>
+                        <span class="side-menu__label">Trust Form Options</span>
                     </a>
                 </li>
                 <li class="slide">
@@ -369,21 +376,15 @@
                         </a>
                     </li>
 
-                    <li class="slide">
+                    {{-- <li class="slide">
                         <a class="side-menu__item {{ request()->routeIs('admin.cms.home.applyjob.*') ? 'has-link active' : '' }}"
                             href="{{ route('admin.cms.home.applyjob.index') }}">
                             <i class="fa-solid fa-clipboard-question side-menu__icon"></i>
                             <span class="side-menu__label">Trust Page Document REQ</span>
                         </a>
-                    </li>
+                    </li> --}}
 
-                    <li class="slide">
-                        <a class="side-menu__item {{ request()->routeIs('admin.cms.home.trust_form.*') ? 'has-link active' : '' }}"
-                            href="{{ route('admin.cms.home.trust_form.index') }}">
-                            <i class="fa-solid fa-list-check side-menu__icon"></i>
-                            <span class="side-menu__label">Trust Form Options</span>
-                        </a>
-                    </li>
+
 
 
 
@@ -422,21 +423,21 @@
                                     <li>
                                         <a href="{{ route('admin.cms.home.intro.index') }}"
                                             class="sub-slide-item {{ request()->routeIs('admin.cms.home.intro.index') ? 'active' : '' }}">
-                                           Main Home Page Intro Section
+                                            Main Home Page Intro Section
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="{{ route('admin.cms.home.cms.index', ['slug' => 'category-1']) }}"
                                             class="sub-slide-item {{ request()->fullUrlIs(route('admin.cms.home.cms.index', ['slug' => 'category-1']) . '*') ? 'active' : '' }}">
-                                           Conversational AI - Voci
+                                            Conversational AI - Voci
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="{{ route('admin.cms.home.cms.index', ['slug' => 'category-2']) }}"
                                             class="sub-slide-item {{ request()->fullUrlIs(route('admin.cms.home.cms.index', ['slug' => 'category-2']) . '*') ? 'active' : '' }}">
-                                        Email & Text AI
+                                            Email & Text AI
                                         </a>
                                     </li>
 
